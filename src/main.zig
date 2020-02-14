@@ -4,7 +4,19 @@ const Wwise = @import("wwise.zig").Wwise;
 pub fn main() anyerror!void {
     Wwise.init() catch |err| {
         switch (err) {
-            error.MemoryManagerFailed => std.debug.warn("AK Memory Manager failed to initialized!\n", .{}),
+            error.MemoryManagerFailed => {
+                @panic("AK Memory Manager failed to initialized!");
+            },
+            error.StreamManagerFailed => {
+                @panic("AK Stream Manager failed to initialized!");
+            },
+            error.LowLevelIOFailed => {
+                @panic("Low Level I/O failed to initialize!");
+            },
+            error.SoundEngineFailed => {
+                @panic("Could not initialize the Sound Engine!");
+            }
         }
     };
+    std.debug.warn("Wwise initialized successfully!\n", .{});
 }

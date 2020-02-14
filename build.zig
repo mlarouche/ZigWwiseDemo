@@ -6,7 +6,7 @@ pub fn build(b: *Builder) void {
 
     const mode = b.standardReleaseOptions();
 
-    const lib_cflags = &[_][]const u8{"-std=c++17"};
+    const lib_cflags = &[_][]const u8{"-std=c++17", "-DUNICODE"};
 
     const bindings = b.addStaticLibrary("wwiseBindings", null);
     bindings.linkSystemLibrary("c");
@@ -18,7 +18,18 @@ pub fn build(b: *Builder) void {
     bindings.linkSystemLibrary("user32");
     bindings.linkSystemLibrary("advapi32");
     bindings.linkSystemLibrary("ws2_32");
-    bindings.addCSourceFile("bindings/wwise_init.cpp", lib_cflags);
+    bindings.addIncludeDir("bindings/IOHook/Win32");
+
+    const bindingsSources = &[_][]const u8 {
+        "bindings/wwise_init.cpp",
+        "bindings/IOHook/Common/AkFilePackage.cpp",
+        "bindings/IOHook/Common/AkFilePackageLUT.cpp",
+        "bindings/IOHook/Common/AkMultipleFileLocation.cpp",
+        "bindings/IOHook/Win32/AkDefaultIOHookBlocking.cpp",
+    };
+    inline for (bindingsSources) |src| {
+        bindings.addCSourceFile(src, lib_cflags);
+    }
 
     const exe = b.addExecutable("wwiseZig", "src/main.zig");
     exe.setBuildMode(mode);

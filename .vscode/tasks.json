@@ -26,12 +26,18 @@
         {
             "label": "Run Debug",
             "type": "shell",
-            "command": "zig build run"
+            "command": "zig build run",
+            "problemMatcher": [
+                "$gcc"
+            ]
         },
         {
             "label": "Run Release",
             "type": "shell",
-            "command": "zig build run -Drelease-fast"
+            "command": "zig build run -Drelease-fast",
+            "problemMatcher": [
+                "$gcc"
+            ]
         },
         {
             "label": "Format current file",
