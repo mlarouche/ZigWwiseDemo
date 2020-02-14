@@ -11,9 +11,11 @@ typedef enum ZigAkInitResult
     AkInitResult_StreamManagerFailed,
     AkInitResult_LowLevelIOFailed,
     AkInitResult_SoundEngineFailed,
+    AkInitResult_CommunicationFailed,
 } ZigAkInitResult;
 
 ZigAkInitResult ZigAk_Init();
+void ZigAk_Deinit();
 
 #ifdef __cplusplus
 }

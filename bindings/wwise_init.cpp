@@ -5,6 +5,10 @@
 #include <AK/SoundEngine/Common/IAkStreamMgr.h>
 #include <AK/Tools/Common/AkPlatformFuncs.h>
 
+#ifndef AK_OPTIMIZED
+#include <AK/Comm/AkCommunication.h>
+#endif // AK_OPTIMIZED
+
 #include "IOHook/Win32/AkFilePackageLowLevelIOBlocking.h"
 
 CAkFilePackageLowLevelIOBlocking g_IOHook;
@@ -44,5 +48,32 @@ ZigAkInitResult ZigAk_Init()
         return AkInitResult_SoundEngineFailed;
     }
 
+#ifndef AK_OPTIMIZED
+    AkCommSettings commSettings;
+    AK::Comm::GetDefaultInitSettings(commSettings);
+    if ( AK::Comm::Init(commSettings) != AK_Success)
+    {
+        return AkInitResult_CommunicationFailed;
+    }
+#endif
+
     return AkInitResult_Success;
+}
+
+void ZigAk_Deinit()
+{
+#ifndef AK_OPTIMIZED
+    AK::Comm::Term();
+#endif
+
+    AK::SoundEngine::Term();
+
+    g_IOHook.Term();
+
+    if (AK::IAkStreamMgr::Get())
+    {
+        AK::IAkStreamMgr::Get()->Destroy();
+    }
+
+    AK::MemoryMgr::Term();
 }

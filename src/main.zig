@@ -15,8 +15,13 @@ pub fn main() anyerror!void {
             },
             error.SoundEngineFailed => {
                 @panic("Could not initialize the Sound Engine!");
+            },
+            error.CommunicationFailed => {
+                @panic("Could not initiliaze Wwise Communication!");
             }
         }
     };
+    defer Wwise.deinit();
+
     std.debug.warn("Wwise initialized successfully!\n", .{});
 }
