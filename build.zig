@@ -21,7 +21,7 @@ pub fn build(b: *Builder) void {
     bindings.addIncludeDir("bindings/IOHook/Win32");
 
     const bindingsSources = &[_][]const u8 {
-        "bindings/wwise_init.cpp",
+        "bindings/zig_wwise.cpp",
         "bindings/IOHook/Common/AkFilePackage.cpp",
         "bindings/IOHook/Common/AkFilePackageLUT.cpp",
         "bindings/IOHook/Common/AkMultipleFileLocation.cpp",

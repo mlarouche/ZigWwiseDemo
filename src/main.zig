@@ -18,10 +18,17 @@ pub fn main() anyerror!void {
             },
             error.CommunicationFailed => {
                 @panic("Could not initiliaze Wwise Communication!");
-            }
+            },
         }
     };
     defer Wwise.deinit();
 
     std.debug.warn("Wwise initialized successfully!\n", .{});
+
+    const currentDir = try std.fs.path.resolve(std.heap.c_allocator, &[_][]const u8{"."});
+    defer std.heap.c_allocator.free(currentDir);
+    const soundBanksPath = try std.fs.path.join(std.heap.c_allocator, &[_][]const u8{ currentDir, "WwiseProject\\GeneratedSoundBanks\\Windows" });
+    defer std.heap.c_allocator.free(soundBanksPath);
+
+    try Wwise.setIOHookBasePath(soundBanksPath);
 }

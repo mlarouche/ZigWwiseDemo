@@ -1,3 +1,9 @@
 /WwiseSDK
 /zig-cache
 /WwiseProject/GeneratedSoundBanks/
+/Android/assets/GeneratedSoundBanks
+/Lumin
+/WwiseProject/.cache
+*.validationcache
+*.wsettings
+*.akd

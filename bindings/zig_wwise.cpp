@@ -1,8 +1,9 @@
-#include "wwise_init.h"
+#include "zig_wwise.h"
 
 #include <AK/SoundEngine/Common/AkMemoryMgr.h>
 #include <AK/SoundEngine/Common/AkModule.h>
 #include <AK/SoundEngine/Common/IAkStreamMgr.h>
+#include <AK/SoundEngine/Common/AkSoundEngine.h>
 #include <AK/Tools/Common/AkPlatformFuncs.h>
 
 #ifndef AK_OPTIMIZED
@@ -76,4 +77,14 @@ void ZigAk_Deinit()
     }
 
     AK::MemoryMgr::Term();
+}
+
+void ZigAk_RenderAudio()
+{
+    AK::SoundEngine::RenderAudio();
+}
+
+void ZigAk_SetIOBasePath(const AkOSChar* path)
+{
+    g_IOHook.SetBasePath(path);
 }

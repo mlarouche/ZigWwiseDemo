@@ -1,6 +1,10 @@
 pub const c = @cImport({
-    @cInclude("wwise_init.h");
+    @cInclude("zig_wwise.h");
 });
+
+const std = @import("std");
+const builtin = std.builtin;
+const c_allocator = std.heap.c_allocator;
 
 pub const Wwise = struct {
     pub const InitError = error{
@@ -25,5 +29,31 @@ pub const Wwise = struct {
 
     pub fn deinit() void {
         c.ZigAk_Deinit();
+    }
+
+    pub fn renderAudio() void {
+        c.ZigAk_RenderAudio();
+    }
+
+    pub fn setIOHookBasePath(path: []const u8) !void {
+        const nativePath = try toOSChar(path);
+        defer c_allocator.free(nativePath);
+        c.ZigAk_SetIOBasePath(nativePath);
+    }
+
+    pub const toOSChar = comptime blk: {
+        if (builtin.os == .windows) {
+            break :blk utf16ToOsChar;
+        } else {
+            break :blk utf8ToOsChar;
+        }
+    };
+
+    pub fn utf16ToOsChar(value: []const u8) ![:0]u16 {
+        return std.unicode.utf8ToUtf16LeWithNull(c_allocator, value);
+    }
+
+    pub fn utf8ToOsChar(value: []const u8) ![:0]u8 {
+        return std.cstr.addNullByte(c_allocator, value);
     }
 };
