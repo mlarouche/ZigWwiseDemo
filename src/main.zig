@@ -31,4 +31,10 @@ pub fn main() anyerror!void {
     defer std.heap.c_allocator.free(soundBanksPath);
 
     try Wwise.setIOHookBasePath(soundBanksPath);
+
+    const loadBankID = try Wwise.loadBankByString("Init.bnk");
+    defer Wwise.unloadBankByID(loadBankID);
+
+    const humanBankID = try Wwise.loadBankByString("Human.bnk");
+    defer Wwise.unloadBankByID(humanBankID);
 }

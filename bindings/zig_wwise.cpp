@@ -88,3 +88,31 @@ void ZigAk_SetIOBasePath(const AkOSChar* path)
 {
     g_IOHook.SetBasePath(path);
 }
+
+ZigAkLoadBankResult ZigAk_LoadBankByString(const AkOSChar* bankName, AkUInt32* out_bankID)
+{
+    *out_bankID = 0;
+    auto result = AK::SoundEngine::LoadBank(bankName, *out_bankID);
+    switch(result)
+    {
+        case AK_Success: return AkLoadBankResult_Success;
+        case AK_InsufficientMemory: return AkLoadBankResult_InsufficientMemory;
+        case AK_BankReadError: return AkLoadBankResult_BankReadError;
+        case AK_WrongBankVersion: return AkLoadBankResult_WrongBankVersion;
+        case AK_InvalidFile: return AkLoadBankResult_InvalidFile;
+        case AK_InvalidParameter: return AkLoadBankResult_InvalidParameter;
+        case AK_Fail: return AkLoadBankResult_Fail;
+    }
+
+    return AkLoadBankResult_Fail;
+}
+
+ZigAkSuccessOrFail ZigAk_UnloadBankByID(AkUInt32 bankID, const void* inMemoryBankPtr)
+{
+    auto result = AK::SoundEngine::UnloadBank(bankID, inMemoryBankPtr);
+    switch (result)
+    {
+        case AK_Success: return ZigAkSuccess;
+        default: return ZigAkFail;
+    }
+}
