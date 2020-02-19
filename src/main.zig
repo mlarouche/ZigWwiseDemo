@@ -35,6 +35,18 @@ pub fn main() anyerror!void {
     const loadBankID = try Wwise.loadBankByString("Init.bnk");
     defer Wwise.unloadBankByID(loadBankID);
 
-    const humanBankID = try Wwise.loadBankByString("Human.bnk");
-    defer Wwise.unloadBankByID(humanBankID);
+    const markerBankID = try Wwise.loadBankByString("MarkerTest.bnk");
+    defer Wwise.unloadBankByID(markerBankID);
+
+    try Wwise.registerGameObj(1, "Listener");
+    defer Wwise.unregisterGameObj(1);
+    try Wwise.registerGameObj(2, "GlobalSound");
+    defer Wwise.unregisterGameObj(2);
+
+    Wwise.setDefaultListeners(&[_]u64{1});
+
+    _ = try Wwise.postEvent("Play_Markers_Test", 2);
+
+    Wwise.renderAudio();
+    std.time.sleep(12 * std.time.second);
 }

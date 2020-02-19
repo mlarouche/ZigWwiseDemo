@@ -6,7 +6,7 @@ pub fn build(b: *Builder) void {
 
     const mode = b.standardReleaseOptions();
 
-    const lib_cflags = &[_][]const u8{"-std=c++17", "-DUNICODE"};
+    const lib_cflags = &[_][]const u8{ "-std=c++17", "-DUNICODE" };
 
     const bindings = b.addStaticLibrary("wwiseBindings", null);
     bindings.linkSystemLibrary("c");
@@ -14,13 +14,16 @@ pub fn build(b: *Builder) void {
     bindings.linkSystemLibrary("AkStreamMgr");
     bindings.linkSystemLibrary("AkMemoryMgr");
     bindings.linkSystemLibrary("CommunicationCentral");
+    bindings.linkSystemLibrary("AkRoomVerbFX");
+    bindings.linkSystemLibrary("AkStereoDelayFX");
+    bindings.linkSystemLibrary("AkVorbisDecoder");
     bindings.linkSystemLibrary("ole32");
     bindings.linkSystemLibrary("user32");
     bindings.linkSystemLibrary("advapi32");
     bindings.linkSystemLibrary("ws2_32");
     bindings.addIncludeDir("bindings/IOHook/Win32");
 
-    const bindingsSources = &[_][]const u8 {
+    const bindingsSources = &[_][]const u8{
         "bindings/zig_wwise.cpp",
         "bindings/IOHook/Common/AkFilePackage.cpp",
         "bindings/IOHook/Common/AkFilePackageLUT.cpp",

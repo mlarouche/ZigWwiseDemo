@@ -14,8 +14,8 @@ pub const Wwise = struct {
         SoundEngineFailed,
         CommunicationFailed,
     };
-    
-    pub const LoadBankError = error {
+
+    pub const LoadBankError = error{
         InsufficientMemory,
         BankReadError,
         WrongBankVersion,
@@ -45,17 +45,17 @@ pub const Wwise = struct {
     }
 
     pub fn setIOHookBasePath(path: []const u8) !void {
-        var localString = LocalOSString.init();
-        const nativePath = try localString.toOSChar(path);
+        var stackString = StackString.init();
+        const nativePath = try stackString.toOSChar(path);
         c.ZigAk_SetIOBasePath(nativePath);
     }
 
     pub fn loadBankByString(bankName: []const u8) !u32 {
-        var localString = LocalOSString.init();
-        const nativeBankName = try localString.toOSChar(bankName);
+        var stackString = StackString.init();
+        const nativeBankName = try stackString.toOSChar(bankName);
         var bankID: u32 = 0;
         const result = c.ZigAk_LoadBankByString(nativeBankName, &bankID);
-        switch(result) {
+        switch (result) {
             .AkLoadBankResult_Success => return bankID,
             .AkLoadBankResult_InsufficientMemory => return LoadBankError.InsufficientMemory,
             .AkLoadBankResult_BankReadError => return LoadBankError.BankReadError,
@@ -68,7 +68,37 @@ pub const Wwise = struct {
     }
 
     pub fn unloadBankByID(bankID: u32) void {
-        _  = c.ZigAk_UnloadBankByID(bankID, null);
+        _ = c.ZigAk_UnloadBankByID(bankID, null);
+    }
+
+    pub fn registerGameObj(gameObjectID: u64, objectName: ?[]const u8) !void {
+        if (objectName) |name| {
+            var stackString = StackString.init();
+            const nativeObjectName = try stackString.toCString(name);
+            return switch (c.ZigAk_RegisterGameObj(gameObjectID, nativeObjectName)) {
+                .ZigAkSuccess => return,
+                else => error.Fail,
+            };
+        } else {
+            return switch (c.ZigAk_RegisterGameObj(gameObjectID, null)) {
+                .ZigAkSuccess => return,
+                else => error.Fail,
+            };
+        }
+    }
+
+    pub fn unregisterGameObj(gameObjectID: u64) void {
+        _ = c.ZigAk_UnregisterGameObj(gameObjectID);
+    }
+
+    pub fn postEvent(eventName: []const u8, gameObjectID: u64) !u32 {
+        var stackString = StackString.init();
+        const nativeEventName = try stackString.toCString(eventName);
+        return c.ZigAk_PostEventByString(nativeEventName, gameObjectID);
+    }
+
+    pub fn setDefaultListeners(listeners: []const u64) void {
+        c.ZigAk_SetDefaultListeners(&listeners[0], @intCast(c_ulong, listeners.len));
     }
 
     pub const toOSChar = comptime blk: {
@@ -83,24 +113,28 @@ pub const Wwise = struct {
         return std.unicode.utf8ToUtf16LeWithNull(allocator, value);
     }
 
-    pub fn utf8ToOsChar(value: []const u8) ![:0]u8 {
+    pub fn utf8ToOsChar(allocator: *std.mem.Allocator, value: []const u8) ![:0]u8 {
         return std.cstr.addNullByte(allocator, value);
     }
 
-    const LocalOSString = struct {
+    const StackString = struct {
         buffer: [4 * 1024]u8 = undefined,
         fixedAlloc: FixedBufferAllocator = undefined,
 
         const Self = @This();
 
         pub fn init() Self {
-            var result = Self {};
+            var result = Self{};
             result.fixedAlloc = FixedBufferAllocator.init(&result.buffer);
             return result;
         }
 
         pub fn toOSChar(self: *Self, value: []const u8) @typeInfo(@TypeOf(Wwise.toOSChar)).Fn.return_type.? {
             return Wwise.toOSChar(&self.fixedAlloc.allocator, value);
+        }
+
+        pub fn toCString(self: *Self, value: []const u8) ![:0]u8 {
+            return Wwise.utf8ToOsChar(&self.fixedAlloc.allocator, value);
         }
     };
 };

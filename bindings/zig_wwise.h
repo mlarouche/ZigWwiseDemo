@@ -48,6 +48,13 @@ void ZigAk_SetIOBasePath(const AkOSChar* basePath);
 ZigAkLoadBankResult ZigAk_LoadBankByString(const AkOSChar* bankName, AkUInt32* out_bankID);
 ZigAkSuccessOrFail ZigAk_UnloadBankByID(AkUInt32 bankID, const void* inMemoryBankPtr);
 
+ZigAkSuccessOrFail ZigAk_RegisterGameObj(AkUInt64 gameObjectID, const char* objectName);
+ZigAkSuccessOrFail ZigAk_UnregisterGameObj(AkUInt64 gameObjectID);
+
+AkUInt32 ZigAk_PostEventByString(const char* eventName, AkUInt64 gameObjectID);
+
+void ZigAk_SetDefaultListeners(const AkUInt64* listeners, AkUInt32 listenersSize);
+
 #ifdef __cplusplus
 }
 #endif

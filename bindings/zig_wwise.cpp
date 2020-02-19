@@ -12,6 +12,11 @@
 
 #include "IOHook/Win32/AkFilePackageLowLevelIOBlocking.h"
 
+// Plugins
+#include <AK/Plugin/AkRoomVerbFXFactory.h>
+#include <AK/Plugin/AkStereoDelayFXFactory.h>
+#include <AK/Plugin/AkVorbisDecoderFactory.h>
+
 CAkFilePackageLowLevelIOBlocking g_IOHook;
 
 ZigAkInitResult ZigAk_Init()
@@ -101,7 +106,7 @@ ZigAkLoadBankResult ZigAk_LoadBankByString(const AkOSChar* bankName, AkUInt32* o
         case AK_WrongBankVersion: return AkLoadBankResult_WrongBankVersion;
         case AK_InvalidFile: return AkLoadBankResult_InvalidFile;
         case AK_InvalidParameter: return AkLoadBankResult_InvalidParameter;
-        case AK_Fail: return AkLoadBankResult_Fail;
+        default: return AkLoadBankResult_Fail;
     }
 
     return AkLoadBankResult_Fail;
@@ -115,4 +120,43 @@ ZigAkSuccessOrFail ZigAk_UnloadBankByID(AkUInt32 bankID, const void* inMemoryBan
         case AK_Success: return ZigAkSuccess;
         default: return ZigAkFail;
     }
+}
+
+ZigAkSuccessOrFail ZigAk_RegisterGameObj(AkUInt64 gameObjectID, const char* objectName)
+{
+    AKRESULT result;
+    if (objectName)
+    {
+        result = AK::SoundEngine::RegisterGameObj(gameObjectID, objectName);
+    }
+    else
+    {
+        result = AK::SoundEngine::RegisterGameObj(gameObjectID);
+    }
+    switch(result)
+    {
+        case AK_Success: return ZigAkSuccess;
+        default: return ZigAkFail;
+    }
+}
+
+ZigAkSuccessOrFail ZigAk_UnregisterGameObj(AkUInt64 gameObjectID)
+{
+    AKRESULT result = AK::SoundEngine::UnregisterGameObj (gameObjectID);
+
+    switch(result)
+    {
+        case AK_Success: return ZigAkSuccess;
+        default: return ZigAkFail;
+    }
+}
+
+AkUInt32 ZigAk_PostEventByString(const char* eventName, AkUInt64 gameObjectID)
+{
+    return AK::SoundEngine::PostEvent(eventName, gameObjectID);
+}
+
+void ZigAk_SetDefaultListeners(const AkUInt64* listeners, AkUInt32 listenersSize)
+{
+    AK::SoundEngine::SetDefaultListeners(listeners, listenersSize);
 }
