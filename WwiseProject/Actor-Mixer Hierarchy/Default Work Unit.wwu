@@ -15,12 +15,9 @@
 						<Property Name="Priority" Type="int16">
 							<ValueList>
 								<Value>100</Value>
-								<Value Platform="Switch">100</Value>
 								<Value Platform="iOS">100</Value>
 								<Value Platform="Mac">100</Value>
-								<Value Platform="PS4">100</Value>
 								<Value Platform="Windows">100</Value>
-								<Value Platform="Pellegrino">100</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -630,12 +627,9 @@ used or modified for a commercial purpose nor for public demonstration.</Comment
 						<Property Name="Priority" Type="int16">
 							<ValueList>
 								<Value>100</Value>
-								<Value Platform="Switch">100</Value>
 								<Value Platform="iOS">100</Value>
 								<Value Platform="Mac">100</Value>
-								<Value Platform="PS4">100</Value>
 								<Value Platform="Windows">100</Value>
-								<Value Platform="Pellegrino">100</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>

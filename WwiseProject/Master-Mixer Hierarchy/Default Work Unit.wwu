@@ -443,18 +443,6 @@
 						<Reference Name="AudioDevice" PluginName="System" CompanyID="0" PluginID="174" PluginType="7">
 							<ObjectRef Name="System" ID="{869AEFF3-CB04-42C9-8AC4-48AE69C8EF6F}" WorkUnitID="{0CB25EE0-4A76-4A92-A48A-4A708C73630A}"/>
 						</Reference>
-						<Reference Name="AudioDevice" Platform="Pellegrino">
-							<ObjectRef Name="DVR_Bypass" ID="{D076D990-C00C-492C-A4C4-656613E9CD48}" WorkUnitID="{0CB25EE0-4A76-4A92-A48A-4A708C73630A}"/>
-						</Reference>
-						<Reference Name="AudioDevice" Platform="Chinook">
-							<ObjectRef Name="DVR_Bypass" ID="{D076D990-C00C-492C-A4C4-656613E9CD48}" WorkUnitID="{0CB25EE0-4A76-4A92-A48A-4A708C73630A}"/>
-						</Reference>
-						<Reference Name="AudioDevice" Platform="XboxOne">
-							<ObjectRef Name="DVR_Bypass" ID="{D076D990-C00C-492C-A4C4-656613E9CD48}" WorkUnitID="{0CB25EE0-4A76-4A92-A48A-4A708C73630A}"/>
-						</Reference>
-						<Reference Name="AudioDevice" Platform="PS4">
-							<ObjectRef Name="DVR_Bypass" ID="{D076D990-C00C-492C-A4C4-656613E9CD48}" WorkUnitID="{0CB25EE0-4A76-4A92-A48A-4A708C73630A}"/>
-						</Reference>
 					</ReferenceList>
 					<ChildrenList>
 						<Bus Name="Muted for User Music" ID="{C0577AEB-0E9B-4632-844A-A7C82B58D4B4}">
@@ -512,18 +500,6 @@
 					<ReferenceList>
 						<Reference Name="AudioDevice" PluginName="System" CompanyID="0" PluginID="174" PluginType="7">
 							<ObjectRef Name="System" ID="{869AEFF3-CB04-42C9-8AC4-48AE69C8EF6F}" WorkUnitID="{0CB25EE0-4A76-4A92-A48A-4A708C73630A}"/>
-						</Reference>
-						<Reference Name="AudioDevice" Platform="Pellegrino" PluginName="Controller Speaker" CompanyID="0" PluginID="179" PluginType="7">
-							<ObjectRef Name="Pad_Output" ID="{48154961-0A00-4FB7-8F13-EB143DE4B518}" WorkUnitID="{0CB25EE0-4A76-4A92-A48A-4A708C73630A}"/>
-						</Reference>
-						<Reference Name="AudioDevice" Platform="Chinook" PluginName="Controller Headphones" CompanyID="0" PluginID="177" PluginType="7">
-							<ObjectRef Name="Controller_Headphones" ID="{78F95FEC-E228-45C0-8FA5-C8DEC3D47051}" WorkUnitID="{0CB25EE0-4A76-4A92-A48A-4A708C73630A}"/>
-						</Reference>
-						<Reference Name="AudioDevice" Platform="XboxOne" PluginName="Controller Headphones" CompanyID="0" PluginID="177" PluginType="7">
-							<ObjectRef Name="Controller_Headphones" ID="{78F95FEC-E228-45C0-8FA5-C8DEC3D47051}" WorkUnitID="{0CB25EE0-4A76-4A92-A48A-4A708C73630A}"/>
-						</Reference>
-						<Reference Name="AudioDevice" Platform="PS4" PluginName="Controller Speaker" CompanyID="0" PluginID="179" PluginType="7">
-							<ObjectRef Name="Pad_Output" ID="{48154961-0A00-4FB7-8F13-EB143DE4B518}" WorkUnitID="{0CB25EE0-4A76-4A92-A48A-4A708C73630A}"/>
 						</Reference>
 					</ReferenceList>
 				</Bus>

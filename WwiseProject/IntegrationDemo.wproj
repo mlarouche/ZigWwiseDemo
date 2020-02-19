@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="Project" SchemaVersion="97" WwiseVersion="v2019.2.0" WwiseBuild="6590">
+<WwiseDocument Type="Project" SchemaVersion="97" WwiseVersion="v2019.2.0" WwiseBuild="7216">
 	<ProjectInfo>
 		<Project Name="IntegrationDemo" ID="{4DA5940A-0C59-43B3-A8FD-8AFFC0DA0711}">
 			<Platforms>
-				<Platform Name="Android" ReferencePlatform="Android" ID="{A2D401DE-B8B6-4FEB-8142-137C34D507CB}"/>
-				<Platform Name="Chinook" ReferencePlatform="Chinook" ID="{DCABC33B-39F8-4D63-ACD6-FA1EE58E58AA}"/>
 				<Platform Name="iOS" ReferencePlatform="iOS" ID="{ECE03DB4-F948-462D-B2BB-A9173012B1F9}"/>
 				<Platform Name="Linux" ReferencePlatform="Linux" ID="{BD0BDF13-3125-454F-8BFD-319537169F82}"/>
-				<Platform Name="Lumin" ReferencePlatform="Lumin" ID="{F025DC69-9B43-4832-801F-467493CC10D8}"/>
 				<Platform Name="Mac" ReferencePlatform="Mac" ID="{9C6217D5-DD11-4795-87C1-6CE02853C541}"/>
-				<Platform Name="Pellegrino" ReferencePlatform="Pellegrino" ID="{D5ED7120-5431-4D09-9798-39BE0ABD51F0}"/>
-				<Platform Name="PS4" ReferencePlatform="PS4" ID="{3AF9B9B6-6EF1-47E9-B5FE-E30C9E602C78}"/>
-				<Platform Name="Stadia" ReferencePlatform="Stadia" ID="{2319B052-7452-4816-A3A4-36EF7933EE49}"/>
-				<Platform Name="Switch" ReferencePlatform="Switch" ID="{EE08C214-8E87-44DD-9F19-D8EEA37D5D30}"/>
 				<Platform Name="Windows" ReferencePlatform="Windows" ID="{6E0CB257-C6C8-4C5C-8366-2740DFC441EC}"/>
-				<Platform Name="XboxOne" ReferencePlatform="XboxOne" ID="{B131584B-9961-4BB5-9C58-A3E9ABFFBBF7}"/>
 			</Platforms>
 			<LanguageList>
 				<Language Name="English(US)" ID="{C7DD1F00-ECD1-4598-B60F-EAE32C06EC46}"/>
@@ -28,160 +20,80 @@
 				<Property Name="DefaultLanguage" Type="string" Value="English(US)"/>
 				<Property Name="ExternalSourcesInputPath" Type="string">
 					<ValueList>
-						<Value Platform="Switch">myExternalSources\ExtSourceList.wsources</Value>
 						<Value Platform="Linux">myExternalSources\ExtSourceList.wsources</Value>
 						<Value Platform="iOS">myExternalSources\ExtSourceList.wsources</Value>
 						<Value Platform="Mac">myExternalSources\ExtSourceList.wsources</Value>
-						<Value Platform="PS4">myExternalSources\ExtSourceList.wsources</Value>
-						<Value Platform="Stadia">myExternalSources\ExtSourceList.wsources</Value>
-						<Value Platform="Lumin">myExternalSources\ExtSourceList.wsources</Value>
-						<Value Platform="XboxOne">myExternalSources\ExtSourceList.wsources</Value>
 						<Value Platform="Windows">myExternalSources\ExtSourceList.wsources</Value>
-						<Value Platform="Pellegrino">myExternalSources\ExtSourceList.wsources</Value>
-						<Value Platform="Chinook">myExternalSources\ExtSourceList.wsources</Value>
-						<Value Platform="Android">myExternalSources\ExtSourceList.wsources</Value>
 					</ValueList>
 				</Property>
 				<Property Name="ExternalSourcesOutputPath" Type="string">
 					<ValueList>
-						<Value Platform="Switch">.cache\ExternalSources\Switch</Value>
 						<Value Platform="Linux">.cache\ExternalSources\Linux</Value>
 						<Value Platform="iOS">.cache\ExternalSources\iOS</Value>
 						<Value Platform="Mac">.cache\ExternalSources\Mac</Value>
-						<Value Platform="PS4">.cache\ExternalSources\PS4</Value>
-						<Value Platform="Stadia">.cache\ExternalSources\Stadia</Value>
-						<Value Platform="Lumin">.cache\ExternalSources\Lumin</Value>
-						<Value Platform="XboxOne">.cache\ExternalSources\XboxOne</Value>
 						<Value Platform="Windows">.cache\ExternalSources\Windows</Value>
-						<Value Platform="Pellegrino">.cache\ExternalSources\Pellegrino</Value>
-						<Value Platform="Chinook">.cache\ExternalSources\Chinook</Value>
-						<Value Platform="Android">.cache\ExternalSources\Android</Value>
 					</ValueList>
 				</Property>
 				<Property Name="GlobalVoiceInstancesLimit" Type="int16">
 					<ValueList>
-						<Value Platform="Switch">256</Value>
 						<Value Platform="Linux">256</Value>
 						<Value Platform="iOS">256</Value>
 						<Value Platform="Mac">256</Value>
-						<Value Platform="PS4">256</Value>
-						<Value Platform="Stadia">256</Value>
-						<Value Platform="Lumin">256</Value>
-						<Value Platform="XboxOne">256</Value>
 						<Value Platform="Windows">256</Value>
-						<Value Platform="Pellegrino">256</Value>
-						<Value Platform="Chinook">256</Value>
-						<Value Platform="Android">256</Value>
 					</ValueList>
 				</Property>
 				<Property Name="SoundBankGenerateHeaderFile" Type="bool" Value="True"/>
 				<Property Name="SoundBankHeaderFilePath" Type="string" Value="GeneratedSoundBanks\"/>
 				<Property Name="SoundBankPaths" Type="string">
 					<ValueList>
-						<Value Platform="Switch">GeneratedSoundBanks\Switch\</Value>
 						<Value Platform="Linux">GeneratedSoundBanks\Linux\</Value>
 						<Value Platform="iOS">GeneratedSoundBanks\iOS\</Value>
 						<Value Platform="Mac">GeneratedSoundBanks\Mac\</Value>
-						<Value Platform="PS4">GeneratedSoundBanks\PS4\</Value>
-						<Value Platform="Stadia">GeneratedSoundBanks\Stadia\</Value>
-						<Value Platform="Lumin">..\Lumin\assets\GeneratedSoundBanks\Lumin\</Value>
-						<Value Platform="XboxOne">GeneratedSoundBanks\XboxOne\</Value>
 						<Value Platform="Windows">GeneratedSoundBanks\Windows\</Value>
-						<Value Platform="Pellegrino">GeneratedSoundBanks\Pellegrino\</Value>
-						<Value Platform="Chinook">GeneratedSoundBanks\Chinook\</Value>
-						<Value Platform="Android">..\Android\assets\GeneratedSoundBanks\Android\</Value>
 					</ValueList>
 				</Property>
 				<Property Name="SoundBankPostGenerateCustomCmdDescription" Type="string">
 					<ValueList>
-						<Value Platform="Switch">Copy Streamed Files and Package External Sources</Value>
 						<Value Platform="Linux">Copy Streamed Files and Package External Sources</Value>
 						<Value Platform="iOS">Copy Streamed Files and Package External Sources</Value>
 						<Value Platform="Mac">Copy Streamed Files and Package External Sources</Value>
-						<Value Platform="PS4">Copy Streamed Files and Package External Sources</Value>
-						<Value Platform="Stadia">Copy Streamed Files and Package External Sources</Value>
-						<Value Platform="Lumin">Copy Streamed Files and Package External Sources</Value>
-						<Value Platform="XboxOne">Copy Streamed Files and Package External Sources</Value>
 						<Value Platform="Windows">Copy Streamed Files and Package External Sources</Value>
-						<Value Platform="Pellegrino">Copy Streamed Files and Package External Sources</Value>
-						<Value Platform="Chinook">Copy Streamed Files and Package External Sources</Value>
-						<Value Platform="Android">Copy Streamed Files and Package External Sources</Value>
 					</ValueList>
 				</Property>
 				<Property Name="SoundBankPostGenerateCustomCmdLines" Type="string">
 					<ValueList>
-						<Value Platform="Switch">"$(CopyStreamedFilesExePath)" -info "$(InfoFilePath)" -outputpath "$(SoundBankPath)" -banks "$(SoundBankList)" -languages "$(LanguageList)"
-"$(WwiseExePath)\tools\FilePackager.Console.exe" -generate "$(WwiseProjectPath)\myFilePackagerProjects\ExternalSources (Switch).wfpproj"</Value>
 						<Value Platform="Linux">"$(CopyStreamedFilesExePath)" -info "$(InfoFilePath)" -outputpath "$(SoundBankPath)" -banks "$(SoundBankList)" -languages "$(LanguageList)"
 "$(WwiseExePath)\tools\FilePackager.Console.exe" -generate "$(WwiseProjectPath)\myFilePackagerProjects\ExternalSources (Linux).wfpproj"</Value>
 						<Value Platform="iOS">"$(CopyStreamedFilesExePath)" -info "$(InfoFilePath)" -outputpath "$(SoundBankPath)" -banks "$(SoundBankList)" -languages "$(LanguageList)"
 "$(WwiseExePath)\tools\FilePackager.Console.exe" -generate "$(WwiseProjectPath)\myFilePackagerProjects\ExternalSources (iOS).wfpproj"</Value>
 						<Value Platform="Mac">"$(CopyStreamedFilesExePath)" -info "$(InfoFilePath)" -outputpath "$(SoundBankPath)" -banks "$(SoundBankList)" -languages "$(LanguageList)"
 "$(WwiseExePath)\tools\FilePackager.Console.exe" -generate "$(WwiseProjectPath)\myFilePackagerProjects\ExternalSources (Mac).wfpproj"</Value>
-						<Value Platform="PS4">"$(CopyStreamedFilesExePath)" -info "$(InfoFilePath)" -outputpath "$(SoundBankPath)" -banks "$(SoundBankList)" -languages "$(LanguageList)"
-"$(WwiseExePath)\tools\FilePackager.Console.exe" -generate "$(WwiseProjectPath)\myFilePackagerProjects\ExternalSources (PS4).wfpproj"</Value>
-						<Value Platform="Stadia">"$(CopyStreamedFilesExePath)" -info "$(InfoFilePath)" -outputpath "$(SoundBankPath)" -banks "$(SoundBankList)" -languages "$(LanguageList)"
-"$(WwiseExePath)\tools\FilePackager.Console.exe" -generate "$(WwiseProjectPath)\myFilePackagerProjects\ExternalSources (Stadia).wfpproj"</Value>
-						<Value Platform="Lumin">"$(CopyStreamedFilesExePath)" -info "$(InfoFilePath)" -outputpath "$(SoundBankPath)" -banks "$(SoundBankList)" -languages "$(LanguageList)"
-"$(WwiseExePath)\tools\FilePackager.Console.exe" -generate "$(WwiseProjectPath)\myFilePackagerProjects\ExternalSources (Lumin).wfpproj"</Value>
-						<Value Platform="XboxOne">"$(CopyStreamedFilesExePath)" -info "$(InfoFilePath)" -outputpath "$(SoundBankPath)" -banks "$(SoundBankList)" -languages "$(LanguageList)"
-"$(WwiseExePath)\tools\FilePackager.Console.exe" -generate "$(WwiseProjectPath)\myFilePackagerProjects\ExternalSources (XboxOne).wfpproj"</Value>
 						<Value Platform="Windows">"$(CopyStreamedFilesExePath)" -info "$(InfoFilePath)" -outputpath "$(SoundBankPath)" -banks "$(SoundBankList)" -languages "$(LanguageList)"
 "$(WwiseExePath)\tools\FilePackager.Console.exe" -generate "$(WwiseProjectPath)\myFilePackagerProjects\ExternalSources (Windows).wfpproj"</Value>
-						<Value Platform="Pellegrino">"$(CopyStreamedFilesExePath)" -info "$(InfoFilePath)" -outputpath "$(SoundBankPath)" -banks "$(SoundBankList)" -languages "$(LanguageList)"
-"$(WwiseExePath)\tools\FilePackager.Console.exe" -generate "$(WwiseProjectPath)\myFilePackagerProjects\ExternalSources (Pellegrino).wfpproj"</Value>
-						<Value Platform="Chinook">"$(CopyStreamedFilesExePath)" -info "$(InfoFilePath)" -outputpath "$(SoundBankPath)" -banks "$(SoundBankList)" -languages "$(LanguageList)"
-"$(WwiseExePath)\tools\FilePackager.Console.exe" -generate "$(WwiseProjectPath)\myFilePackagerProjects\ExternalSources (Chinook).wfpproj"</Value>
-						<Value Platform="Android">"$(CopyStreamedFilesExePath)" -info "$(InfoFilePath)" -outputpath "$(SoundBankPath)" -banks "$(SoundBankList)" -languages "$(LanguageList)"
-"$(WwiseExePath)\tools\FilePackager.Console.exe" -generate "$(WwiseProjectPath)\myFilePackagerProjects\ExternalSources (Android).wfpproj"</Value>
 					</ValueList>
 				</Property>
 				<Property Name="SoundBankPreGenerateCustomCmdDescription" Type="string">
 					<ValueList>
-						<Value Platform="Switch"></Value>
 						<Value Platform="Linux"></Value>
 						<Value Platform="iOS"></Value>
 						<Value Platform="Mac"></Value>
-						<Value Platform="PS4"></Value>
-						<Value Platform="Stadia"></Value>
-						<Value Platform="Lumin"></Value>
-						<Value Platform="XboxOne"></Value>
 						<Value Platform="Windows"></Value>
-						<Value Platform="Pellegrino"></Value>
-						<Value Platform="Chinook"></Value>
-						<Value Platform="Android"></Value>
 					</ValueList>
 				</Property>
 				<Property Name="SoundBankPreGenerateCustomCmdLines" Type="string">
 					<ValueList>
-						<Value Platform="Switch"></Value>
 						<Value Platform="Linux"></Value>
 						<Value Platform="iOS"></Value>
 						<Value Platform="Mac"></Value>
-						<Value Platform="PS4"></Value>
-						<Value Platform="Stadia"></Value>
-						<Value Platform="Lumin"></Value>
-						<Value Platform="XboxOne"></Value>
 						<Value Platform="Windows"></Value>
-						<Value Platform="Pellegrino"></Value>
-						<Value Platform="Chinook"></Value>
-						<Value Platform="Android"></Value>
 					</ValueList>
 				</Property>
 				<Property Name="VolumeThreshold" Type="Real64">
 					<ValueList>
-						<Value Platform="Switch">-96.3</Value>
 						<Value Platform="Linux">-96.3</Value>
 						<Value Platform="iOS">-96.3</Value>
 						<Value Platform="Mac">-96.3</Value>
-						<Value Platform="PS4">-96.3</Value>
-						<Value Platform="Stadia">-96.3</Value>
-						<Value Platform="Lumin">-96.3</Value>
-						<Value Platform="XboxOne">-96.3</Value>
 						<Value Platform="Windows">-96.3</Value>
-						<Value Platform="Pellegrino">-96.3</Value>
-						<Value Platform="Chinook">-96.3</Value>
-						<Value Platform="Android">-96.3</Value>
 					</ValueList>
 				</Property>
 				<Property Name="WwiseVersionWhenCreated" Type="string" Value="Branch=wwise_main|Build=1963|VersionName=Drop 3|Config=Debug"/>
@@ -1041,7 +953,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="XMA" PluginType="1" CompanyID="0" PluginID="3">
+				<SharedPropertyList ClassName="" PluginType="1" CompanyID="0" PluginID="3">
 					<PropertyList>
 						<Property Name="BlockSize" Type="int32">
 							<ValueList>
@@ -3930,7 +3842,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="ATRAC9" PluginType="1" CompanyID="0" PluginID="12">
+				<SharedPropertyList ClassName="" PluginType="1" CompanyID="0" PluginID="12">
 					<PropertyList>
 						<Property Name="BitRate" Type="int32">
 							<ValueList>
@@ -4045,7 +3957,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="OpusNX" PluginType="1" CompanyID="0" PluginID="17">
+				<SharedPropertyList ClassName="" PluginType="1" CompanyID="0" PluginID="17">
 					<PropertyList>
 						<Property Name="EncodingMode" Type="int32">
 							<ValueList>
@@ -11172,7 +11084,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="Wwise Convolution Reverb" PluginType="3" CompanyID="0" PluginID="127">
+				<SharedPropertyList ClassName="" PluginType="3" CompanyID="0" PluginID="127">
 					<PropertyList>
 						<Property Name="AlgoTypeSelect" Type="int32">
 							<ValueList>
@@ -12712,7 +12624,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="SCE Audio3d Object Panner" PluginType="6" CompanyID="0" PluginID="149">
+				<SharedPropertyList ClassName="" PluginType="6" CompanyID="0" PluginID="149">
 					<PropertyList>
 						<Property Name="Bypass object panning" Type="bool">
 							<ValueList>
@@ -12741,7 +12653,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="AttachableMixerInput" PluginType="3" CompanyID="0" PluginID="150">
+				<SharedPropertyList ClassName="" PluginType="3" CompanyID="0" PluginID="150">
 					<PropertyList>
 						<Property Name="Bypass object panning" Type="bool">
 							<ValueList>
@@ -12755,7 +12667,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="SCE Audio3d Bed Output" PluginType="7" CompanyID="0" PluginID="151">
+				<SharedPropertyList ClassName="" PluginType="7" CompanyID="0" PluginID="151">
 					<PropertyList>
 						<Property Name="ChannelConfig" Type="int32">
 							<ValueList>
@@ -12804,7 +12716,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="AK Sink Plugin" PluginType="7" CompanyID="0" PluginID="152">
+				<SharedPropertyList ClassName="" PluginType="7" CompanyID="0" PluginID="152">
 					<PropertyList>
 						<Property Name="Color" Type="int16">
 							<ValueList>
@@ -12971,7 +12883,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="SCE Audio3d Global Settings" PluginType="3" CompanyID="0" PluginID="165">
+				<SharedPropertyList ClassName="" PluginType="3" CompanyID="0" PluginID="165">
 					<PropertyList>
 						<Property Name="Color" Type="int16">
 							<ValueList>
@@ -13053,7 +12965,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="Microsoft Spatial Sound Platform Output" PluginType="7" CompanyID="275" PluginID="170">
+				<SharedPropertyList ClassName="" PluginType="7" CompanyID="275" PluginID="170">
 					<PropertyList>
 						<Property Name="Color" Type="int16">
 							<ValueList>
@@ -13364,7 +13276,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="SoundSeed Grain" PluginType="2" CompanyID="0" PluginID="183">
+				<SharedPropertyList ClassName="" PluginType="2" CompanyID="0" PluginID="183">
 					<PropertyList>
 						<Property Name="Amplitude" Type="Real32">
 							<ValueList>
@@ -14248,7 +14160,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="ParameterModulatorAssociation" PluginType="0" CompanyID="0" PluginID="185">
+				<SharedPropertyList ClassName="" PluginType="0" CompanyID="0" PluginID="185">
 					<PropertyList>
 						<Property Name="ModDisplayName" Type="string">
 							<ValueList>
@@ -14481,7 +14393,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="Wwise Motion Generator (Deprecated)" PluginType="2" CompanyID="0" PluginID="405">
+				<SharedPropertyList ClassName="" PluginType="2" CompanyID="0" PluginID="405">
 					<PropertyList>
 						<Property Name="AttackTime" Type="Real32">
 							<ValueList>
@@ -14579,7 +14491,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="Wwise Motion Source" PluginType="2" CompanyID="0" PluginID="409">
+				<SharedPropertyList ClassName="" PluginType="2" CompanyID="0" PluginID="409">
 					<PropertyList>
 						<Property Name="Channel1" Type="int16">
 							<ValueList>
@@ -14678,7 +14590,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="CrankcaseAudio REV" PluginType="2" CompanyID="261" PluginID="416">
+				<SharedPropertyList ClassName="" PluginType="2" CompanyID="261" PluginID="416">
 					<PropertyList>
 						<Property Name="EnableShifting" Type="int32">
 							<ValueList>
@@ -14717,7 +14629,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="EngineSimulationControlData" PluginType="0" CompanyID="261" PluginID="417">
+				<SharedPropertyList ClassName="" PluginType="0" CompanyID="261" PluginID="417">
 					<PropertyList>
 						<Property Name="ClutchRPMMergeTime" Type="Real32">
 							<ValueList>
@@ -14796,7 +14708,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="AccelDecelModelControlData" PluginType="0" CompanyID="261" PluginID="418">
+				<SharedPropertyList ClassName="" PluginType="0" CompanyID="261" PluginID="418">
 					<PropertyList>
 						<Property Name="CrossfadeDuration" Type="int32">
 							<ValueList>
@@ -14855,7 +14767,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="GranularModelControlData" PluginType="0" CompanyID="261" PluginID="419">
+				<SharedPropertyList ClassName="" PluginType="0" CompanyID="261" PluginID="419">
 					<PropertyList>
 						<Property Name="GrainWidth" Type="int32">
 							<ValueList>
@@ -14908,7 +14820,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="Wwise Motion" PluginType="7" CompanyID="0" PluginID="507">
+				<SharedPropertyList ClassName="" PluginType="7" CompanyID="0" PluginID="507">
 					<PropertyList>
 						<Property Name="Color" Type="int16">
 							<ValueList>
