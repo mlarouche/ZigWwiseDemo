@@ -1,12 +1,7 @@
 const Builder = @import("std").build.Builder;
 
 pub fn build(b: *Builder) void {
-    b.addNativeSystemIncludeDir("WwiseSDK/include");
-    b.addNativeSystemLibPath("WwiseSDK/x64_vc150/Profile(StaticCRT)/lib");
-
     const mode = b.standardReleaseOptions();
-
-    const lib_cflags = &[_][]const u8{ "-std=c++17", "-DUNICODE" };
 
     const bindings = b.addStaticLibrary("wwiseBindings", null);
     bindings.linkSystemLibrary("c");
@@ -22,6 +17,8 @@ pub fn build(b: *Builder) void {
     bindings.linkSystemLibrary("advapi32");
     bindings.linkSystemLibrary("ws2_32");
     bindings.addIncludeDir("bindings/IOHook/Win32");
+    bindings.addIncludeDir("WwiseSDK/include");
+    bindings.addLibPath("WwiseSDK/x64_vc150/Profile(StaticCRT)/lib");
 
     const bindingsSources = &[_][]const u8{
         "bindings/zig_wwise.cpp",
@@ -30,14 +27,34 @@ pub fn build(b: *Builder) void {
         "bindings/IOHook/Common/AkMultipleFileLocation.cpp",
         "bindings/IOHook/Win32/AkDefaultIOHookBlocking.cpp",
     };
-    inline for (bindingsSources) |src| {
-        bindings.addCSourceFile(src, lib_cflags);
+    for (bindingsSources) |src| {
+        bindings.addCSourceFile(src, &[_][]const u8{ "-std=c++17", "-DUNICODE" });
+    }
+
+    const imgui = b.addStaticLibrary("zigimgui", null);
+    imgui.linkSystemLibrary("c");
+
+    const imguiSources = &[_][]const u8{
+        "imgui/cimgui.cpp",
+        "imgui/imgui/imgui.cpp",
+        "imgui/imgui/imgui_demo.cpp",
+        "imgui/imgui/imgui_draw.cpp",
+        "imgui/imgui/imgui_impl_dx11.cpp",
+        "imgui/imgui/imgui_impl_win32.cpp",
+        "imgui/imgui/imgui_widgets.cpp",
+    };
+    for (imguiSources) |src| {
+        imgui.addCSourceFile(src, &[_][]const u8{"-std=c++17"});
     }
 
     const exe = b.addExecutable("wwiseZig", "src/main.zig");
     exe.setBuildMode(mode);
     exe.addIncludeDir("bindings");
+    exe.addIncludeDir("imgui");
+    exe.addIncludeDir("WwiseSDK/include");
+    exe.addLibPath("WwiseSDK/x64_vc150/Profile(StaticCRT)/lib");
     exe.linkLibrary(bindings);
+    exe.linkLibrary(imgui);
     exe.install();
 
     const run_cmd = exe.run();
