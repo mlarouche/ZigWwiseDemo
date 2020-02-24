@@ -46,12 +46,12 @@ pub const Wwise = struct {
 
     pub fn init() InitError!void {
         switch (c.ZigAk_Init()) {
-            .AkInitResult_Success => return,
-            .AkInitResult_MemoryManagerFailed => return InitError.MemoryManagerFailed,
-            .AkInitResult_StreamManagerFailed => return InitError.StreamManagerFailed,
-            .AkInitResult_LowLevelIOFailed => return InitError.LowLevelIOFailed,
-            .AkInitResult_SoundEngineFailed => return InitError.SoundEngineFailed,
-            .AkInitResult_CommunicationFailed => return InitError.CommunicationFailed,
+            .Success => return,
+            .MemoryManagerFailed => return InitError.MemoryManagerFailed,
+            .StreamManagerFailed => return InitError.StreamManagerFailed,
+            .LowLevelIOFailed => return InitError.LowLevelIOFailed,
+            .SoundEngineFailed => return InitError.SoundEngineFailed,
+            .CommunicationFailed => return InitError.CommunicationFailed,
             else => {},
         }
     }

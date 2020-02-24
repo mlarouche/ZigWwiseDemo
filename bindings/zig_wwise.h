@@ -13,12 +13,12 @@ extern "C" {
 
 typedef enum ZigAkInitResult
 {
-    AkInitResult_Success,
-    AkInitResult_MemoryManagerFailed,
-    AkInitResult_StreamManagerFailed,
-    AkInitResult_LowLevelIOFailed,
-    AkInitResult_SoundEngineFailed,
-    AkInitResult_CommunicationFailed,
+    ZigAkInitResultSuccess,
+    ZigAkInitResultMemoryManagerFailed,
+    ZigAkInitResultStreamManagerFailed,
+    ZigAkInitResultLowLevelIOFailed,
+    ZigAkInitResultSoundEngineFailed,
+    ZigAkInitResultCommunicationFailed,
 } ZigAkInitResult;
 
 typedef enum ZigAKRESULT

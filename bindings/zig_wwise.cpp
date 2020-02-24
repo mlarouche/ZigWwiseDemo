@@ -26,7 +26,7 @@ ZigAkInitResult ZigAk_Init()
 
     if (AK::MemoryMgr::Init(&memSettings) != AK_Success)
     {
-        return AkInitResult_MemoryManagerFailed;
+        return ZigAkInitResultMemoryManagerFailed;
     }
 
     AkStreamMgrSettings streamSettings;
@@ -34,7 +34,7 @@ ZigAkInitResult ZigAk_Init()
 
     if (!AK::StreamMgr::Create(streamSettings))
     {
-        return AkInitResult_StreamManagerFailed;
+        return ZigAkInitResultStreamManagerFailed;
     }
 
     AkDeviceSettings deviceSettings;
@@ -42,7 +42,7 @@ ZigAkInitResult ZigAk_Init()
 
     if (g_IOHook.Init(deviceSettings) != AK_Success)
     {
-        return AkInitResult_LowLevelIOFailed;
+        return ZigAkInitResultLowLevelIOFailed;
     }
 
     AkInitSettings initSettings;
@@ -51,7 +51,7 @@ ZigAkInitResult ZigAk_Init()
     AK::SoundEngine::GetDefaultPlatformInitSettings(platformInitSettings);
     if (AK::SoundEngine::Init(&initSettings, &platformInitSettings) != AK_Success)
     {
-        return AkInitResult_SoundEngineFailed;
+        return ZigAkInitResultSoundEngineFailed;
     }
 
 #ifndef AK_OPTIMIZED
@@ -59,11 +59,11 @@ ZigAkInitResult ZigAk_Init()
     AK::Comm::GetDefaultInitSettings(commSettings);
     if ( AK::Comm::Init(commSettings) != AK_Success)
     {
-        return AkInitResult_CommunicationFailed;
+        return ZigAkInitResultCommunicationFailed;
     }
 #endif
 
-    return AkInitResult_Success;
+    return ZigAkInitResultSuccess;
 }
 
 void ZigAk_Deinit()
