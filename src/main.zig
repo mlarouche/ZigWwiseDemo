@@ -48,8 +48,8 @@ fn comFindVtableType(comptime parentType: type) type {
     return void;
 }
 
-fn comCall(self: var, comptime name: []const u8, args: var) comFindReturnType(comFindVtableType(@TypeOf(self)), name) {
-    if (@field(self.lpVtbl[0], name)) |func| {
+fn comCall(comptime name: []const u8, args: var) comFindReturnType(comFindVtableType(@TypeOf(args[0])), name) {
+    if (@field(args[0].lpVtbl[0], name)) |func| {
         return @call(.{}, func, args);
     }
 
@@ -89,32 +89,32 @@ fn createDeviceD3D(hWnd: win32.HWND) bool {
 fn createRenderTarget() void {
     var pBackBuffer: ?*dx.ID3D11Texture2D = null;
     if (dxContext.swapChain) |swapChain| {
-        _ = comCall(swapChain, "GetBuffer", .{ swapChain, 0, &dx.IID_ID3D11Texture2D, @ptrCast([*c]?*c_void, &pBackBuffer) });
+        _ = comCall("GetBuffer", .{ swapChain, 0, &dx.IID_ID3D11Texture2D, @ptrCast([*c]?*c_void, &pBackBuffer) });
     }
     if (dxContext.device) |device| {
-        _ = comCall(device, "CreateRenderTargetView", .{ device, @ptrCast([*c]dx.struct_ID3D11Resource, pBackBuffer), null, @ptrCast([*c][*c]dx.struct_ID3D11RenderTargetView, &dxContext.mainRenderTargetView) });
+        _ = comCall("CreateRenderTargetView", .{ device, @ptrCast([*c]dx.struct_ID3D11Resource, pBackBuffer), null, @ptrCast([*c][*c]dx.struct_ID3D11RenderTargetView, &dxContext.mainRenderTargetView) });
     }
     if (pBackBuffer) |backBuffer| {
-        _ = comCall(backBuffer, "Release", .{backBuffer});
+        _ = comCall("Release", .{backBuffer});
     }
 }
 
 fn cleanupDeviceD3D() void {
     cleanupRenderTarget();
     if (dxContext.swapChain) |swapChain| {
-        _ = comCall(swapChain, "Release", .{swapChain});
+        _ = comCall("Release", .{swapChain});
     }
     if (dxContext.deviceContext) |deviceContext| {
-        _ = comCall(deviceContext, "Release", .{deviceContext});
+        _ = comCall("Release", .{deviceContext});
     }
     if (dxContext.device) |device| {
-        _ = comCall(device, "Release", .{device});
+        _ = comCall("Release", .{device});
     }
 }
 
 fn cleanupRenderTarget() void {
     if (dxContext.mainRenderTargetView) |mainRenderTargetView| {
-        _ = comCall(mainRenderTargetView, "Release", .{mainRenderTargetView});
+        _ = comCall("Release", .{mainRenderTargetView});
         dxContext.mainRenderTargetView = null;
     }
 }
@@ -276,7 +276,9 @@ pub fn main() !void {
     };
 
     var demoState: DemoWindowState = .{};
+
     var subtitleDemoState = SubtitleDemoState.init(std.heap.c_allocator);
+    defer subtitleDemoState.deinit();
 
     var msg: win32.MSG = std.mem.zeroes(win32.MSG);
     while (msg.message != win32.WM_QUIT) {
@@ -323,13 +325,13 @@ pub fn main() !void {
 
         ImGui.igRender();
         if (dxContext.deviceContext) |deviceContext| {
-            _ = comCall(deviceContext, "OMSetRenderTargets", .{ deviceContext, 1, &dxContext.mainRenderTargetView, null });
-            _ = comCall(deviceContext, "ClearRenderTargetView", .{ deviceContext, dxContext.mainRenderTargetView, @ptrCast(*const f32, &clearColor) });
+            _ = comCall("OMSetRenderTargets", .{ deviceContext, 1, &dxContext.mainRenderTargetView, null });
+            _ = comCall("ClearRenderTargetView", .{ deviceContext, dxContext.mainRenderTargetView, @ptrCast(*const f32, &clearColor) });
         }
         ImGui.igImplDX11_RenderDrawData(ImGui.igGetDrawData());
 
         if (dxContext.swapChain) |swapChain| {
-            _ = comCall(swapChain, "Present", .{ swapChain, 1, 0 });
+            _ = comCall("Present", .{ swapChain, 1, 0 });
         }
 
         Wwise.renderAudio();
@@ -346,7 +348,7 @@ pub fn WndProc(hWnd: win32.HWND, msg: win32.UINT, wParam: win32.WPARAM, lParam: 
             if (wParam != win32.SIZE_MINIMIZED) {
                 if (dxContext.swapChain) |swapChain| {
                     cleanupRenderTarget();
-                    _ = comCall(swapChain, "ResizeBuffers", .{ swapChain, 0, @intCast(win32.UINT, lParam & 0xFFFF), @intCast(win32.UINT, (lParam >> 16) & 0xFFFF), dx.DXGI_FORMAT._UNKNOWN, 0 });
+                    _ = comCall("ResizeBuffers", .{ swapChain, 0, @intCast(win32.UINT, lParam & 0xFFFF), @intCast(win32.UINT, (lParam >> 16) & 0xFFFF), dx.DXGI_FORMAT._UNKNOWN, 0 });
                     createRenderTarget();
                 }
             }
