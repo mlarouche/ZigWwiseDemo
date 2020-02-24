@@ -5,6 +5,8 @@
 #include "./imgui/imgui_internal.h"
 #include "cimgui.h"
 
+#include "./imgui/imgui_impl_win32.h"
+#include "./imgui/imgui_impl_dx11.h"
 
 
 CIMGUI_API ImVec2* ImVec2_ImVec2(void)
@@ -2548,5 +2550,55 @@ CIMGUI_API void ImVector_ImWchar_Init(ImVector_ImWchar* p)
 CIMGUI_API void ImVector_ImWchar_UnInit(ImVector_ImWchar* p)
 {
 	p->~ImVector<ImWchar>();
+}
+
+CIMGUI_API void igImplWin32_Init(void* hwnd)
+{
+    ImGui_ImplWin32_Init(hwnd);
+}
+
+CIMGUI_API void igImplWin32_Shutdown()
+{
+    ImGui_ImplWin32_Shutdown();
+}
+
+CIMGUI_API void igImplWin32_NewFrame()
+{
+    ImGui_ImplWin32_NewFrame();
+}
+
+CIMGUI_API long igImplWin32_WndProcHandler(void* hWnd, unsigned int msg, unsigned long long wParam, long long lParam)
+{
+    return ImGui_ImplWin32_WndProcHandler((HWND)hWnd, msg, wParam, lParam);
+}
+
+CIMGUI_API void igImplDX11_Init(ID3D11Device* device, ID3D11DeviceContext* device_context)
+{
+    ImGui_ImplDX11_Init(device, device_context);
+}
+
+CIMGUI_API void igImplDX11_Shutdown()
+{
+    ImGui_ImplDX11_Shutdown();
+}
+
+CIMGUI_API void igImplDX11_NewFrame()
+{
+    ImGui_ImplDX11_NewFrame();
+}
+
+CIMGUI_API void igImplDX11_RenderDrawData(ImDrawData* draw_data)
+{
+    ImGui_ImplDX11_RenderDrawData(draw_data);
+}
+
+CIMGUI_API void igImplDX11_InvalidateDeviceObjects()
+{
+    ImGui_ImplDX11_InvalidateDeviceObjects();
+}
+
+CIMGUI_API bool igImplDX11_CreateDeviceObjects()
+{
+    ImGui_ImplDX11_CreateDeviceObjects();
 }
 

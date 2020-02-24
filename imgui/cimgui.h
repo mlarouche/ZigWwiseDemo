@@ -1546,6 +1546,24 @@ CIMGUI_API ImVector_ImWchar* ImVector_ImWchar_create();
 CIMGUI_API void ImVector_ImWchar_destroy(ImVector_ImWchar* self);
 CIMGUI_API void ImVector_ImWchar_Init(ImVector_ImWchar* p);
 CIMGUI_API void ImVector_ImWchar_UnInit(ImVector_ImWchar* p);
+
+struct ID3D11Device;
+struct ID3D11DeviceContext;
+
+CIMGUI_API void igImplWin32_Init(void* hwnd);
+CIMGUI_API void igImplWin32_Shutdown();
+CIMGUI_API void igImplWin32_NewFrame();
+CIMGUI_API long igImplWin32_WndProcHandler(void* hWnd, unsigned int msg, unsigned long long wParam, long long lParam);
+
+CIMGUI_API void igImplDX11_Init(struct ID3D11Device* device, struct ID3D11DeviceContext* device_context);
+CIMGUI_API void igImplDX11_Shutdown();
+CIMGUI_API void igImplDX11_NewFrame();
+CIMGUI_API void igImplDX11_RenderDrawData(ImDrawData* draw_data);
+
+// Use if you want to reset your rendering device without losing ImGui state.
+CIMGUI_API void igImplDX11_InvalidateDeviceObjects();
+CIMGUI_API bool igImplDX11_CreateDeviceObjects();
+
 #endif //CIMGUI_INCLUDED
 
 

@@ -55,6 +55,8 @@ pub fn build(b: *Builder) void {
     exe.addLibPath("WwiseSDK/x64_vc150/Profile(StaticCRT)/lib");
     exe.linkLibrary(bindings);
     exe.linkLibrary(imgui);
+    exe.linkSystemLibrary("D3D11");
+    exe.linkSystemLibrary("dxguid");
     exe.install();
 
     const run_cmd = exe.run();
