@@ -16,7 +16,7 @@ const DxContext = struct {
 
 var dxContext: DxContext = undefined;
 
-fn findComReturnType(comptime vTableType: type, comptime name: []const u8) type {
+fn comFindReturnType(comptime vTableType: type, comptime name: []const u8) type {
     for (@typeInfo(vTableType).Struct.fields) |field| {
         if (std.mem.eql(u8, field.name, name)) {
             const funcType = @typeInfo(@typeInfo(field.field_type).Optional.child);
@@ -48,7 +48,7 @@ fn comFindVtableType(comptime parentType: type) type {
     return void;
 }
 
-fn callCom(self: var, comptime name: []const u8, args: var) findComReturnType(comFindVtableType(@TypeOf(self)), name) {
+fn comCall(self: var, comptime name: []const u8, args: var) comFindReturnType(comFindVtableType(@TypeOf(self)), name) {
     if (@field(self.lpVtbl[0], name)) |func| {
         return @call(.{}, func, args);
     }
@@ -89,32 +89,32 @@ fn createDeviceD3D(hWnd: win32.HWND) bool {
 fn createRenderTarget() void {
     var pBackBuffer: ?*dx.ID3D11Texture2D = null;
     if (dxContext.swapChain) |swapChain| {
-        _ = callCom(swapChain, "GetBuffer", .{ swapChain, 0, &dx.IID_ID3D11Texture2D, @ptrCast([*c]?*c_void, &pBackBuffer) });
+        _ = comCall(swapChain, "GetBuffer", .{ swapChain, 0, &dx.IID_ID3D11Texture2D, @ptrCast([*c]?*c_void, &pBackBuffer) });
     }
     if (dxContext.device) |device| {
-        _ = callCom(device, "CreateRenderTargetView", .{ device, @ptrCast([*c]dx.struct_ID3D11Resource, pBackBuffer), null, @ptrCast([*c][*c]dx.struct_ID3D11RenderTargetView, &dxContext.mainRenderTargetView) });
+        _ = comCall(device, "CreateRenderTargetView", .{ device, @ptrCast([*c]dx.struct_ID3D11Resource, pBackBuffer), null, @ptrCast([*c][*c]dx.struct_ID3D11RenderTargetView, &dxContext.mainRenderTargetView) });
     }
     if (pBackBuffer) |backBuffer| {
-        _ = callCom(backBuffer, "Release", .{backBuffer});
+        _ = comCall(backBuffer, "Release", .{backBuffer});
     }
 }
 
 fn cleanupDeviceD3D() void {
     cleanupRenderTarget();
     if (dxContext.swapChain) |swapChain| {
-        _ = callCom(swapChain, "Release", .{swapChain});
+        _ = comCall(swapChain, "Release", .{swapChain});
     }
     if (dxContext.deviceContext) |deviceContext| {
-        _ = callCom(deviceContext, "Release", .{deviceContext});
+        _ = comCall(deviceContext, "Release", .{deviceContext});
     }
     if (dxContext.device) |device| {
-        _ = callCom(device, "Release", .{device});
+        _ = comCall(device, "Release", .{device});
     }
 }
 
 fn cleanupRenderTarget() void {
     if (dxContext.mainRenderTargetView) |mainRenderTargetView| {
-        _ = callCom(mainRenderTargetView, "Release", .{mainRenderTargetView});
+        _ = comCall(mainRenderTargetView, "Release", .{mainRenderTargetView});
         dxContext.mainRenderTargetView = null;
     }
 }
@@ -322,13 +322,13 @@ pub fn main() !void {
 
         ImGui.igRender();
         if (dxContext.deviceContext) |deviceContext| {
-            _ = callCom(deviceContext, "OMSetRenderTargets", .{ deviceContext, 1, &dxContext.mainRenderTargetView, null });
-            _ = callCom(deviceContext, "ClearRenderTargetView", .{ deviceContext, dxContext.mainRenderTargetView, @ptrCast(*const f32, &clearColor) });
+            _ = comCall(deviceContext, "OMSetRenderTargets", .{ deviceContext, 1, &dxContext.mainRenderTargetView, null });
+            _ = comCall(deviceContext, "ClearRenderTargetView", .{ deviceContext, dxContext.mainRenderTargetView, @ptrCast(*const f32, &clearColor) });
         }
         ImGui.igImplDX11_RenderDrawData(ImGui.igGetDrawData());
 
         if (dxContext.swapChain) |swapChain| {
-            _ = callCom(swapChain, "Present", .{ swapChain, 1, 0 });
+            _ = comCall(swapChain, "Present", .{ swapChain, 1, 0 });
         }
 
         Wwise.renderAudio();
@@ -345,7 +345,7 @@ pub fn WndProc(hWnd: win32.HWND, msg: win32.UINT, wParam: win32.WPARAM, lParam: 
             if (wParam != win32.SIZE_MINIMIZED) {
                 if (dxContext.swapChain) |swapChain| {
                     cleanupRenderTarget();
-                    _ = callCom(swapChain, "ResizeBuffers", .{ swapChain, 0, @intCast(win32.UINT, lParam & 0xFFFF), @intCast(win32.UINT, (lParam >> 16) & 0xFFFF), dx.DXGI_FORMAT._UNKNOWN, 0 });
+                    _ = comCall(swapChain, "ResizeBuffers", .{ swapChain, 0, @intCast(win32.UINT, lParam & 0xFFFF), @intCast(win32.UINT, (lParam >> 16) & 0xFFFF), dx.DXGI_FORMAT._UNKNOWN, 0 });
                     createRenderTarget();
                 }
             }
