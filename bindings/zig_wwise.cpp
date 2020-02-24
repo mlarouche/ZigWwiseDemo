@@ -156,6 +156,16 @@ AkUInt32 ZigAk_PostEventByString(const char* eventName, AkUInt64 gameObjectID)
     return AK::SoundEngine::PostEvent(eventName, gameObjectID);
 }
 
+AkUInt32 ZigAk_PostEventByStringCallback(const char* eventName, AkUInt64 gameObjectID, AkUInt32 callbackType, ZigAkCallbackFunc callbackFunction, void* cookie)
+{
+    return AK::SoundEngine::PostEvent(eventName, gameObjectID, callbackType, (AkCallbackFunc)callbackFunction, cookie);
+}
+
+ZigAKRESULT ZigAk_GetSourcePlayPosition(AkUInt32 playingID, AkInt32* outPosition, bool extrapolate)
+{
+    return (ZigAKRESULT)AK::SoundEngine::GetSourcePlayPosition(playingID, outPosition, extrapolate);
+}
+
 void ZigAk_SetDefaultListeners(const AkUInt64* listeners, AkUInt32 listenersSize)
 {
     AK::SoundEngine::SetDefaultListeners(listeners, listenersSize);

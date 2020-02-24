@@ -73,7 +73,6 @@ fn createDeviceD3D(hWnd: win32.HWND) bool {
     sd.SwapEffect = ._DISCARD;
 
     var createDeviceFlags: win32.UINT = 0;
-    //createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
     var featureLevel: dx.D3D_FEATURE_LEVEL = undefined;
     const featureLevelArray = &[_]dx.D3D_FEATURE_LEVEL{
         ._11_0,
@@ -117,6 +116,57 @@ fn cleanupRenderTarget() void {
     if (dxContext.mainRenderTargetView) |mainRenderTargetView| {
         _ = callCom(mainRenderTargetView, "Release", .{mainRenderTargetView});
         dxContext.mainRenderTargetView = null;
+    }
+}
+
+const DemoWindowState = extern struct {
+    showSubtitleDemo: bool = false,
+};
+
+const SubtitleDemoState = struct {
+    subtitleText: [:0]const u8 = undefined,
+    subtitleIndex: u32 = 0,
+    subtitlePosition: u32 = 0,
+    playingID: u32 = 0,
+    allocator: *std.mem.Allocator,
+
+    const Self = @This();
+
+    pub fn init(allocator: *std.mem.Allocator) Self {
+        return Self{
+            .allocator = allocator,
+            .subtitleText = std.mem.dupeZ(allocator, u8, "") catch unreachable,
+        };
+    }
+
+    pub fn deinit(self: *Self) void {
+        self.allocator.free(self.subtitleText);
+    }
+
+    pub fn setSubtitleText(self: *Self, text: [:0]const u8) void {
+        self.allocator.free(self.subtitleText);
+        self.subtitleText = std.mem.dupeZ(self.allocator, u8, text) catch unreachable;
+    }
+};
+
+fn WwiseSubtitleCallback(callbackType: u32, callbackInfo: [*c]Wwise.AkCallbackInfo) callconv(.C) void {
+    if (callbackType == Wwise.AkCallbackType.Marker) {
+        if (callbackInfo[0].pCookie) |cookie| {
+            var subtitleDemoState = @ptrCast(*SubtitleDemoState, @alignCast(8, cookie));
+            var markerCallback = @ptrCast(*Wwise.AkMarkerCallbackInfo, callbackInfo);
+
+            subtitleDemoState.setSubtitleText(std.mem.toSliceConst(u8, markerCallback.strLabel));
+            subtitleDemoState.subtitleIndex = markerCallback.uIdentifier;
+            subtitleDemoState.subtitlePosition = markerCallback.uPosition;
+        }
+    } else if (callbackType == Wwise.AkCallbackType.EndOfEvent) {
+        if (callbackInfo[0].pCookie) |cookie| {
+            var subtitleDemoState = @ptrCast(*SubtitleDemoState, @alignCast(8, cookie));
+
+            subtitleDemoState.setSubtitleText("");
+            subtitleDemoState.subtitleIndex = 0;
+            subtitleDemoState.subtitlePosition = 0;
+        }
     }
 }
 
@@ -202,7 +252,9 @@ pub fn main() !void {
     Wwise.setDefaultListeners(&[_]u64{1});
 
     // Setup Dear ImGui context
-    _ = ImGui.igCreateContext(null);
+    const imGuiContext = ImGui.igCreateContext(null);
+    defer ImGui.igDestroyContext(imGuiContext);
+
     const io = ImGui.igGetIO();
 
     // Setup Dear ImGui style
@@ -210,7 +262,10 @@ pub fn main() !void {
 
     // Setup platform/renderer bindings
     ImGui.igImplWin32_Init(hwnd);
+    defer ImGui.igImplWin32_Shutdown();
+
     ImGui.igImplDX11_Init(@ptrCast(?*ImGui.struct_ID3D11Device, dxContext.device), @ptrCast(?*ImGui.struct_ID3D11DeviceContext, dxContext.deviceContext));
+    defer ImGui.igImplDX11_Shutdown();
 
     const clearColor = ImGui.ImVec4{
         .x = 0.0,
@@ -218,6 +273,9 @@ pub fn main() !void {
         .z = 0.0,
         .w = 1.00,
     };
+
+    var demoState: DemoWindowState = .{};
+    var subtitleDemoState = SubtitleDemoState.init(std.heap.c_allocator);
 
     var msg: win32.MSG = std.mem.zeroes(win32.MSG);
     while (msg.message != win32.WM_QUIT) {
@@ -232,13 +290,35 @@ pub fn main() !void {
         ImGui.igNewFrame();
 
         var isOpen: bool = true;
-        _ = ImGui.igBegin("Zig Wwise Demo", &isOpen, 0);
+        _ = ImGui.igBegin("Zig Wwise", &isOpen, ImGui.ImGuiWindowFlags_AlwaysAutoResize);
 
         if (ImGui.igButton("Subtitle Demo", .{ .x = 100, .y = 30 })) {
-            _ = try Wwise.postEvent("Play_Markers_Test", 2);
+            demoState.showSubtitleDemo = true;
         }
-
         ImGui.igEnd();
+
+        if (demoState.showSubtitleDemo) {
+            _ = ImGui.igBegin("Subtitle Demo", &demoState.showSubtitleDemo, ImGui.ImGuiWindowFlags_AlwaysAutoResize);
+
+            if (ImGui.igButton("Play", .{ .x = 100, .y = 30 })) {
+                subtitleDemoState.playingID = try Wwise.postEventWithCallback("Play_Markers_Test", 2, Wwise.AkCallbackType.Marker | Wwise.AkCallbackType.EndOfEvent | Wwise.AkCallbackType.EnableGetSourcePlayPosition, WwiseSubtitleCallback, &subtitleDemoState);
+            }
+
+            if (!std.mem.eql(u8, subtitleDemoState.subtitleText, "")) {
+                const cuePosText = try std.fmt.allocPrint0(std.heap.c_allocator, "Cue #{}, Sample #{}", .{ subtitleDemoState.subtitleIndex, subtitleDemoState.subtitlePosition });
+                defer std.heap.c_allocator.free(cuePosText);
+
+                const playPosition = try Wwise.getSourcePlayPosition(subtitleDemoState.playingID, true);
+                const playPositionText = try std.fmt.allocPrint0(std.heap.c_allocator, "Time: {} ms", .{playPosition});
+                defer std.heap.c_allocator.free(playPositionText);
+
+                ImGui.igText(cuePosText);
+                ImGui.igText(playPositionText);
+                ImGui.igText(subtitleDemoState.subtitleText);
+            }
+
+            ImGui.igEnd();
+        }
 
         ImGui.igRender();
         if (dxContext.deviceContext) |deviceContext| {
