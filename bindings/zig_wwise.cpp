@@ -94,61 +94,32 @@ void ZigAk_SetIOBasePath(const AkOSChar* path)
     g_IOHook.SetBasePath(path);
 }
 
-ZigAkLoadBankResult ZigAk_LoadBankByString(const AkOSChar* bankName, AkUInt32* out_bankID)
+ZigAKRESULT ZigAk_LoadBankByString(const AkOSChar* bankName, AkUInt32* out_bankID)
 {
     *out_bankID = 0;
-    auto result = AK::SoundEngine::LoadBank(bankName, *out_bankID);
-    switch(result)
-    {
-        case AK_Success: return AkLoadBankResult_Success;
-        case AK_InsufficientMemory: return AkLoadBankResult_InsufficientMemory;
-        case AK_BankReadError: return AkLoadBankResult_BankReadError;
-        case AK_WrongBankVersion: return AkLoadBankResult_WrongBankVersion;
-        case AK_InvalidFile: return AkLoadBankResult_InvalidFile;
-        case AK_InvalidParameter: return AkLoadBankResult_InvalidParameter;
-        default: return AkLoadBankResult_Fail;
-    }
-
-    return AkLoadBankResult_Fail;
+    return (ZigAKRESULT)AK::SoundEngine::LoadBank(bankName, *out_bankID);
 }
 
-ZigAkSuccessOrFail ZigAk_UnloadBankByID(AkUInt32 bankID, const void* inMemoryBankPtr)
+ZigAKRESULT ZigAk_UnloadBankByID(AkUInt32 bankID, const void* inMemoryBankPtr)
 {
-    auto result = AK::SoundEngine::UnloadBank(bankID, inMemoryBankPtr);
-    switch (result)
-    {
-        case AK_Success: return ZigAkSuccess;
-        default: return ZigAkFail;
-    }
+    return (ZigAKRESULT)AK::SoundEngine::UnloadBank(bankID, inMemoryBankPtr);
 }
 
-ZigAkSuccessOrFail ZigAk_RegisterGameObj(AkUInt64 gameObjectID, const char* objectName)
+ZigAKRESULT ZigAk_RegisterGameObj(AkUInt64 gameObjectID, const char* objectName)
 {
-    AKRESULT result;
     if (objectName)
     {
-        result = AK::SoundEngine::RegisterGameObj(gameObjectID, objectName);
+        return (ZigAKRESULT)AK::SoundEngine::RegisterGameObj(gameObjectID, objectName);
     }
     else
     {
-        result = AK::SoundEngine::RegisterGameObj(gameObjectID);
-    }
-    switch(result)
-    {
-        case AK_Success: return ZigAkSuccess;
-        default: return ZigAkFail;
+        return (ZigAKRESULT)AK::SoundEngine::RegisterGameObj(gameObjectID);
     }
 }
 
-ZigAkSuccessOrFail ZigAk_UnregisterGameObj(AkUInt64 gameObjectID)
+ZigAKRESULT ZigAk_UnregisterGameObj(AkUInt64 gameObjectID)
 {
-    AKRESULT result = AK::SoundEngine::UnregisterGameObj (gameObjectID);
-
-    switch(result)
-    {
-        case AK_Success: return ZigAkSuccess;
-        default: return ZigAkFail;
-    }
+    return (ZigAKRESULT)AK::SoundEngine::UnregisterGameObj (gameObjectID);
 }
 
 AkUInt32 ZigAk_PostEventByString(const char* eventName, AkUInt64 gameObjectID)

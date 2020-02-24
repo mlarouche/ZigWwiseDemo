@@ -20,15 +20,6 @@ pub const Wwise = struct {
         CommunicationFailed,
     };
 
-    pub const LoadBankError = error{
-        InsufficientMemory,
-        BankReadError,
-        WrongBankVersion,
-        InvalidFile,
-        InvalidParameter,
-        Fail,
-    };
-
     pub const AkCallbackType = struct {
         pub const EndOfEvent = 0x0001;
         pub const EndOfDynamicSequenceItem = 0x0002;
@@ -85,14 +76,13 @@ pub const Wwise = struct {
         var bankID: u32 = 0;
         const result = c.ZigAk_LoadBankByString(nativeBankName, &bankID);
         switch (result) {
-            .AkLoadBankResult_Success => return bankID,
-            .AkLoadBankResult_InsufficientMemory => return LoadBankError.InsufficientMemory,
-            .AkLoadBankResult_BankReadError => return LoadBankError.BankReadError,
-            .AkLoadBankResult_WrongBankVersion => return LoadBankError.WrongBankVersion,
-            .AkLoadBankResult_InvalidFile => return LoadBankError.InvalidFile,
-            .AkLoadBankResult_InvalidParameter => return LoadBankError.InvalidParameter,
-            .AkLoadBankResult_Fail => return LoadBankError.Fail,
-            else => return LoadBankError.Fail,
+            .Success => return bankID,
+            .InsufficientMemory => return error.InsufficientMemory,
+            .BankReadError => return error.BankReadError,
+            .WrongBankVersion => return error.WrongBankVersion,
+            .InvalidFile => return error.InvalidFile,
+            .InvalidParameter => return error.InvalidParameter,
+            else => return error.Fail,
         }
     }
 
@@ -105,12 +95,12 @@ pub const Wwise = struct {
             var stackString = StackString.init();
             const nativeObjectName = try stackString.toCString(name);
             return switch (c.ZigAk_RegisterGameObj(gameObjectID, nativeObjectName)) {
-                .ZigAkSuccess => return,
+                .Success => return,
                 else => error.Fail,
             };
         } else {
             return switch (c.ZigAk_RegisterGameObj(gameObjectID, null)) {
-                .ZigAkSuccess => return,
+                .Success => return,
                 else => error.Fail,
             };
         }

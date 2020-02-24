@@ -21,23 +21,6 @@ typedef enum ZigAkInitResult
     AkInitResult_CommunicationFailed,
 } ZigAkInitResult;
 
-typedef enum ZigAkLoadBankResult
-{
-    AkLoadBankResult_Success,
-    AkLoadBankResult_InsufficientMemory,
-    AkLoadBankResult_BankReadError,
-    AkLoadBankResult_WrongBankVersion,
-    AkLoadBankResult_InvalidFile,
-    AkLoadBankResult_InvalidParameter,
-    AkLoadBankResult_Fail,
-} ZigAkLoadBankResult;
-
-typedef enum ZigAkSuccessOrFail
-{
-    ZigAkSuccess,
-    ZigAkFail
-} ZigAkSuccessOrFail;
-
 typedef enum ZigAKRESULT
 {
     ZigAKRESULTNotImplemented			= 0,	///< This feature is not implemented.
@@ -186,11 +169,11 @@ void ZigAk_RenderAudio();
 
 void ZigAk_SetIOBasePath(const AkOSChar* basePath);
 
-ZigAkLoadBankResult ZigAk_LoadBankByString(const AkOSChar* bankName, AkUInt32* out_bankID);
-ZigAkSuccessOrFail ZigAk_UnloadBankByID(AkUInt32 bankID, const void* inMemoryBankPtr);
+ZigAKRESULT ZigAk_LoadBankByString(const AkOSChar* bankName, AkUInt32* out_bankID);
+ZigAKRESULT ZigAk_UnloadBankByID(AkUInt32 bankID, const void* inMemoryBankPtr);
 
-ZigAkSuccessOrFail ZigAk_RegisterGameObj(AkUInt64 gameObjectID, const char* objectName);
-ZigAkSuccessOrFail ZigAk_UnregisterGameObj(AkUInt64 gameObjectID);
+ZigAKRESULT ZigAk_RegisterGameObj(AkUInt64 gameObjectID, const char* objectName);
+ZigAKRESULT ZigAk_UnregisterGameObj(AkUInt64 gameObjectID);
 
 AkUInt32 ZigAk_PostEventByString(const char* eventName, AkUInt64 gameObjectID);
 AkUInt32 ZigAk_PostEventByStringCallback(const char* eventName, AkUInt64 gameObjectID, AkUInt32 callbackType, ZigAkCallbackFunc callbackFunction, void* cookie);
