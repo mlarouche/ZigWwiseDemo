@@ -256,6 +256,7 @@ pub fn main() !void {
     defer ImGui.igDestroyContext(imGuiContext);
 
     const io = ImGui.igGetIO();
+    _ = ImGui.ImFontAtlas_AddFontFromFileTTF(io[0].Fonts, "data/SourceSansPro-Semibold.ttf", 28.0, null, null);
 
     // Setup Dear ImGui style
     ImGui.igStyleColorsDark(null);
@@ -292,7 +293,7 @@ pub fn main() !void {
         var isOpen: bool = true;
         _ = ImGui.igBegin("Zig Wwise", &isOpen, ImGui.ImGuiWindowFlags_AlwaysAutoResize);
 
-        if (ImGui.igButton("Subtitle Demo", .{ .x = 100, .y = 30 })) {
+        if (ImGui.igButton("Subtitle Demo", .{ .x = 0, .y = 0 })) {
             demoState.showSubtitleDemo = true;
         }
         ImGui.igEnd();
@@ -300,7 +301,7 @@ pub fn main() !void {
         if (demoState.showSubtitleDemo) {
             _ = ImGui.igBegin("Subtitle Demo", &demoState.showSubtitleDemo, ImGui.ImGuiWindowFlags_AlwaysAutoResize);
 
-            if (ImGui.igButton("Play", .{ .x = 100, .y = 30 })) {
+            if (ImGui.igButton("Play", .{ .x = 120, .y = 0 })) {
                 subtitleDemoState.playingID = try Wwise.postEventWithCallback("Play_Markers_Test", 2, Wwise.AkCallbackType.Marker | Wwise.AkCallbackType.EndOfEvent | Wwise.AkCallbackType.EnableGetSourcePlayPosition, WwiseSubtitleCallback, &subtitleDemoState);
             }
 
