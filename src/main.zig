@@ -7,6 +7,9 @@ const windows = std.os.windows;
 
 const dx = @import("d3d11.zig");
 
+const SubtitleDemo = @import("demos/subtitle_demo.zig").SubtitleDemo;
+const NullDemo = @import("demos/demo_interface.zig").NullDemo;
+
 const DxContext = struct {
     device: ?*dx.ID3D11Device = null,
     deviceContext: ?*dx.ID3D11DeviceContext = null,
@@ -149,27 +152,6 @@ const SubtitleDemoState = struct {
     }
 };
 
-fn WwiseSubtitleCallback(callbackType: u32, callbackInfo: [*c]Wwise.AkCallbackInfo) callconv(.C) void {
-    if (callbackType == Wwise.AkCallbackType.Marker) {
-        if (callbackInfo[0].pCookie) |cookie| {
-            var subtitleDemoState = @ptrCast(*SubtitleDemoState, @alignCast(8, cookie));
-            var markerCallback = @ptrCast(*Wwise.AkMarkerCallbackInfo, callbackInfo);
-
-            subtitleDemoState.setSubtitleText(std.mem.toSliceConst(u8, markerCallback.strLabel));
-            subtitleDemoState.subtitleIndex = markerCallback.uIdentifier;
-            subtitleDemoState.subtitlePosition = markerCallback.uPosition;
-        }
-    } else if (callbackType == Wwise.AkCallbackType.EndOfEvent) {
-        if (callbackInfo[0].pCookie) |cookie| {
-            var subtitleDemoState = @ptrCast(*SubtitleDemoState, @alignCast(8, cookie));
-
-            subtitleDemoState.setSubtitleText("");
-            subtitleDemoState.subtitleIndex = 0;
-            subtitleDemoState.subtitlePosition = 0;
-        }
-    }
-}
-
 pub fn main() !void {
     const winClass: win32.WNDCLASSEX = .{
         .cbSize = @sizeOf(win32.WNDCLASSEX),
@@ -241,13 +223,8 @@ pub fn main() !void {
     const loadBankID = try Wwise.loadBankByString("Init.bnk");
     defer Wwise.unloadBankByID(loadBankID);
 
-    const markerBankID = try Wwise.loadBankByString("MarkerTest.bnk");
-    defer Wwise.unloadBankByID(markerBankID);
-
     try Wwise.registerGameObj(1, "Listener");
     defer Wwise.unregisterGameObj(1);
-    try Wwise.registerGameObj(2, "GlobalSound");
-    defer Wwise.unregisterGameObj(2);
 
     Wwise.setDefaultListeners(&[_]u64{1});
 
@@ -280,6 +257,11 @@ pub fn main() !void {
     var subtitleDemoState = SubtitleDemoState.init(std.heap.c_allocator);
     defer subtitleDemoState.deinit();
 
+    var defaultInstance = try std.heap.c_allocator.create(NullDemo);
+    var currentDemo = defaultInstance.getInterface();
+    currentDemo.init(std.heap.c_allocator);
+    defer currentDemo.deinit();
+
     var msg: win32.MSG = std.mem.zeroes(win32.MSG);
     while (msg.message != win32.WM_QUIT) {
         if (win32.PeekMessage(&msg, null, 0, 0, win32.PM_REMOVE) != 0) {
@@ -296,31 +278,16 @@ pub fn main() !void {
         _ = ImGui.igBegin("Zig Wwise", &isOpen, ImGui.ImGuiWindowFlags_AlwaysAutoResize);
 
         if (ImGui.igButton("Subtitle Demo", .{ .x = 0, .y = 0 })) {
-            demoState.showSubtitleDemo = true;
+            currentDemo.deinit();
+            var newDemoInstance = try std.heap.c_allocator.create(SubtitleDemo);
+            currentDemo = newDemoInstance.getInterface();
+            currentDemo.init(std.heap.c_allocator);
+            currentDemo.show();
         }
         ImGui.igEnd();
 
-        if (demoState.showSubtitleDemo) {
-            _ = ImGui.igBegin("Subtitle Demo", &demoState.showSubtitleDemo, ImGui.ImGuiWindowFlags_AlwaysAutoResize);
-
-            if (ImGui.igButton("Play", .{ .x = 120, .y = 0 })) {
-                subtitleDemoState.playingID = try Wwise.postEventWithCallback("Play_Markers_Test", 2, Wwise.AkCallbackType.Marker | Wwise.AkCallbackType.EndOfEvent | Wwise.AkCallbackType.EnableGetSourcePlayPosition, WwiseSubtitleCallback, &subtitleDemoState);
-            }
-
-            if (!std.mem.eql(u8, subtitleDemoState.subtitleText, "")) {
-                const cuePosText = try std.fmt.allocPrint0(std.heap.c_allocator, "Cue #{}, Sample #{}", .{ subtitleDemoState.subtitleIndex, subtitleDemoState.subtitlePosition });
-                defer std.heap.c_allocator.free(cuePosText);
-
-                const playPosition = try Wwise.getSourcePlayPosition(subtitleDemoState.playingID, true);
-                const playPositionText = try std.fmt.allocPrint0(std.heap.c_allocator, "Time: {} ms", .{playPosition});
-                defer std.heap.c_allocator.free(playPositionText);
-
-                ImGui.igText(cuePosText);
-                ImGui.igText(playPositionText);
-                ImGui.igText(subtitleDemoState.subtitleText);
-            }
-
-            ImGui.igEnd();
+        if (currentDemo.isVisible()) {
+            try currentDemo.onUI();
         }
 
         ImGui.igRender();
