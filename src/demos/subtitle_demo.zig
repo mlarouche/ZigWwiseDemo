@@ -66,7 +66,7 @@ pub const SubtitleDemo = struct {
     }
 
     pub fn getInterface(self: *Self) DemoInterface {
-        return DemoInterface {
+        return DemoInterface{
             .instance = @ptrCast(DemoInterface.InstanceType, self),
             .initFn = @ptrCast(DemoInterface.InitFn, init),
             .deinitFn = @ptrCast(DemoInterface.DeinitFn, deinit),

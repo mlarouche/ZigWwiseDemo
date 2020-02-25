@@ -13,7 +13,7 @@ pub const LocalizationDemo = struct {
     const Self = @This();
     const DemoGameObjectID = 3;
 
-    const Languages = &[_][]const u8 {"English(US)", "French(Canada)"};
+    const Languages = &[_][]const u8{ "English(US)", "French(Canada)" };
 
     pub fn init(self: *Self, allocator: *std.mem.Allocator) void {
         self.allocator = allocator;
@@ -51,7 +51,7 @@ pub const LocalizationDemo = struct {
                 const cLang = try std.cstr.addNullByte(self.allocator, lang);
                 defer self.allocator.free(cLang);
 
-                if (ImGui.igSelectable(cLang, is_selected, 0, .{ .x = 0, .y = 0})) {
+                if (ImGui.igSelectable(cLang, is_selected, 0, .{ .x = 0, .y = 0 })) {
                     self.currentSelectedLanguage = i;
 
                     try Wwise.setCurrentLanguage(Languages[self.currentSelectedLanguage]);
@@ -80,7 +80,7 @@ pub const LocalizationDemo = struct {
     }
 
     pub fn getInterface(self: *Self) DemoInterface {
-        return DemoInterface {
+        return DemoInterface{
             .instance = @ptrCast(DemoInterface.InstanceType, self),
             .initFn = @ptrCast(DemoInterface.InitFn, init),
             .deinitFn = @ptrCast(DemoInterface.DeinitFn, deinit),

@@ -123,6 +123,22 @@ fn cleanupRenderTarget() void {
     }
 }
 
+const DemoData = struct {
+    displayName: [:0]const u8,
+    instanceType: type,
+};
+
+const AllDemos = [_]DemoData{
+    .{
+        .displayName = "Localization Demo",
+        .instanceType = LocalizationDemo,
+    },
+    .{
+        .displayName = "Subtitle Demo",
+        .instanceType = SubtitleDemo,
+    },
+};
+
 pub fn main() !void {
     const winClass: win32.WNDCLASSEX = .{
         .cbSize = @sizeOf(win32.WNDCLASSEX),
@@ -243,21 +259,16 @@ pub fn main() !void {
         var isOpen: bool = true;
         _ = ImGui.igBegin("Zig Wwise", &isOpen, ImGui.ImGuiWindowFlags_AlwaysAutoResize);
 
-        if (ImGui.igButton("Localization Demo", .{ .x=0, .y=0})) {
-            currentDemo.deinit();
-            var newDemoInstance = try std.heap.c_allocator.create(LocalizationDemo);
-            currentDemo = newDemoInstance.getInterface();
-            currentDemo.init(std.heap.c_allocator);
-            currentDemo.show();
+        inline for (AllDemos) |demoData| {
+            if (ImGui.igButton(demoData.displayName, .{ .x = 0, .y = 0 })) {
+                currentDemo.deinit();
+                var newDemoInstance = try std.heap.c_allocator.create(demoData.instanceType);
+                currentDemo = newDemoInstance.getInterface();
+                currentDemo.init(std.heap.c_allocator);
+                currentDemo.show();
+            }
         }
 
-        if (ImGui.igButton("Subtitle Demo", .{ .x = 0, .y = 0 })) {
-            currentDemo.deinit();
-            var newDemoInstance = try std.heap.c_allocator.create(SubtitleDemo);
-            currentDemo = newDemoInstance.getInterface();
-            currentDemo.init(std.heap.c_allocator);
-            currentDemo.show();
-        }
         ImGui.igEnd();
 
         if (currentDemo.isVisible()) {
