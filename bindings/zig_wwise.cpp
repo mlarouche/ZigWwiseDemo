@@ -57,6 +57,7 @@ ZigAkInitResult ZigAk_Init()
 #ifndef AK_OPTIMIZED
     AkCommSettings commSettings;
     AK::Comm::GetDefaultInitSettings(commSettings);
+    strcpy(commSettings.szAppNetworkName, "Zig Wwise Demo");
     if ( AK::Comm::Init(commSettings) != AK_Success)
     {
         return ZigAkInitResultCommunicationFailed;
