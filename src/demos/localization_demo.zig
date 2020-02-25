@@ -6,7 +6,6 @@ const std = @import("std");
 pub const LocalizationDemo = struct {
     allocator: *std.mem.Allocator = undefined,
     isVisibleState: bool = false,
-    gameObjectID: u64 = 0,
     bankID: u32 = 0,
     currentSelectedLanguage: usize = 0,
 

@@ -7,6 +7,7 @@ const windows = std.os.windows;
 
 const dx = @import("d3d11.zig");
 
+const RtpcCarEngineDemo = @import("demos/rtpc_car_engine_demo.zig").RtpcCarEngineDemo;
 const LocalizationDemo = @import("demos/localization_demo.zig").LocalizationDemo;
 const SubtitleDemo = @import("demos/subtitle_demo.zig").SubtitleDemo;
 const NullDemo = @import("demos/demo_interface.zig").NullDemo;
@@ -132,6 +133,10 @@ const AllDemos = [_]DemoData{
     .{
         .displayName = "Localization Demo",
         .instanceType = LocalizationDemo,
+    },
+    .{
+        .displayName = "RTPC Demo (Car Engine)",
+        .instanceType = RtpcCarEngineDemo,
     },
     .{
         .displayName = "Subtitle Demo",

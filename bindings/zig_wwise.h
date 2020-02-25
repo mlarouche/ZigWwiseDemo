@@ -159,6 +159,27 @@ typedef struct ZigAkMusicPlaylistCallbackInfo
 	AkUInt32 uPlaylistItemDone;		///< Playlist node done: set by sound engine, modified by callback function (if set to anything but 0 then the current playlist item is done, and uPlaylistSelection is ignored)
 } ZigAkMusicPlaylistCallbackInfo;
 
+typedef enum ZigAkCurveInterpolation
+{
+//DONT GO BEYOND 15! (see below for details)
+//Curves from 0 to LastFadeCurve NEED TO BE A MIRROR IMAGE AROUND LINEAR (eg. Log3 is the inverse of Exp3)
+    ZigAkCurveInterpolationLog3			= 0, ///< Log3
+    ZigAkCurveInterpolationSine			= 1, ///< Sine
+    ZigAkCurveInterpolationLog1			= 2, ///< Log1
+    ZigAkCurveInterpolationInvSCurve		= 3, ///< Inversed S Curve
+    ZigAkCurveInterpolationLinear			= 4, ///< Linear (Default)
+    ZigAkCurveInterpolationSCurve			= 5, ///< S Curve
+    ZigAkCurveInterpolationExp1			= 6, ///< Exp1
+    ZigAkCurveInterpolationSineRecip		= 7, ///< Reciprocal of sine curve
+    ZigAkCurveInterpolationExp3			= 8, ///< Exp3
+	ZigAkCurveInterpolationLastFadeCurve  = 8, ///< Update this value to reflect last curve available for fades
+	ZigAkCurveInterpolationConstant		= 9  ///< Constant ( not valid for fading values )
+//DONT GO BEYOND 15! The value is stored on 5 bits,
+//but we can use only 4 bits for the actual values, keeping
+//the 5th bit at 0 to void problems when the value is
+//expanded to 32 bits.
+} ZigAkCurveInterpolation;
+
 typedef void(*ZigAkCallbackFunc) (AkUInt32 in_eType, ZigAkCallbackInfo *in_pCallbackInfo);
 
 /* Initialization */
@@ -177,6 +198,11 @@ ZigAKRESULT ZigAk_UnregisterGameObj(AkUInt64 gameObjectID);
 
 AkUInt32 ZigAk_PostEventByString(const char* eventName, AkUInt64 gameObjectID);
 AkUInt32 ZigAk_PostEventByStringCallback(const char* eventName, AkUInt64 gameObjectID, AkUInt32 callbackType, ZigAkCallbackFunc callbackFunction, void* cookie);
+
+ZigAKRESULT ZigAk_SetRTPCValueByString(const char* rtpcName, AkReal32 value, AkUInt64 gameObjectID);
+ZigAKRESULT ZigAk_SetRTPCValueByStringInterpolate(const char* rtpcName, AkReal32 value, AkUInt64 gameObjectID, AkInt32 timeMs, ZigAkCurveInterpolation fadeCurve, bool bypassIntervalValueInterpolation);
+ZigAKRESULT ZigAk_SetRTPCValue(AkUInt32 rtpcID, AkReal32 value, AkUInt64 gameObjectID);
+ZigAKRESULT ZigAk_SetRTPCValueInterpolate(AkUInt32 rtpcID, AkReal32 value, AkUInt64 gameObjectID, AkInt32 timeMs, ZigAkCurveInterpolation fadeCurve, bool bypassIntervalValueInterpolation);
 
 ZigAKRESULT ZigAk_GetSourcePlayPosition(AkUInt32 playingID, AkInt32* outPosition, bool extrapolate);
 

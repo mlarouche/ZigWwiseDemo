@@ -133,6 +133,26 @@ AkUInt32 ZigAk_PostEventByStringCallback(const char* eventName, AkUInt64 gameObj
     return AK::SoundEngine::PostEvent(eventName, gameObjectID, callbackType, (AkCallbackFunc)callbackFunction, cookie);
 }
 
+ZigAKRESULT ZigAk_SetRTPCValueByString(const char* rtpcName, AkReal32 value, AkUInt64 gameObjectID)
+{
+    return (ZigAKRESULT)AK::SoundEngine::SetRTPCValue(rtpcName, value, gameObjectID);
+}
+
+ZigAKRESULT ZigAk_SetRTPCValueByStringInterpolate(const char* rtpcName, AkReal32 value, AkUInt64 gameObjectID, AkInt32 timeMs, ZigAkCurveInterpolation fadeCurve, bool bypassIntervalValueInterpolation)
+{
+    return (ZigAKRESULT)AK::SoundEngine::SetRTPCValue(rtpcName, value, gameObjectID, timeMs, (AkCurveInterpolation)fadeCurve, bypassIntervalValueInterpolation);
+}
+
+ZigAKRESULT ZigAk_SetRTPCValue(AkUInt32 rtpcID, AkReal32 value, AkUInt64 gameObjectID)
+{
+    return (ZigAKRESULT)AK::SoundEngine::SetRTPCValue(rtpcID, value, gameObjectID);
+}
+
+ZigAKRESULT ZigAk_SetRTPCValueInterpolate(AkUInt32 rtpcID, AkReal32 value, AkUInt64 gameObjectID, AkInt32 timeMs, ZigAkCurveInterpolation fadeCurve, bool bypassIntervalValueInterpolation)
+{
+    return (ZigAKRESULT)AK::SoundEngine::SetRTPCValue(rtpcID, value, gameObjectID, timeMs, (AkCurveInterpolation)fadeCurve, bypassIntervalValueInterpolation);
+}
+
 ZigAKRESULT ZigAk_GetSourcePlayPosition(AkUInt32 playingID, AkInt32* outPosition, bool extrapolate)
 {
     return (ZigAKRESULT)AK::SoundEngine::GetSourcePlayPosition(playingID, outPosition, extrapolate);

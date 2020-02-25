@@ -12,6 +12,8 @@ pub const Wwise = struct {
     pub const AkEventCallbackInfo = c.ZigAkEventCallbackInfo;
     pub const AkMarkerCallbackInfo = c.ZigAkMarkerCallbackInfo;
 
+    pub const AkCurveInterpolation = c.ZigAkCurveInterpolation;
+
     pub const InitError = error{
         MemoryManagerFailed,
         StreamManagerFailed,
@@ -120,6 +122,42 @@ pub const Wwise = struct {
         var stackString = StackString.init();
         const nativeEventName = try stackString.toCString(eventName);
         return c.ZigAk_PostEventByStringCallback(nativeEventName, gameObjectID, callbackType, callback, cookie);
+    }
+
+    pub fn setRTPCValueByString(rtpcName: []const u8, value: f32, gameObjectID: u64) !void {
+        var stackString = StackString.init();
+        const nativeRtpcName = try stackString.toCString(rtpcName);
+        return switch (c.ZigAk_SetRTPCValueByString(nativeRtpcName, value, gameObjectID)) {
+            .Success => {},
+            .InvalidFloatValue => error.InvalidFloatValue,
+            else => error.Fail,
+        };
+    }
+
+    pub fn setRTPCValueByStringInterpolate(rtpcName: []const u8, value: f32, gameObjectID: u64, timeMs: i32, fadeCurve: AkCurveInterpolation, bypassIntervalValueInterpolation: bool) !void {
+        var stackString = StackString.init();
+        const nativeRtpcName = try stackString.toCString(rtpcName);
+        return switch (c.ZigAk_SetRTPCValueByStringInterpolate(nativeRtpcName, value, gameObjectID, timeMs, fadeCurve, bypassIntervalValueInterpolation)) {
+            .Success => {},
+            .InvalidFloatValue => error.InvalidFloatValue,
+            else => error.Fail,
+        };
+    }
+
+    pub fn setRTPCValue(rtpcID: u32, value: f32, gameObjectID: u64) !void {
+        return switch (c.ZigAk_SetRTPCValue(rptcID, value, gameObjectID)) {
+            .Success => {},
+            .InvalidFloatValue => error.InvalidFloatValue,
+            else => error.Fail,
+        };
+    }
+
+    pub fn setRTPCValueInterpolate(rtpcID: u32, value: f32, gameObjectID: u64, timeMs: i32, fadeCurve: AkCurveInterpolation, bypassIntervalValueInterpolation: bool) !void {
+        return switch (c.ZigAk_SetRTPCValueInterpolate(rptcID, value, gameObjectID, timeMs, fadeCurve, bypassIntervalValueInterpolation)) {
+            .Success => {},
+            .InvalidFloatValue => error.InvalidFloatValue,
+            else => error.Fail,
+        };
     }
 
     pub fn getSourcePlayPosition(playingId: u32, extrapolate: bool) !i32 {
