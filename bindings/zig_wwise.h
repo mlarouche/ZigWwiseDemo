@@ -182,6 +182,8 @@ ZigAKRESULT ZigAk_GetSourcePlayPosition(AkUInt32 playingID, AkInt32* outPosition
 
 void ZigAk_SetDefaultListeners(const AkUInt64* listeners, AkUInt32 listenersSize);
 
+void ZigAk_StreamMgr_SetCurrentLanguage(const AkOSChar* language);
+
 #ifdef __cplusplus
 }
 #endif

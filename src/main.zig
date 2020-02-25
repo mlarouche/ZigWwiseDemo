@@ -7,6 +7,7 @@ const windows = std.os.windows;
 
 const dx = @import("d3d11.zig");
 
+const LocalizationDemo = @import("demos/localization_demo.zig").LocalizationDemo;
 const SubtitleDemo = @import("demos/subtitle_demo.zig").SubtitleDemo;
 const NullDemo = @import("demos/demo_interface.zig").NullDemo;
 
@@ -122,36 +123,6 @@ fn cleanupRenderTarget() void {
     }
 }
 
-const DemoWindowState = extern struct {
-    showSubtitleDemo: bool = false,
-};
-
-const SubtitleDemoState = struct {
-    subtitleText: [:0]const u8 = undefined,
-    subtitleIndex: u32 = 0,
-    subtitlePosition: u32 = 0,
-    playingID: u32 = 0,
-    allocator: *std.mem.Allocator,
-
-    const Self = @This();
-
-    pub fn init(allocator: *std.mem.Allocator) Self {
-        return Self{
-            .allocator = allocator,
-            .subtitleText = std.mem.dupeZ(allocator, u8, "") catch unreachable,
-        };
-    }
-
-    pub fn deinit(self: *Self) void {
-        self.allocator.free(self.subtitleText);
-    }
-
-    pub fn setSubtitleText(self: *Self, text: [:0]const u8) void {
-        self.allocator.free(self.subtitleText);
-        self.subtitleText = std.mem.dupeZ(self.allocator, u8, text) catch unreachable;
-    }
-};
-
 pub fn main() !void {
     const winClass: win32.WNDCLASSEX = .{
         .cbSize = @sizeOf(win32.WNDCLASSEX),
@@ -252,11 +223,6 @@ pub fn main() !void {
         .w = 1.00,
     };
 
-    var demoState: DemoWindowState = .{};
-
-    var subtitleDemoState = SubtitleDemoState.init(std.heap.c_allocator);
-    defer subtitleDemoState.deinit();
-
     var defaultInstance = try std.heap.c_allocator.create(NullDemo);
     var currentDemo = defaultInstance.getInterface();
     currentDemo.init(std.heap.c_allocator);
@@ -276,6 +242,14 @@ pub fn main() !void {
 
         var isOpen: bool = true;
         _ = ImGui.igBegin("Zig Wwise", &isOpen, ImGui.ImGuiWindowFlags_AlwaysAutoResize);
+
+        if (ImGui.igButton("Localization Demo", .{ .x=0, .y=0})) {
+            currentDemo.deinit();
+            var newDemoInstance = try std.heap.c_allocator.create(LocalizationDemo);
+            currentDemo = newDemoInstance.getInterface();
+            currentDemo.init(std.heap.c_allocator);
+            currentDemo.show();
+        }
 
         if (ImGui.igButton("Subtitle Demo", .{ .x = 0, .y = 0 })) {
             currentDemo.deinit();

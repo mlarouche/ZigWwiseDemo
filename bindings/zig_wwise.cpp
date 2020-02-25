@@ -141,3 +141,8 @@ void ZigAk_SetDefaultListeners(const AkUInt64* listeners, AkUInt32 listenersSize
 {
     AK::SoundEngine::SetDefaultListeners(listeners, listenersSize);
 }
+
+void ZigAk_StreamMgr_SetCurrentLanguage(const AkOSChar* language)
+{
+    AK::StreamMgr::SetCurrentLanguage(language);
+}

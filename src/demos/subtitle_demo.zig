@@ -1,8 +1,7 @@
 const Wwise = @import("../wwise.zig").Wwise;
 const ImGui = @import("../imgui.zig").ImGui;
-const std = @import("std");
-
 const DemoInterface = @import("demo_interface.zig").DemoInterface;
+const std = @import("std");
 
 pub const SubtitleDemo = struct {
     subtitleText: [:0]const u8 = undefined,
@@ -15,19 +14,20 @@ pub const SubtitleDemo = struct {
     bankID: u32 = 0,
 
     const Self = @This();
+    const DemoGameObjectID = 2;
 
     pub fn init(self: *Self, allocator: *std.mem.Allocator) void {
         self.allocator = allocator;
         self.subtitleText = std.mem.dupeZ(self.allocator, u8, "") catch unreachable;
 
         self.bankID = Wwise.loadBankByString("MarkerTest.bnk") catch unreachable;
-        Wwise.registerGameObj(2, "SubtitleDemo") catch unreachable;
+        Wwise.registerGameObj(DemoGameObjectID, "SubtitleDemo") catch unreachable;
     }
 
     pub fn deinit(self: *Self) void {
         Wwise.unloadBankByID(self.bankID);
 
-        Wwise.unregisterGameObj(2);
+        Wwise.unregisterGameObj(DemoGameObjectID);
 
         self.allocator.free(self.subtitleText);
 
@@ -38,7 +38,7 @@ pub const SubtitleDemo = struct {
         _ = ImGui.igBegin("Subtitle Demo", &self.isVisibleState, ImGui.ImGuiWindowFlags_AlwaysAutoResize);
 
         if (ImGui.igButton("Play", .{ .x = 120, .y = 0 })) {
-            self.playingID = try Wwise.postEventWithCallback("Play_Markers_Test", 2, Wwise.AkCallbackType.Marker | Wwise.AkCallbackType.EndOfEvent | Wwise.AkCallbackType.EnableGetSourcePlayPosition, WwiseSubtitleCallback, self);
+            self.playingID = try Wwise.postEventWithCallback("Play_Markers_Test", DemoGameObjectID, Wwise.AkCallbackType.Marker | Wwise.AkCallbackType.EndOfEvent | Wwise.AkCallbackType.EnableGetSourcePlayPosition, WwiseSubtitleCallback, self);
         }
 
         if (!std.mem.eql(u8, self.subtitleText, "")) {

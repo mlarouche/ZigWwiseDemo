@@ -136,6 +136,12 @@ pub const Wwise = struct {
         c.ZigAk_SetDefaultListeners(&listeners[0], @intCast(c_ulong, listeners.len));
     }
 
+    pub fn setCurrentLanguage(language: []const u8) !void {
+        var stackString = StackString.init();
+        const nativeLanguage = try stackString.toOSChar(language);
+        c.ZigAk_StreamMgr_SetCurrentLanguage(nativeLanguage);
+    }
+
     pub const toOSChar = comptime blk: {
         if (builtin.os == .windows) {
             break :blk utf16ToOsChar;
