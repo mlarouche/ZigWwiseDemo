@@ -16,12 +16,13 @@ pub const SubtitleDemo = struct {
     const Self = @This();
     const DemoGameObjectID = 2;
 
-    pub fn init(self: *Self, allocator: *std.mem.Allocator) void {
+    pub fn init(self: *Self, allocator: *std.mem.Allocator) !void {
         self.allocator = allocator;
-        self.subtitleText = std.mem.dupeZ(self.allocator, u8, "") catch unreachable;
+        self.playingID = 0;
+        self.subtitleText = try std.mem.dupeZ(self.allocator, u8, "");
 
-        self.bankID = Wwise.loadBankByString("MarkerTest.bnk") catch unreachable;
-        Wwise.registerGameObj(DemoGameObjectID, "SubtitleDemo") catch unreachable;
+        self.bankID = try Wwise.loadBankByString("MarkerTest.bnk");
+        try Wwise.registerGameObj(DemoGameObjectID, "SubtitleDemo");
     }
 
     pub fn deinit(self: *Self) void {
@@ -37,8 +38,10 @@ pub const SubtitleDemo = struct {
     pub fn onUI(self: *Self) !void {
         _ = ImGui.igBegin("Subtitle Demo", &self.isVisibleState, ImGui.ImGuiWindowFlags_AlwaysAutoResize);
 
-        if (ImGui.igButton("Play", .{ .x = 120, .y = 0 })) {
-            self.playingID = try Wwise.postEventWithCallback("Play_Markers_Test", DemoGameObjectID, Wwise.AkCallbackType.Marker | Wwise.AkCallbackType.EndOfEvent | Wwise.AkCallbackType.EnableGetSourcePlayPosition, WwiseSubtitleCallback, self);
+        if (self.playingID == 0) {
+            if (ImGui.igButton("Play", .{ .x = 120, .y = 0 })) {
+                self.playingID = try Wwise.postEventWithCallback("Play_Markers_Test", DemoGameObjectID, Wwise.AkCallbackType.Marker | Wwise.AkCallbackType.EndOfEvent | Wwise.AkCallbackType.EnableGetSourcePlayPosition, WwiseSubtitleCallback, self);
+            }
         }
 
         if (!std.mem.eql(u8, self.subtitleText, "")) {
@@ -98,6 +101,7 @@ pub const SubtitleDemo = struct {
                 subtitleDemo.setSubtitleText("");
                 subtitleDemo.subtitleIndex = 0;
                 subtitleDemo.subtitlePosition = 0;
+                subtitleDemo.playingID = 0;
             }
         }
     }

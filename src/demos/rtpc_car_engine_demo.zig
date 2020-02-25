@@ -15,15 +15,15 @@ pub const RtpcCarEngineDemo = struct {
     const MinRPMValue = 1000;
     const MaxRPMValue = 10000;
 
-    pub fn init(self: *Self, allocator: *std.mem.Allocator) void {
+    pub fn init(self: *Self, allocator: *std.mem.Allocator) !void {
         self.allocator = allocator;
 
         self.rpmValue = MinRPMValue;
 
-        self.bankID = Wwise.loadBankByString("Car.bnk") catch unreachable;
-        Wwise.registerGameObj(DemoGameObjectID, "Car") catch unreachable;
+        self.bankID = try Wwise.loadBankByString("Car.bnk");
+        try Wwise.registerGameObj(DemoGameObjectID, "Car");
 
-        Wwise.setRTPCValueByString("RPM", @intToFloat(f32, self.rpmValue), DemoGameObjectID) catch unreachable;
+        try Wwise.setRTPCValueByString("RPM", @intToFloat(f32, self.rpmValue), DemoGameObjectID);
     }
 
     pub fn deinit(self: *Self) void {

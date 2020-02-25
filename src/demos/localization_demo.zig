@@ -14,15 +14,15 @@ pub const LocalizationDemo = struct {
 
     const Languages = &[_][]const u8{ "English(US)", "French(Canada)" };
 
-    pub fn init(self: *Self, allocator: *std.mem.Allocator) void {
+    pub fn init(self: *Self, allocator: *std.mem.Allocator) !void {
         self.allocator = allocator;
 
         self.currentSelectedLanguage = 0;
 
-        Wwise.setCurrentLanguage(Languages[0]) catch unreachable;
+        try Wwise.setCurrentLanguage(Languages[0]);
 
-        self.bankID = Wwise.loadBankByString("Human.bnk") catch unreachable;
-        Wwise.registerGameObj(DemoGameObjectID, "LocalizationDemo") catch unreachable;
+        self.bankID = try Wwise.loadBankByString("Human.bnk");
+        try Wwise.registerGameObj(DemoGameObjectID, "LocalizationDemo");
     }
 
     pub fn deinit(self: *Self) void {

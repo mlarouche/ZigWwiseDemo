@@ -246,7 +246,8 @@ pub fn main() !void {
 
     var defaultInstance = try std.heap.c_allocator.create(NullDemo);
     var currentDemo = defaultInstance.getInterface();
-    currentDemo.init(std.heap.c_allocator);
+
+    try currentDemo.init(std.heap.c_allocator);
     defer currentDemo.deinit();
 
     var msg: win32.MSG = std.mem.zeroes(win32.MSG);
@@ -269,7 +270,7 @@ pub fn main() !void {
                 currentDemo.deinit();
                 var newDemoInstance = try std.heap.c_allocator.create(demoData.instanceType);
                 currentDemo = newDemoInstance.getInterface();
-                currentDemo.init(std.heap.c_allocator);
+                try currentDemo.init(std.heap.c_allocator);
                 currentDemo.show();
             }
         }

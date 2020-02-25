@@ -9,7 +9,7 @@ pub const DemoInterface = struct {
     showFn: ShowFn,
 
     pub const InstanceType = *u8;
-    pub const InitFn = fn (instance: InstanceType, allocator: *std.mem.Allocator) void;
+    pub const InitFn = fn (instance: InstanceType, allocator: *std.mem.Allocator) anyerror!void;
     pub const DeinitFn = fn (instance: InstanceType) void;
     pub const OnUIFn = fn (instance: InstanceType) anyerror!void;
     pub const IsVisibleFn = fn (instance: InstanceType) bool;
@@ -17,15 +17,15 @@ pub const DemoInterface = struct {
 
     const Self = @This();
 
-    pub fn init(self: *Self, allocator: *std.mem.Allocator) void {
-        self.initFn(self.instance, allocator);
+    pub fn init(self: *Self, allocator: *std.mem.Allocator) anyerror!void {
+        return self.initFn(self.instance, allocator);
     }
 
     pub fn deinit(self: *Self) void {
         self.deinitFn(self.instance);
     }
 
-    pub fn onUI(self: *Self) !void {
+    pub fn onUI(self: *Self) anyerror!void {
         return self.onUIFn(self.instance);
     }
 
@@ -43,7 +43,7 @@ pub const NullDemo = struct {
 
     const Self = @This();
 
-    pub fn init(self: *Self, allocator: *std.mem.Allocator) void {
+    pub fn init(self: *Self, allocator: *std.mem.Allocator) anyerror!void {
         self.allocator = allocator;
     }
 
