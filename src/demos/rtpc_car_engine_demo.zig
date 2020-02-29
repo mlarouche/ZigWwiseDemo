@@ -35,25 +35,29 @@ pub const RtpcCarEngineDemo = struct {
     }
 
     pub fn onUI(self: *Self) !void {
-        _ = ImGui.igBegin("RTPC Demo (Car Engine)", &self.isVisibleState, ImGui.ImGuiWindowFlags_AlwaysAutoResize);
+        if (ImGui.igBegin("RTPC Demo (Car Engine)", &self.isVisibleState, ImGui.ImGuiWindowFlags_AlwaysAutoResize)) {
+            const buttonText = if (self.isPlaying) "Stop Engine" else "Start Engine";
 
-        const buttonText = if (self.isPlaying) "Stop Engine" else "Start Engine";
-
-        if (ImGui.igButton(buttonText, .{ .x = 0, .y = 0 })) {
-            if (self.isPlaying) {
-                _ = try Wwise.postEvent("Stop_Engine", DemoGameObjectID);
-                self.isPlaying = false;
-            } else {
-                _ = try Wwise.postEvent("Play_Engine", DemoGameObjectID);
-                self.isPlaying = true;
+            if (ImGui.igButton(buttonText, .{ .x = 0, .y = 0 })) {
+                if (self.isPlaying) {
+                    _ = try Wwise.postEvent("Stop_Engine", DemoGameObjectID);
+                    self.isPlaying = false;
+                } else {
+                    _ = try Wwise.postEvent("Play_Engine", DemoGameObjectID);
+                    self.isPlaying = true;
+                }
             }
+
+            if (ImGui.igSliderInt("RPM", &self.rpmValue, MinRPMValue, MaxRPMValue, "%u")) {
+                try Wwise.setRTPCValueByString("RPM", @intToFloat(f32, self.rpmValue), DemoGameObjectID);
+            }
+
+            ImGui.igEnd();
         }
 
-        if (ImGui.igSliderInt("RPM", &self.rpmValue, MinRPMValue, MaxRPMValue, "%u")) {
-            try Wwise.setRTPCValueByString("RPM", @intToFloat(f32, self.rpmValue), DemoGameObjectID);
+        if (!self.isVisibleState) {
+            Wwise.stopAllOnGameObject(DemoGameObjectID);
         }
-
-        ImGui.igEnd();
     }
 
     pub fn isVisible(self: *Self) bool {

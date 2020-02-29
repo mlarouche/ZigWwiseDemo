@@ -158,6 +158,16 @@ ZigAKRESULT ZigAk_GetSourcePlayPosition(AkUInt32 playingID, AkInt32* outPosition
     return (ZigAKRESULT)AK::SoundEngine::GetSourcePlayPosition(playingID, outPosition, extrapolate);
 }
 
+void ZigAk_StopPlayingID(AkUInt32 playingID, AkInt32 transitionDuration, ZigAkCurveInterpolation fadeCurve)
+{
+    AK::SoundEngine::StopPlayingID(playingID, transitionDuration, (AkCurveInterpolation)fadeCurve);
+}
+
+void ZigAk_StopAll(AkUInt64 gameObjectID)
+{
+    AK::SoundEngine::StopAll(gameObjectID);
+}
+
 void ZigAk_SetDefaultListeners(const AkUInt64* listeners, AkUInt32 listenersSize)
 {
     AK::SoundEngine::SetDefaultListeners(listeners, listenersSize);

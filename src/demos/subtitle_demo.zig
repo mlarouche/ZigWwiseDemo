@@ -37,26 +37,31 @@ pub const SubtitleDemo = struct {
     }
 
     pub fn onUI(self: *Self) !void {
-        _ = ImGui.igBegin("Subtitle Demo", &self.isVisibleState, ImGui.ImGuiWindowFlags_AlwaysAutoResize);
+        if (ImGui.igBegin("Subtitle Demo", &self.isVisibleState, ImGui.ImGuiWindowFlags_AlwaysAutoResize)) {
+            if (ImGui.igButton("Play", .{ .x = 120, .y = 0 })) {
+                self.playingID = try Wwise.postEventWithCallback("Play_Markers_Test", DemoGameObjectID, Wwise.AkCallbackType.Marker | Wwise.AkCallbackType.EndOfEvent | Wwise.AkCallbackType.EnableGetSourcePlayPosition, WwiseSubtitleCallback, self);
+            }
 
-        if (ImGui.igButton("Play", .{ .x = 120, .y = 0 })) {
-            self.playingID = try Wwise.postEventWithCallback("Play_Markers_Test", DemoGameObjectID, Wwise.AkCallbackType.Marker | Wwise.AkCallbackType.EndOfEvent | Wwise.AkCallbackType.EnableGetSourcePlayPosition, WwiseSubtitleCallback, self);
+            if (!std.mem.eql(u8, self.subtitleText, "")) {
+                const cuePosText = try std.fmt.allocPrint0(self.allocator, "Cue #{}, Sample #{}", .{ self.subtitleIndex, self.subtitlePosition });
+                defer self.allocator.free(cuePosText);
+
+                const playPosition = Wwise.getSourcePlayPosition(self.playingID, true) catch 0;
+                const playPositionText = try std.fmt.allocPrint0(self.allocator, "Time: {} ms", .{playPosition});
+                defer self.allocator.free(playPositionText);
+
+                ImGui.igText(cuePosText);
+                ImGui.igText(playPositionText);
+                ImGui.igText(self.subtitleText);
+            }
+
+            ImGui.igEnd();
         }
 
-        if (!std.mem.eql(u8, self.subtitleText, "")) {
-            const cuePosText = try std.fmt.allocPrint0(self.allocator, "Cue #{}, Sample #{}", .{ self.subtitleIndex, self.subtitlePosition });
-            defer self.allocator.free(cuePosText);
-
-            const playPosition = Wwise.getSourcePlayPosition(self.playingID, true) catch 0;
-            const playPositionText = try std.fmt.allocPrint0(self.allocator, "Time: {} ms", .{playPosition});
-            defer self.allocator.free(playPositionText);
-
-            ImGui.igText(cuePosText);
-            ImGui.igText(playPositionText);
-            ImGui.igText(self.subtitleText);
+        if (!self.isVisibleState) {
+            Wwise.stopAllOnGameObject(DemoGameObjectID);
+            self.playingID = 0;
         }
-
-        ImGui.igEnd();
     }
 
     pub fn isVisible(self: *Self) bool {

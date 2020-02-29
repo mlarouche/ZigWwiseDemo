@@ -14,6 +14,8 @@ pub const Wwise = struct {
 
     pub const AkCurveInterpolation = c.ZigAkCurveInterpolation;
 
+    pub const InvalidGameObject = @bitCast(u64, @as(i64, -1));
+
     pub const InitError = error{
         MemoryManagerFailed,
         StreamManagerFailed,
@@ -170,6 +172,22 @@ pub const Wwise = struct {
         };
     }
 
+    pub fn stopPlayingID(playingId: u32) void {
+        stopPlayingIDWithTransition(playingId, 0, AkCurveInterpolation.Linear);
+    }
+
+    pub fn stopPlayingIDWithTransition(playingId: u32, timeMs: i32, fadeCurve: AkCurveInterpolation) void {
+        c.ZigAk_StopPlayingID(playingId, timeMs, fadeCurve);
+    }
+
+    pub fn stopAllOnGameObject(gameObjectID: u64) void {
+        c.ZigAk_StopAll(gameObjectID);
+    }
+
+    pub fn stopAll() void {
+        c.ZigAk_StopAll(InvalidGameObject);
+    }
+
     pub fn setDefaultListeners(listeners: []const u64) void {
         c.ZigAk_SetDefaultListeners(&listeners[0], @intCast(c_ulong, listeners.len));
     }
@@ -181,7 +199,7 @@ pub const Wwise = struct {
     }
 
     pub const toOSChar = comptime blk: {
-        if (builtin.os == .windows) {
+        if (builtin.os.tag == .windows) {
             break :blk utf16ToOsChar;
         } else {
             break :blk utf8ToOsChar;

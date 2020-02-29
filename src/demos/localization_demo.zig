@@ -34,40 +34,44 @@ pub const LocalizationDemo = struct {
     }
 
     pub fn onUI(self: *Self) !void {
-        _ = ImGui.igBegin("Localization Demo", &self.isVisibleState, ImGui.ImGuiWindowFlags_AlwaysAutoResize);
-
-        if (ImGui.igButton("Say \"Hello\"", .{ .x = 0, .y = 0 })) {
-            _ = try Wwise.postEvent("Play_Hello", DemoGameObjectID);
-        }
-
-        const firstLanguage = try std.cstr.addNullByte(self.allocator, Languages[self.currentSelectedLanguage]);
-        defer self.allocator.free(firstLanguage);
-
-        if (ImGui.igBeginCombo("Language", firstLanguage, 0)) {
-            for (Languages) |lang, i| {
-                const is_selected = (self.currentSelectedLanguage == i);
-
-                const cLang = try std.cstr.addNullByte(self.allocator, lang);
-                defer self.allocator.free(cLang);
-
-                if (ImGui.igSelectable(cLang, is_selected, 0, .{ .x = 0, .y = 0 })) {
-                    self.currentSelectedLanguage = i;
-
-                    try Wwise.setCurrentLanguage(Languages[self.currentSelectedLanguage]);
-
-                    Wwise.unloadBankByID(self.bankID);
-                    self.bankID = try Wwise.loadBankByString("Human.bnk");
-                }
-
-                if (is_selected) {
-                    ImGui.igSetItemDefaultFocus();
-                }
+        if (ImGui.igBegin("Localization Demo", &self.isVisibleState, ImGui.ImGuiWindowFlags_AlwaysAutoResize)) {
+            if (ImGui.igButton("Say \"Hello\"", .{ .x = 0, .y = 0 })) {
+                _ = try Wwise.postEvent("Play_Hello", DemoGameObjectID);
             }
 
-            ImGui.igEndCombo();
+            const firstLanguage = try std.cstr.addNullByte(self.allocator, Languages[self.currentSelectedLanguage]);
+            defer self.allocator.free(firstLanguage);
+
+            if (ImGui.igBeginCombo("Language", firstLanguage, 0)) {
+                for (Languages) |lang, i| {
+                    const is_selected = (self.currentSelectedLanguage == i);
+
+                    const cLang = try std.cstr.addNullByte(self.allocator, lang);
+                    defer self.allocator.free(cLang);
+
+                    if (ImGui.igSelectable(cLang, is_selected, 0, .{ .x = 0, .y = 0 })) {
+                        self.currentSelectedLanguage = i;
+
+                        try Wwise.setCurrentLanguage(Languages[self.currentSelectedLanguage]);
+
+                        Wwise.unloadBankByID(self.bankID);
+                        self.bankID = try Wwise.loadBankByString("Human.bnk");
+                    }
+
+                    if (is_selected) {
+                        ImGui.igSetItemDefaultFocus();
+                    }
+                }
+
+                ImGui.igEndCombo();
+            }
+
+            ImGui.igEnd();
         }
 
-        ImGui.igEnd();
+        if (!self.isVisibleState) {
+            Wwise.stopAllOnGameObject(DemoGameObjectID);
+        }
     }
 
     pub fn isVisible(self: *Self) bool {

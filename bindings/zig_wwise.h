@@ -206,6 +206,9 @@ ZigAKRESULT ZigAk_SetRTPCValueInterpolate(AkUInt32 rtpcID, AkReal32 value, AkUIn
 
 ZigAKRESULT ZigAk_GetSourcePlayPosition(AkUInt32 playingID, AkInt32* outPosition, bool extrapolate);
 
+void ZigAk_StopPlayingID(AkUInt32 playingID, AkInt32 transitionDuration, ZigAkCurveInterpolation fadeCurve);
+void ZigAk_StopAll(AkUInt64 gameObjectID);
+
 void ZigAk_SetDefaultListeners(const AkUInt64* listeners, AkUInt32 listenersSize);
 
 void ZigAk_StreamMgr_SetCurrentLanguage(const AkOSChar* language);
