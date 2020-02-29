@@ -10,7 +10,6 @@ pub const SubtitleDemo = struct {
     playingID: u32 = 0,
     allocator: *std.mem.Allocator = undefined,
     isVisibleState: bool = false,
-    gameObjectID: u64 = 0,
     bankID: u32 = 0,
 
     const Self = @This();
@@ -19,6 +18,8 @@ pub const SubtitleDemo = struct {
     pub fn init(self: *Self, allocator: *std.mem.Allocator) !void {
         self.allocator = allocator;
         self.playingID = 0;
+        self.subtitleIndex = 0;
+        self.subtitlePosition = 0;
         self.subtitleText = try std.mem.dupeZ(self.allocator, u8, "");
 
         self.bankID = try Wwise.loadBankByString("MarkerTest.bnk");
@@ -38,17 +39,15 @@ pub const SubtitleDemo = struct {
     pub fn onUI(self: *Self) !void {
         _ = ImGui.igBegin("Subtitle Demo", &self.isVisibleState, ImGui.ImGuiWindowFlags_AlwaysAutoResize);
 
-        if (self.playingID == 0) {
-            if (ImGui.igButton("Play", .{ .x = 120, .y = 0 })) {
-                self.playingID = try Wwise.postEventWithCallback("Play_Markers_Test", DemoGameObjectID, Wwise.AkCallbackType.Marker | Wwise.AkCallbackType.EndOfEvent | Wwise.AkCallbackType.EnableGetSourcePlayPosition, WwiseSubtitleCallback, self);
-            }
+        if (ImGui.igButton("Play", .{ .x = 120, .y = 0 })) {
+            self.playingID = try Wwise.postEventWithCallback("Play_Markers_Test", DemoGameObjectID, Wwise.AkCallbackType.Marker | Wwise.AkCallbackType.EndOfEvent | Wwise.AkCallbackType.EnableGetSourcePlayPosition, WwiseSubtitleCallback, self);
         }
 
         if (!std.mem.eql(u8, self.subtitleText, "")) {
             const cuePosText = try std.fmt.allocPrint0(self.allocator, "Cue #{}, Sample #{}", .{ self.subtitleIndex, self.subtitlePosition });
             defer self.allocator.free(cuePosText);
 
-            const playPosition = try Wwise.getSourcePlayPosition(self.playingID, true);
+            const playPosition = Wwise.getSourcePlayPosition(self.playingID, true) catch 0;
             const playPositionText = try std.fmt.allocPrint0(self.allocator, "Time: {} ms", .{playPosition});
             defer self.allocator.free(playPositionText);
 
