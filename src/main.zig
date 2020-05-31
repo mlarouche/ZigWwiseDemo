@@ -7,10 +7,31 @@ const windows = std.os.windows;
 
 const dx = @import("d3d11.zig");
 
-const RtpcCarEngineDemo = @import("demos/rtpc_car_engine_demo.zig").RtpcCarEngineDemo;
-const LocalizationDemo = @import("demos/localization_demo.zig").LocalizationDemo;
-const SubtitleDemo = @import("demos/subtitle_demo.zig").SubtitleDemo;
 const NullDemo = @import("demos/demo_interface.zig").NullDemo;
+
+const DemoData = struct {
+    displayName: [:0]const u8,
+    instanceType: type,
+};
+
+const AllDemos = [_]DemoData{
+    .{
+        .displayName = "Localization Demo",
+        .instanceType = @import("demos/localization_demo.zig").LocalizationDemo,
+    },
+    .{
+        .displayName = "RTPC Demo (Car Engine)",
+        .instanceType = @import("demos/rtpc_car_engine_demo.zig").RtpcCarEngineDemo,
+    },
+    .{
+        .displayName = "Footsteps Demo",
+        .instanceType = @import("demos/footsteps_demo.zig").FootstepsDemo,
+    },
+    .{
+        .displayName = "Subtitle Demo",
+        .instanceType = @import("demos/subtitle_demo.zig").SubtitleDemo,
+    },
+};
 
 const DxContext = struct {
     device: ?*dx.ID3D11Device = null,
@@ -124,26 +145,6 @@ fn cleanupRenderTarget() void {
     }
 }
 
-const DemoData = struct {
-    displayName: [:0]const u8,
-    instanceType: type,
-};
-
-const AllDemos = [_]DemoData{
-    .{
-        .displayName = "Localization Demo",
-        .instanceType = LocalizationDemo,
-    },
-    .{
-        .displayName = "RTPC Demo (Car Engine)",
-        .instanceType = RtpcCarEngineDemo,
-    },
-    .{
-        .displayName = "Subtitle Demo",
-        .instanceType = SubtitleDemo,
-    },
-};
-
 pub fn main() !void {
     const winClass: win32.WNDCLASSEX = .{
         .cbSize = @sizeOf(win32.WNDCLASSEX),
@@ -213,7 +214,9 @@ pub fn main() !void {
     try Wwise.setIOHookBasePath(soundBanksPath);
 
     const loadBankID = try Wwise.loadBankByString("Init.bnk");
-    defer Wwise.unloadBankByID(loadBankID);
+    defer {
+        _ = Wwise.unloadBankByID(loadBankID);
+    }
 
     try Wwise.registerGameObj(1, "Listener");
     defer Wwise.unregisterGameObj(1);

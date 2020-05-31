@@ -26,7 +26,7 @@ pub const LocalizationDemo = struct {
     }
 
     pub fn deinit(self: *Self) void {
-        Wwise.unloadBankByID(self.bankID);
+        _ = Wwise.unloadBankByID(self.bankID);
 
         Wwise.unregisterGameObj(DemoGameObjectID);
 
@@ -54,7 +54,7 @@ pub const LocalizationDemo = struct {
 
                         try Wwise.setCurrentLanguage(Languages[self.currentSelectedLanguage]);
 
-                        Wwise.unloadBankByID(self.bankID);
+                        _ = Wwise.unloadBankByID(self.bankID);
                         self.bankID = try Wwise.loadBankByString("Human.bnk");
                     }
 

@@ -27,7 +27,7 @@ pub const RtpcCarEngineDemo = struct {
     }
 
     pub fn deinit(self: *Self) void {
-        Wwise.unloadBankByID(self.bankID);
+        _ = Wwise.unloadBankByID(self.bankID);
 
         Wwise.unregisterGameObj(DemoGameObjectID);
 

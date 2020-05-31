@@ -90,8 +90,23 @@ pub const Wwise = struct {
         }
     }
 
-    pub fn unloadBankByID(bankID: u32) void {
-        _ = c.ZigAk_UnloadBankByID(bankID, null);
+    pub fn unloadBankByID(bankID: u32) bool {
+        const result = c.ZigAk_UnloadBankByID(bankID, null);
+        return switch (result) {
+            .Success => return true,
+            else => return false,
+        };
+    }
+
+    pub fn unloadBankByString(bankName: []const u8) !void {
+        var stackString = StackString.init();
+        const nativeBankName = try stackString.toOSChar(bankName);
+        var bankID: u32 = 0;
+        const result = c.ZigAk_UnloadBankByString(nativeBankName);
+        switch (result) {
+            .Success => return,
+            else => return error.Fail,
+        }
     }
 
     pub fn registerGameObj(gameObjectID: u64, objectName: ?[]const u8) !void {
@@ -196,6 +211,16 @@ pub const Wwise = struct {
         var stackString = StackString.init();
         const nativeLanguage = try stackString.toOSChar(language);
         c.ZigAk_StreamMgr_SetCurrentLanguage(nativeLanguage);
+    }
+
+    pub fn setSwitchByID(group: u32, value: u32, game_object: u64) void {
+        c.ZigAk_SetSwitchByID(group, value, game_object);
+    }
+
+    pub fn getIDFromString(input: []const u8) !u32 {
+        var stackString = StackString.init();
+        const nativeInput = try stackString.toCString(input);
+        return c.ZigAk_GetIDFromString(nativeInput);
     }
 
     pub const toOSChar = comptime blk: {

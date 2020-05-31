@@ -27,7 +27,7 @@ pub const SubtitleDemo = struct {
     }
 
     pub fn deinit(self: *Self) void {
-        Wwise.unloadBankByID(self.bankID);
+        _ = Wwise.unloadBankByID(self.bankID);
 
         Wwise.unregisterGameObj(DemoGameObjectID);
 
@@ -94,7 +94,7 @@ pub const SubtitleDemo = struct {
                 var subtitleDemo = @ptrCast(*SubtitleDemo, @alignCast(8, cookie));
                 var markerCallback = @ptrCast(*Wwise.AkMarkerCallbackInfo, callbackInfo);
 
-                subtitleDemo.setSubtitleText(std.mem.toSliceConst(u8, markerCallback.strLabel));
+                subtitleDemo.setSubtitleText(std.mem.spanZ(markerCallback.strLabel));
                 subtitleDemo.subtitleIndex = markerCallback.uIdentifier;
                 subtitleDemo.subtitlePosition = markerCallback.uPosition;
             }
