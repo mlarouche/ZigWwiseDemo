@@ -74,7 +74,7 @@ fn comFindVtableType(comptime parentType: type) type {
     return void;
 }
 
-fn comCall(self: var, comptime name: []const u8, args: var) comFindReturnType(comFindVtableType(@TypeOf(self)), name) {
+fn comCall(self: anytype, comptime name: []const u8, args: anytype) comFindReturnType(comFindVtableType(@TypeOf(self)), name) {
     if (@field(self.lpVtbl[0], name)) |func| {
         return @call(.{}, func, .{self} ++ args);
     }
@@ -330,7 +330,7 @@ pub fn WndProc(hWnd: win32.HWND, msg: win32.UINT, wParam: win32.WPARAM, lParam: 
     return win32.DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
-pub export fn WinMain(hInstance: ?win32.HINSTANCE, hPrevInstance: ?win32.HINSTANCE, lpCmdLine: ?win32.LPWSTR, nShowCmd: win32.INT) callconv(.Stdcall) win32.INT {
+pub export fn WinMain(hInstance: ?win32.HINSTANCE, hPrevInstance: ?win32.HINSTANCE, lpCmdLine: ?win32.LPWSTR, nShowCmd: win32.INT) win32.INT {
     main() catch unreachable;
 
     return 0;

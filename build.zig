@@ -1,10 +1,15 @@
+const std = @import("std");
 const Builder = @import("std").build.Builder;
 
-pub fn build(b: *Builder) void {
+pub fn build(b: *Builder) !void {
+    const target = try std.zig.CrossTarget.parse(.{
+        .arch_os_abi = "native-native-msvc",
+    });
+
     const mode = b.standardReleaseOptions();
 
     const bindings = b.addStaticLibrary("wwiseBindings", null);
-    bindings.linkSystemLibrary("c");
+    bindings.linkLibC();
     bindings.linkSystemLibrary("AkSoundEngine");
     bindings.linkSystemLibrary("AkStreamMgr");
     bindings.linkSystemLibrary("AkMemoryMgr");
@@ -19,6 +24,7 @@ pub fn build(b: *Builder) void {
     bindings.addIncludeDir("bindings/IOHook/Win32");
     bindings.addIncludeDir("WwiseSDK/include");
     bindings.addLibPath("WwiseSDK/x64_vc150/Profile(StaticCRT)/lib");
+    bindings.setTarget(target);
 
     const bindingsSources = &[_][]const u8{
         "bindings/zig_wwise.cpp",
@@ -32,7 +38,8 @@ pub fn build(b: *Builder) void {
     }
 
     const imgui = b.addStaticLibrary("zigimgui", null);
-    imgui.linkSystemLibrary("c");
+    imgui.linkLibC();
+    imgui.setTarget(target);
 
     const imguiSources = &[_][]const u8{
         "imgui/cimgui.cpp",
@@ -48,6 +55,7 @@ pub fn build(b: *Builder) void {
     }
 
     const exe = b.addExecutable("wwiseZig", "src/main.zig");
+    exe.setTarget(target);
     exe.setBuildMode(mode);
     exe.addIncludeDir("bindings");
     exe.addIncludeDir("imgui");
@@ -55,7 +63,7 @@ pub fn build(b: *Builder) void {
     exe.addLibPath("WwiseSDK/x64_vc150/Profile(StaticCRT)/lib");
     exe.linkLibrary(bindings);
     exe.linkLibrary(imgui);
-    exe.linkSystemLibrary("c");
+    exe.linkLibC();
     exe.linkSystemLibrary("D3D11");
     exe.linkSystemLibrary("dxguid");
     exe.install();
