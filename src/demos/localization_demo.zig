@@ -4,7 +4,7 @@ const DemoInterface = @import("demo_interface.zig").DemoInterface;
 const std = @import("std");
 
 pub const LocalizationDemo = struct {
-    allocator: *std.mem.Allocator = undefined,
+    allocator: std.mem.Allocator = undefined,
     isVisibleState: bool = false,
     bankID: u32 = 0,
     currentSelectedLanguage: usize = 0,
@@ -14,7 +14,7 @@ pub const LocalizationDemo = struct {
 
     const Languages = &[_][]const u8{ "English(US)", "French(Canada)" };
 
-    pub fn init(self: *Self, allocator: *std.mem.Allocator) !void {
+    pub fn init(self: *Self, allocator: std.mem.Allocator) !void {
         self.allocator = allocator;
 
         self.currentSelectedLanguage = 0;

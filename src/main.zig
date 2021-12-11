@@ -2,12 +2,16 @@ const std = @import("std");
 const Wwise = @import("wwise.zig").Wwise;
 const ImGui = @import("imgui.zig").ImGui;
 
-const win32 = @import("win32.zig");
-const windows = std.os.windows;
+const zigwin32 = @import("zigwin32");
+const win32 = zigwin32.everything;
 
-const dx = @import("d3d11.zig");
+const d3d = zigwin32.graphics.direct3d;
+const d3d11 = zigwin32.graphics.direct3d11;
+const dxgi = zigwin32.graphics.dxgi;
 
 const NullDemo = @import("demos/demo_interface.zig").NullDemo;
+
+const L = std.unicode.utf8ToUtf16LeStringLiteral;
 
 const DemoData = struct {
     displayName: [:0]const u8,
@@ -34,77 +38,36 @@ const AllDemos = [_]DemoData{
 };
 
 const DxContext = struct {
-    device: ?*dx.ID3D11Device = null,
-    deviceContext: ?*dx.ID3D11DeviceContext = null,
-    swapChain: ?*dx.IDXGISwapChain = null,
-    mainRenderTargetView: ?*dx.ID3D11RenderTargetView = null,
+    device: ?*d3d11.ID3D11Device = null,
+    deviceContext: ?*d3d11.ID3D11DeviceContext = null,
+    swapChain: ?*dxgi.IDXGISwapChain = null,
+    mainRenderTargetView: ?*d3d11.ID3D11RenderTargetView = null,
 };
 
 var dxContext: DxContext = undefined;
 
-fn comFindReturnType(comptime vTableType: type, comptime name: []const u8) type {
-    for (@typeInfo(vTableType).Struct.fields) |field| {
-        if (std.mem.eql(u8, field.name, name)) {
-            const funcType = @typeInfo(@typeInfo(field.field_type).Optional.child);
-            return funcType.Fn.return_type.?;
-        }
-    }
-    return void;
-}
-
-fn comFindVtableType(comptime parentType: type) type {
-    switch (@typeInfo(parentType)) {
-        .Struct => |structInfo| {
-            for (structInfo.fields) |field| {
-                if (std.mem.eql(u8, field.name, "lpVtbl")) {
-                    return @typeInfo(field.field_type).Pointer.child;
-                }
-            }
-        },
-        .Pointer => |pointerInfo| {
-            for (@typeInfo(pointerInfo.child).Struct.fields) |field| {
-                if (std.mem.eql(u8, field.name, "lpVtbl")) {
-                    return @typeInfo(field.field_type).Pointer.child;
-                }
-            }
-        },
-        else => {},
-    }
-
-    return void;
-}
-
-fn comCall(self: anytype, comptime name: []const u8, args: anytype) comFindReturnType(comFindVtableType(@TypeOf(self)), name) {
-    if (@field(self.lpVtbl[0], name)) |func| {
-        return @call(.{}, func, .{self} ++ args);
-    }
-
-    return undefined;
-}
-
-fn createDeviceD3D(hWnd: win32.HWND) bool {
-    var sd = std.mem.zeroes(dx.DXGI_SWAP_CHAIN_DESC);
+fn createDeviceD3D(hWnd: ?win32.HWND) bool {
+    var sd = std.mem.zeroes(dxgi.DXGI_SWAP_CHAIN_DESC);
     sd.BufferCount = 2;
     sd.BufferDesc.Width = 0;
     sd.BufferDesc.Height = 0;
-    sd.BufferDesc.Format = ._R8G8B8A8_UNORM;
+    sd.BufferDesc.Format = .R8G8B8A8_UNORM;
     sd.BufferDesc.RefreshRate.Numerator = 60;
     sd.BufferDesc.RefreshRate.Denominator = 1;
-    sd.Flags = dx.DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-    sd.BufferUsage = dx.DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    sd.OutputWindow = @ptrCast(dx.HWND, hWnd);
+    sd.Flags = @enumToInt(dxgi.DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
+    sd.BufferUsage = dxgi.DXGI_USAGE_RENDER_TARGET_OUTPUT;
+    sd.OutputWindow = hWnd;
     sd.SampleDesc.Count = 1;
     sd.SampleDesc.Quality = 0;
-    sd.Windowed = win32.TRUE;
-    sd.SwapEffect = ._DISCARD;
+    sd.Windowed = @boolToInt(true);
+    sd.SwapEffect = .DISCARD;
 
-    var createDeviceFlags: win32.UINT = 0;
-    var featureLevel: dx.D3D_FEATURE_LEVEL = undefined;
-    const featureLevelArray = &[_]dx.D3D_FEATURE_LEVEL{
-        ._11_0,
-        ._10_0,
+    var featureLevel: d3d.D3D_FEATURE_LEVEL = undefined;
+    const featureLevelArray = &[_]d3d.D3D_FEATURE_LEVEL{
+        .@"11_0",
+        .@"10_0",
     };
-    if (dx.D3D11CreateDeviceAndSwapChain(null, ._HARDWARE, null, createDeviceFlags, featureLevelArray, 2, dx.D3D11_SDK_VERSION, &sd, &dxContext.swapChain, &dxContext.device, &featureLevel, &dxContext.deviceContext) != dx.S_OK)
+    if (d3d11.D3D11CreateDeviceAndSwapChain(null, .HARDWARE, null, d3d11.D3D11_CREATE_DEVICE_FLAG.initFlags(.{}), featureLevelArray, 2, d3d11.D3D11_SDK_VERSION, &sd, &dxContext.swapChain, &dxContext.device, &featureLevel, &dxContext.deviceContext) != win32.S_OK)
         return false;
 
     createRenderTarget();
@@ -113,61 +76,61 @@ fn createDeviceD3D(hWnd: win32.HWND) bool {
 }
 
 fn createRenderTarget() void {
-    var pBackBuffer: ?*dx.ID3D11Texture2D = null;
+    var pBackBuffer: ?*d3d11.ID3D11Texture2D = null;
     if (dxContext.swapChain) |swapChain| {
-        _ = comCall(swapChain, "GetBuffer", .{ 0, &dx.IID_ID3D11Texture2D, @ptrCast([*c]?*c_void, &pBackBuffer) });
+        _ = swapChain.IDXGISwapChain_GetBuffer(0, d3d11.IID_ID3D11Texture2D, @ptrCast(?*?*c_void, &pBackBuffer));
     }
     if (dxContext.device) |device| {
-        _ = comCall(device, "CreateRenderTargetView", .{ @ptrCast([*c]dx.struct_ID3D11Resource, pBackBuffer), null, @ptrCast([*c][*c]dx.struct_ID3D11RenderTargetView, &dxContext.mainRenderTargetView) });
+        _ = device.ID3D11Device_CreateRenderTargetView(@ptrCast(?*d3d11.ID3D11Resource, pBackBuffer), null, @ptrCast(?*?*d3d11.ID3D11RenderTargetView, &dxContext.mainRenderTargetView));
     }
     if (pBackBuffer) |backBuffer| {
-        _ = comCall(backBuffer, "Release", .{});
+        _ = backBuffer.IUnknown_Release();
     }
 }
 
 fn cleanupDeviceD3D() void {
     cleanupRenderTarget();
     if (dxContext.swapChain) |swapChain| {
-        _ = comCall(swapChain, "Release", .{});
+        _ = swapChain.IUnknown_Release();
     }
     if (dxContext.deviceContext) |deviceContext| {
-        _ = comCall(deviceContext, "Release", .{});
+        _ = deviceContext.IUnknown_Release();
     }
     if (dxContext.device) |device| {
-        _ = comCall(device, "Release", .{});
+        _ = device.IUnknown_Release();
     }
 }
 
 fn cleanupRenderTarget() void {
     if (dxContext.mainRenderTargetView) |mainRenderTargetView| {
-        _ = comCall(mainRenderTargetView, "Release", .{});
+        _ = mainRenderTargetView.IUnknown_Release();
         dxContext.mainRenderTargetView = null;
     }
 }
 
 pub fn main() !void {
-    const winClass: win32.WNDCLASSEX = .{
-        .cbSize = @sizeOf(win32.WNDCLASSEX),
+    const winClass: win32.WNDCLASSEXW = .{
+        .cbSize = @sizeOf(win32.WNDCLASSEXW),
         .style = win32.CS_CLASSDC,
         .lpfnWndProc = WndProc,
         .cbClsExtra = 0,
         .cbWndExtra = 0,
-        .hInstance = win32.GetModuleHandle(null),
+        .hInstance = win32.GetModuleHandleW(null),
         .hIcon = null,
         .hCursor = null,
         .hbrBackground = null,
         .lpszMenuName = null,
-        .lpszClassName = "WwiseDemo",
+        .lpszClassName = L("WwiseDemo"),
         .hIconSm = null,
     };
 
-    _ = win32.RegisterClassEx(&winClass);
-    defer _ = win32.UnregisterClass(winClass.lpszClassName, winClass.hInstance);
+    _ = win32.RegisterClassExW(&winClass);
+    defer _ = win32.UnregisterClassW(winClass.lpszClassName, winClass.hInstance);
 
-    const hwnd = win32.CreateWindowEx(0, winClass.lpszClassName, "Zig Wwise Demo", win32.WS_OVERLAPPEDWINDOW, 100, 100, 1200, 800, null, null, winClass.hInstance, null);
+    const hwnd = win32.CreateWindowExW(win32.WINDOW_EX_STYLE.initFlags(.{}), winClass.lpszClassName, L("Zig Wwise Demo"), win32.WS_OVERLAPPEDWINDOW, 100, 100, 1200, 800, null, null, winClass.hInstance, null);
 
     if (hwnd == null) {
-        std.debug.warn("Error creating Win32 Window = 0x{x}\n", .{@enumToInt(windows.kernel32.GetLastError())});
+        std.log.warn("Error creating Win32 Window = 0x{x}\n", .{@enumToInt(win32.GetLastError())});
         return error.InvalidWin32Window;
     }
 
@@ -204,7 +167,7 @@ pub fn main() !void {
     };
     defer Wwise.deinit();
 
-    std.debug.warn("Wwise initialized successfully!\n", .{});
+    std.log.info("Wwise initialized successfully!\n", .{});
 
     const currentDir = try std.fs.path.resolve(std.heap.c_allocator, &[_][]const u8{"."});
     defer std.heap.c_allocator.free(currentDir);
@@ -255,9 +218,9 @@ pub fn main() !void {
 
     var msg: win32.MSG = std.mem.zeroes(win32.MSG);
     while (msg.message != win32.WM_QUIT) {
-        if (win32.PeekMessage(&msg, null, 0, 0, win32.PM_REMOVE) != 0) {
+        if (win32.PeekMessageW(&msg, null, 0, 0, win32.PM_REMOVE) != 0) {
             _ = win32.TranslateMessage(&msg);
-            _ = win32.DispatchMessage(&msg);
+            _ = win32.DispatchMessageW(&msg);
             continue;
         }
 
@@ -286,20 +249,20 @@ pub fn main() !void {
 
         ImGui.igRender();
         if (dxContext.deviceContext) |deviceContext| {
-            _ = comCall(deviceContext, "OMSetRenderTargets", .{ 1, &dxContext.mainRenderTargetView, null });
-            _ = comCall(deviceContext, "ClearRenderTargetView", .{ dxContext.mainRenderTargetView, @ptrCast(*const f32, &clearColor) });
+            _ = deviceContext.ID3D11DeviceContext_OMSetRenderTargets(1, @ptrCast(?[*]?*d3d11.ID3D11RenderTargetView, &dxContext.mainRenderTargetView), null);
+            _ = deviceContext.ID3D11DeviceContext_ClearRenderTargetView(dxContext.mainRenderTargetView, @ptrCast(*const f32, &clearColor));
         }
         ImGui.igImplDX11_RenderDrawData(ImGui.igGetDrawData());
 
         if (dxContext.swapChain) |swapChain| {
-            _ = comCall(swapChain, "Present", .{ 1, 0 });
+            _ = swapChain.IDXGISwapChain_Present(1, 0);
         }
 
         Wwise.renderAudio();
     }
 }
 
-pub fn WndProc(hWnd: win32.HWND, msg: win32.UINT, wParam: win32.WPARAM, lParam: win32.LPARAM) callconv(.C) win32.LRESULT {
+pub fn WndProc(hWnd: win32.HWND, msg: u32, wParam: win32.WPARAM, lParam: win32.LPARAM) callconv(.C) win32.LRESULT {
     if (ImGui.igImplWin32_WndProcHandler(hWnd, msg, wParam, lParam) != 0) {
         return 1;
     }
@@ -309,7 +272,7 @@ pub fn WndProc(hWnd: win32.HWND, msg: win32.UINT, wParam: win32.WPARAM, lParam: 
             if (wParam != win32.SIZE_MINIMIZED) {
                 if (dxContext.swapChain) |swapChain| {
                     cleanupRenderTarget();
-                    _ = comCall(swapChain, "ResizeBuffers", .{ 0, @intCast(win32.UINT, lParam & 0xFFFF), @intCast(win32.UINT, (lParam >> 16) & 0xFFFF), dx.DXGI_FORMAT._UNKNOWN, 0 });
+                    _ = swapChain.IDXGISwapChain_ResizeBuffers(0, @intCast(u32, lParam) & 0xFFFF, (@intCast(u32, lParam) >> 16) & 0xFFFF, .UNKNOWN, 0);
                     createRenderTarget();
                 }
             }
@@ -327,10 +290,15 @@ pub fn WndProc(hWnd: win32.HWND, msg: win32.UINT, wParam: win32.WPARAM, lParam: 
         else => {},
     }
 
-    return win32.DefWindowProc(hWnd, msg, wParam, lParam);
+    return win32.DefWindowProcW(hWnd, msg, wParam, lParam);
 }
 
-pub export fn WinMain(hInstance: ?win32.HINSTANCE, hPrevInstance: ?win32.HINSTANCE, lpCmdLine: ?win32.LPWSTR, nShowCmd: win32.INT) win32.INT {
+pub export fn WinMain(hInstance: ?win32.HINSTANCE, hPrevInstance: ?win32.HINSTANCE, lpCmdLine: ?std.os.windows.LPWSTR, nShowCmd: i32) i32 {
+    _ = hInstance;
+    _ = hPrevInstance;
+    _ = lpCmdLine;
+    _ = nShowCmd;
+
     main() catch unreachable;
 
     return 0;

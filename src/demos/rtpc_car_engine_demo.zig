@@ -4,7 +4,7 @@ const DemoInterface = @import("demo_interface.zig").DemoInterface;
 const std = @import("std");
 
 pub const RtpcCarEngineDemo = struct {
-    allocator: *std.mem.Allocator = undefined,
+    allocator: std.mem.Allocator = undefined,
     isVisibleState: bool = false,
     bankID: u32 = 0,
     isPlaying: bool = false,
@@ -15,7 +15,7 @@ pub const RtpcCarEngineDemo = struct {
     const MinRPMValue = 1000;
     const MaxRPMValue = 10000;
 
-    pub fn init(self: *Self, allocator: *std.mem.Allocator) !void {
+    pub fn init(self: *Self, allocator: std.mem.Allocator) !void {
         self.allocator = allocator;
 
         self.rpmValue = MinRPMValue;

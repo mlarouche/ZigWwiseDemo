@@ -8,19 +8,19 @@ pub const SubtitleDemo = struct {
     subtitleIndex: u32 = 0,
     subtitlePosition: u32 = 0,
     playingID: u32 = 0,
-    allocator: *std.mem.Allocator = undefined,
+    allocator: std.mem.Allocator = undefined,
     isVisibleState: bool = false,
     bankID: u32 = 0,
 
     const Self = @This();
     const DemoGameObjectID = 2;
 
-    pub fn init(self: *Self, allocator: *std.mem.Allocator) !void {
+    pub fn init(self: *Self, allocator: std.mem.Allocator) !void {
         self.allocator = allocator;
         self.playingID = 0;
         self.subtitleIndex = 0;
         self.subtitlePosition = 0;
-        self.subtitleText = try std.mem.dupeZ(self.allocator, u8, "");
+        self.subtitleText = try self.allocator.dupeZ(u8, "");
 
         self.bankID = try Wwise.loadBankByString("MarkerTest.bnk");
         try Wwise.registerGameObj(DemoGameObjectID, "SubtitleDemo");
@@ -43,11 +43,11 @@ pub const SubtitleDemo = struct {
             }
 
             if (!std.mem.eql(u8, self.subtitleText, "")) {
-                const cuePosText = try std.fmt.allocPrint0(self.allocator, "Cue #{}, Sample #{}", .{ self.subtitleIndex, self.subtitlePosition });
+                const cuePosText = try std.fmt.allocPrintZ(self.allocator, "Cue #{}, Sample #{}", .{ self.subtitleIndex, self.subtitlePosition });
                 defer self.allocator.free(cuePosText);
 
                 const playPosition = Wwise.getSourcePlayPosition(self.playingID, true) catch 0;
-                const playPositionText = try std.fmt.allocPrint0(self.allocator, "Time: {} ms", .{playPosition});
+                const playPositionText = try std.fmt.allocPrintZ(self.allocator, "Time: {} ms", .{playPosition});
                 defer self.allocator.free(playPositionText);
 
                 ImGui.igText(cuePosText);
@@ -85,7 +85,7 @@ pub const SubtitleDemo = struct {
 
     pub fn setSubtitleText(self: *Self, text: [:0]const u8) void {
         self.allocator.free(self.subtitleText);
-        self.subtitleText = std.mem.dupeZ(self.allocator, u8, text) catch unreachable;
+        self.subtitleText = self.allocator.dupeZ(u8, text) catch unreachable;
     }
 
     fn WwiseSubtitleCallback(callbackType: u32, callbackInfo: [*c]Wwise.AkCallbackInfo) callconv(.C) void {
@@ -94,7 +94,7 @@ pub const SubtitleDemo = struct {
                 var subtitleDemo = @ptrCast(*SubtitleDemo, @alignCast(8, cookie));
                 var markerCallback = @ptrCast(*Wwise.AkMarkerCallbackInfo, callbackInfo);
 
-                subtitleDemo.setSubtitleText(std.mem.spanZ(markerCallback.strLabel));
+                subtitleDemo.setSubtitleText(std.mem.span(markerCallback.strLabel));
                 subtitleDemo.subtitleIndex = markerCallback.uIdentifier;
                 subtitleDemo.subtitlePosition = markerCallback.uPosition;
             }

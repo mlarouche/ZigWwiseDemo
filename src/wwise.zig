@@ -3,7 +3,7 @@ pub const c = @cImport({
 });
 
 const std = @import("std");
-const builtin = std.builtin;
+const builtin = @import("builtin");
 const FixedBufferAllocator = std.heap.FixedBufferAllocator;
 
 pub const Wwise = struct {
@@ -50,12 +50,12 @@ pub const Wwise = struct {
 
     pub fn init() InitError!void {
         switch (c.ZigAk_Init()) {
-            .Success => return,
-            .MemoryManagerFailed => return InitError.MemoryManagerFailed,
-            .StreamManagerFailed => return InitError.StreamManagerFailed,
-            .LowLevelIOFailed => return InitError.LowLevelIOFailed,
-            .SoundEngineFailed => return InitError.SoundEngineFailed,
-            .CommunicationFailed => return InitError.CommunicationFailed,
+            c.ZigAkInitResultSuccess => return,
+            c.ZigAkInitResultMemoryManagerFailed => return InitError.MemoryManagerFailed,
+            c.ZigAkInitResultStreamManagerFailed => return InitError.StreamManagerFailed,
+            c.ZigAkInitResultLowLevelIOFailed => return InitError.LowLevelIOFailed,
+            c.ZigAkInitResultSoundEngineFailed => return InitError.SoundEngineFailed,
+            c.ZigAkInitResultCommunicationFailed => return InitError.CommunicationFailed,
             else => {},
         }
     }
@@ -80,12 +80,12 @@ pub const Wwise = struct {
         var bankID: u32 = 0;
         const result = c.ZigAk_LoadBankByString(nativeBankName, &bankID);
         switch (result) {
-            .Success => return bankID,
-            .InsufficientMemory => return error.InsufficientMemory,
-            .BankReadError => return error.BankReadError,
-            .WrongBankVersion => return error.WrongBankVersion,
-            .InvalidFile => return error.InvalidFile,
-            .InvalidParameter => return error.InvalidParameter,
+            c.ZigAKRESULTSuccess => return bankID,
+            c.ZigAKRESULTInsufficientMemory => return error.InsufficientMemory,
+            c.ZigAKRESULTBankReadError => return error.BankReadError,
+            c.ZigAKRESULTWrongBankVersion => return error.WrongBankVersion,
+            c.ZigAKRESULTInvalidFile => return error.InvalidFile,
+            c.ZigAKRESULTInvalidParameter => return error.InvalidParameter,
             else => return error.Fail,
         }
     }
@@ -93,7 +93,7 @@ pub const Wwise = struct {
     pub fn unloadBankByID(bankID: u32) bool {
         const result = c.ZigAk_UnloadBankByID(bankID, null);
         return switch (result) {
-            .Success => return true,
+            c.ZigAKRESULTSuccess => return true,
             else => return false,
         };
     }
@@ -101,10 +101,9 @@ pub const Wwise = struct {
     pub fn unloadBankByString(bankName: []const u8) !void {
         var stackString = StackString.init();
         const nativeBankName = try stackString.toOSChar(bankName);
-        var bankID: u32 = 0;
         const result = c.ZigAk_UnloadBankByString(nativeBankName);
         switch (result) {
-            .Success => return,
+            c.ZigAKRESULTSuccess => return,
             else => return error.Fail,
         }
     }
@@ -114,12 +113,12 @@ pub const Wwise = struct {
             var stackString = StackString.init();
             const nativeObjectName = try stackString.toCString(name);
             return switch (c.ZigAk_RegisterGameObj(gameObjectID, nativeObjectName)) {
-                .Success => return,
+                c.ZigAKRESULTSuccess => return,
                 else => error.Fail,
             };
         } else {
             return switch (c.ZigAk_RegisterGameObj(gameObjectID, null)) {
-                .Success => return,
+                c.ZigAKRESULTSuccess => return,
                 else => error.Fail,
             };
         }
@@ -145,8 +144,8 @@ pub const Wwise = struct {
         var stackString = StackString.init();
         const nativeRtpcName = try stackString.toCString(rtpcName);
         return switch (c.ZigAk_SetRTPCValueByString(nativeRtpcName, value, gameObjectID)) {
-            .Success => {},
-            .InvalidFloatValue => error.InvalidFloatValue,
+            c.ZigAKRESULTSuccess => {},
+            c.ZigAKRESULTInvalidFloatValue => error.InvalidFloatValue,
             else => error.Fail,
         };
     }
@@ -155,24 +154,24 @@ pub const Wwise = struct {
         var stackString = StackString.init();
         const nativeRtpcName = try stackString.toCString(rtpcName);
         return switch (c.ZigAk_SetRTPCValueByStringInterpolate(nativeRtpcName, value, gameObjectID, timeMs, fadeCurve, bypassIntervalValueInterpolation)) {
-            .Success => {},
-            .InvalidFloatValue => error.InvalidFloatValue,
+            c.ZigAKRESULTSuccess => {},
+            c.ZigAKRESULTInvalidFloatValue => error.InvalidFloatValue,
             else => error.Fail,
         };
     }
 
     pub fn setRTPCValue(rtpcID: u32, value: f32, gameObjectID: u64) !void {
-        return switch (c.ZigAk_SetRTPCValue(rptcID, value, gameObjectID)) {
-            .Success => {},
-            .InvalidFloatValue => error.InvalidFloatValue,
+        return switch (c.ZigAk_SetRTPCValue(rtpcID, value, gameObjectID)) {
+            c.ZigAKRESULTSuccess => {},
+            c.ZigAKRESULTInvalidFloatValue => error.InvalidFloatValue,
             else => error.Fail,
         };
     }
 
     pub fn setRTPCValueInterpolate(rtpcID: u32, value: f32, gameObjectID: u64, timeMs: i32, fadeCurve: AkCurveInterpolation, bypassIntervalValueInterpolation: bool) !void {
-        return switch (c.ZigAk_SetRTPCValueInterpolate(rptcID, value, gameObjectID, timeMs, fadeCurve, bypassIntervalValueInterpolation)) {
-            .Success => {},
-            .InvalidFloatValue => error.InvalidFloatValue,
+        return switch (c.ZigAk_SetRTPCValueInterpolate(rtpcID, value, gameObjectID, timeMs, fadeCurve, bypassIntervalValueInterpolation)) {
+            c.ZigAKRESULTSuccess => {},
+            c.ZigAKRESULTInvalidFloatValue => error.InvalidFloatValue,
             else => error.Fail,
         };
     }
@@ -181,8 +180,8 @@ pub const Wwise = struct {
         var result: i32 = 0;
         var akResult = c.ZigAk_GetSourcePlayPosition(playingId, &result, extrapolate);
         return switch (akResult) {
-            .Success => return result,
-            .InvalidParameter => return error.InvalidParameter,
+            c.ZigAKRESULTSuccess => return result,
+            c.ZigAKRESULTInvalidParameter => return error.InvalidParameter,
             else => return error.Fail,
         };
     }
@@ -223,7 +222,7 @@ pub const Wwise = struct {
         return c.ZigAk_GetIDFromString(nativeInput);
     }
 
-    pub const toOSChar = comptime blk: {
+    pub const toOSChar = blk: {
         if (builtin.os.tag == .windows) {
             break :blk utf16ToOsChar;
         } else {
@@ -231,11 +230,11 @@ pub const Wwise = struct {
         }
     };
 
-    pub fn utf16ToOsChar(allocator: *std.mem.Allocator, value: []const u8) ![:0]u16 {
+    pub fn utf16ToOsChar(allocator: std.mem.Allocator, value: []const u8) ![:0]u16 {
         return std.unicode.utf8ToUtf16LeWithNull(allocator, value);
     }
 
-    pub fn utf8ToOsChar(allocator: *std.mem.Allocator, value: []const u8) ![:0]u8 {
+    pub fn utf8ToOsChar(allocator: std.mem.Allocator, value: []const u8) ![:0]u8 {
         return std.cstr.addNullByte(allocator, value);
     }
 
@@ -252,11 +251,11 @@ pub const Wwise = struct {
         }
 
         pub fn toOSChar(self: *Self, value: []const u8) @typeInfo(@TypeOf(Wwise.toOSChar)).Fn.return_type.? {
-            return Wwise.toOSChar(&self.fixedAlloc.allocator, value);
+            return Wwise.toOSChar(self.fixedAlloc.allocator(), value);
         }
 
         pub fn toCString(self: *Self, value: []const u8) ![:0]u8 {
-            return Wwise.utf8ToOsChar(&self.fixedAlloc.allocator, value);
+            return Wwise.utf8ToOsChar(self.fixedAlloc.allocator(), value);
         }
     };
 };

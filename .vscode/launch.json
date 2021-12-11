@@ -8,7 +8,7 @@
             "name": "Debug",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/zig-cache/bin/wwiseZig.exe",
+            "program": "${workspaceFolder}/zig-out/bin/wwiseZig.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

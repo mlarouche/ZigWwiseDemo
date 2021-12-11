@@ -23,7 +23,7 @@ const SurfaceInfo = struct {
 var Surfaces: [4]SurfaceInfo = undefined;
 
 pub const FootstepsDemo = struct {
-    allocator: *std.mem.Allocator = undefined,
+    allocator: std.mem.Allocator = undefined,
     isVisibleState: bool = false,
     bankID: u32 = 0,
     posX: f32 = 0,
@@ -46,7 +46,7 @@ pub const FootstepsDemo = struct {
 
     var SurfaceGroup: u32 = undefined;
 
-    pub fn init(self: *Self, allocator: *std.mem.Allocator) !void {
+    pub fn init(self: *Self, allocator: std.mem.Allocator) !void {
         self.allocator = allocator;
 
         self.bankID = 0;
@@ -78,7 +78,7 @@ pub const FootstepsDemo = struct {
         Wwise.unregisterGameObj(DemoGameObjectID);
 
         for (Surfaces) |surface| {
-            Wwise.unloadBankByString(surface.bank_name) catch |err| {};
+            Wwise.unloadBankByString(surface.bank_name) catch {};
         }
 
         self.allocator.destroy(self);
@@ -178,13 +178,13 @@ pub const FootstepsDemo = struct {
             const bit = @as(u32, 1) << @intCast(u5, i);
 
             if ((bankMasks & bit) == bit and (self.current_banks & bit) != bit) {
-                _ = Wwise.loadBankByString(Surfaces[i].bank_name) catch |err| {
+                _ = Wwise.loadBankByString(Surfaces[i].bank_name) catch {
                     bankMasks &= ~bit;
                 };
             }
 
             if ((bankMasks & bit) != bit and ((self.current_banks & bit) == bit)) {
-                Wwise.unloadBankByString(Surfaces[i].bank_name) catch |err| {
+                Wwise.unloadBankByString(Surfaces[i].bank_name) catch {
                     bankMasks |= bit;
                 };
             }

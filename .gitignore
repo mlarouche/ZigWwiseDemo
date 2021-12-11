@@ -9,3 +9,4 @@
 *.akd
 *.prof
 /imgui.ini
+/zig-out

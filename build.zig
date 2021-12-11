@@ -57,6 +57,10 @@ pub fn build(b: *Builder) !void {
     const exe = b.addExecutable("wwiseZig", "src/main.zig");
     exe.setTarget(target);
     exe.setBuildMode(mode);
+    exe.addPackage(.{
+        .name = "zigwin32",
+        .path = .{ .path = "zigwin32/win32.zig" },
+    });
     exe.addIncludeDir("bindings");
     exe.addIncludeDir("imgui");
     exe.addIncludeDir("WwiseSDK/include");
@@ -65,7 +69,7 @@ pub fn build(b: *Builder) !void {
     exe.linkLibrary(imgui);
     exe.linkLibC();
     exe.linkSystemLibrary("D3D11");
-    exe.linkSystemLibrary("dxguid");
+    exe.subsystem = .Windows;
     exe.install();
 
     const run_cmd = exe.run();
