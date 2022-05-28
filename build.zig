@@ -59,7 +59,7 @@ pub fn build(b: *Builder) !void {
     exe.setBuildMode(mode);
     exe.addPackage(.{
         .name = "zigwin32",
-        .path = .{ .path = "zigwin32/win32.zig" },
+        .source = .{ .path = "zigwin32/win32.zig" },
     });
     exe.addIncludeDir("bindings");
     exe.addIncludeDir("imgui");

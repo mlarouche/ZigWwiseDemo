@@ -134,7 +134,7 @@ pub const Wwise = struct {
         return c.ZigAk_PostEventByString(nativeEventName, gameObjectID);
     }
 
-    pub fn postEventWithCallback(eventName: []const u8, gameObjectID: u64, callbackType: u32, callback: AkCallbackFunction, cookie: ?*c_void) !u32 {
+    pub fn postEventWithCallback(eventName: []const u8, gameObjectID: u64, callbackType: u32, callback: AkCallbackFunction, cookie: ?*anyopaque) !u32 {
         var stackString = StackString.init();
         const nativeEventName = try stackString.toCString(eventName);
         return c.ZigAk_PostEventByStringCallback(nativeEventName, gameObjectID, callbackType, callback, cookie);

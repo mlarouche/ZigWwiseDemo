@@ -78,7 +78,7 @@ fn createDeviceD3D(hWnd: ?win32.HWND) bool {
 fn createRenderTarget() void {
     var pBackBuffer: ?*d3d11.ID3D11Texture2D = null;
     if (dxContext.swapChain) |swapChain| {
-        _ = swapChain.IDXGISwapChain_GetBuffer(0, d3d11.IID_ID3D11Texture2D, @ptrCast(?*?*c_void, &pBackBuffer));
+        _ = swapChain.IDXGISwapChain_GetBuffer(0, d3d11.IID_ID3D11Texture2D, @ptrCast(?*?*anyopaque, &pBackBuffer));
     }
     if (dxContext.device) |device| {
         _ = device.ID3D11Device_CreateRenderTargetView(@ptrCast(?*d3d11.ID3D11Resource, pBackBuffer), null, @ptrCast(?*?*d3d11.ID3D11RenderTargetView, &dxContext.mainRenderTargetView));
