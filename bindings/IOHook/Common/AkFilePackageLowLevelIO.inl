@@ -9,8 +9,8 @@ may use this file in accordance with the end user license agreement provided
 with the software or, alternatively, in accordance with the terms contained in a
 written agreement between you and Audiokinetic Inc.
 
-  Version: v2019.2.0  Build: 7216
-  Copyright (c) 2006-2020 Audiokinetic Inc.
+  Version: v2021.1.9  Build: 7847
+  Copyright (c) 2006-2022 Audiokinetic Inc.
 *******************************************************************************/
 //////////////////////////////////////////////////////////////////////
 //
@@ -51,7 +51,6 @@ written agreement between you and Audiokinetic Inc.
 #include "AkFilePackageLowLevelIO.h"
 #include "AkFileHelpers.h"
 #include <AK/Tools/Common/AkPlatformFuncs.h>
-#include <cwchar>
 
 template <class T_LLIOHOOK_FILELOC, class T_PACKAGE>
 CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::CAkFilePackageLowLevelIO()
@@ -86,6 +85,7 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::Open(
     AkFileDesc &    out_fileDesc        // Returned file descriptor.
     )
 {
+	AkAutoLock<CAkLock> lock(m_lock);
     // If the file is an AK sound bank, try to find the identifier in the lookup table first.
     if ( in_eOpenMode == AK_OpenModeRead 
 		&& in_pFlags )
@@ -103,6 +103,8 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::Open(
 				{
 					// Found the ID in the lut. 
 					io_bSyncOpen = true;	// File is opened, now.
+					(*it)->AddRef();
+					out_fileDesc.pPackage = (*it);
 					return AK_Success;
 				}
 				++it;
@@ -120,6 +122,8 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::Open(
 				{
 					// Found the ID in the lut. 
 					io_bSyncOpen = true;	// File is opened, now.
+					(*it)->AddRef();
+					out_fileDesc.pPackage = (*it);
 					return AK_Success;
 				}
 
@@ -148,6 +152,7 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::Open(
     AkFileDesc &    out_fileDesc        // Returned file descriptor.
     )
 {
+	AkAutoLock<CAkLock> lock(m_lock);
     // Try to find the identifier in the lookup table first.
     if ( in_eOpenMode == AK_OpenModeRead 
 		&& in_pFlags 
@@ -161,6 +166,8 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::Open(
 			{
 				// File found. Return now.
 				io_bSyncOpen = true;	// File is opened, now.
+				(*it)->AddRef();
+				out_fileDesc.pPackage = (*it);
 				return AK_Success;
 			}
 			++it;
@@ -180,6 +187,8 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::Open(
 			{
 				// Found the ID in the lut. 
 				io_bSyncOpen = true;	// File is opened, now.
+				(*it)->AddRef();
+				out_fileDesc.pPackage = (*it);
 				return AK_Success;
 			}
 
@@ -198,15 +207,19 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::Open(
 
 // Override Close: Do not close handle if file descriptor is part of the current packaged file.
 template <class T_LLIOHOOK_FILELOC, class T_PACKAGE>
-AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::Close(
-    AkFileDesc & in_fileDesc      // File descriptor.
-    )
+AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC, T_PACKAGE>::Close(
+	AkFileDesc& in_fileDesc      // File descriptor.
+)
 {
+	AkAutoLock<CAkLock> lock(m_lock);
 	// Do not close handle if it is that of the file package (closed only in UnloadFilePackage()).
-    if ( !IsInPackage( in_fileDesc ) )
-        return T_LLIOHOOK_FILELOC::Close( in_fileDesc );
-    
-	return AK_Success;
+	if (IsInPackage(in_fileDesc))
+	{
+		in_fileDesc.pPackage->Release();
+		in_fileDesc.pPackage = NULL;
+		return AK_Success;
+	}
+	return T_LLIOHOOK_FILELOC::Close(in_fileDesc);    
 }
 
 // Override GetBlockSize: Get the block size of the LUT if a file package is loaded.
@@ -215,6 +228,7 @@ AkUInt32 CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::GetBlockSize(
     AkFileDesc &  in_fileDesc     // File descriptor.
     )
 {
+	AkAutoLock<CAkLock> lock(m_lock);
 	if ( IsInPackage( in_fileDesc ) )
 	{
 		// This file is part of a package. At Open(), we used the 
@@ -231,6 +245,7 @@ void CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::OnLanguageChange(
 	const AkOSChar * const in_pLanguageName	// New language name.
 	)
 {
+	AkAutoLock<CAkLock> lock(m_lock);
 	// Set language on all loaded packages.
 	ListFilePackages::Iterator it = m_packages.Begin();
 	while ( it != m_packages.End() )
@@ -251,6 +266,7 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::FindPackagedFil
 	AkFileDesc &		out_fileDesc	// Returned file descriptor.
 	)
 {
+	AkAutoLock<CAkLock> lock(m_lock);
 	AKASSERT( in_pPackage && in_pFlags );
 	const CAkFilePackageLUT::AkFileEntry<T_FILEID> * pEntry = in_pPackage->lut.LookupFile( in_fileID, in_pFlags );
 
@@ -303,6 +319,7 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::LoadFilePackage
 	{
 		AKASSERT( pPackage );
 		// Add to packages list.
+		AkAutoLock<CAkLock> lock(m_lock);
 		m_packages.AddFirst( pPackage );
 		
 		out_uPackageID = pPackage->ID();
@@ -412,7 +429,7 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::_LoadFilePackag
 			|| uSizeRead < uHeaderSize )
 		{
 			AKASSERT( !"Could not read file package" );
-			out_pPackage->Destroy();
+			out_pPackage->Release();
 			return AK_Fail;
 		}
 	}
@@ -421,7 +438,7 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::_LoadFilePackag
 	eRes = out_pPackage->lut.Setup( pFilePackageHeader, uFileHeader.uHeaderSize + AKPK_HEADER_CHUNK_DEF_SIZE );
 	if ( eRes != AK_Success )
 	{
-		out_pPackage->Destroy();
+		out_pPackage->Release();
 		return eRes;
 	}
 
@@ -430,7 +447,7 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::_LoadFilePackag
 	{
 		if ( AK::StreamMgr::AddLanguageChangeObserver( LanguageChangeHandler, this ) != AK_Success )
 		{
-			out_pPackage->Destroy();
+			out_pPackage->Release();
 			return AK_Fail;
 		}
 		m_bRegisteredToLangChg = true;
@@ -447,6 +464,7 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::UnloadFilePacka
 	AkUInt32	in_uPackageID			// Package ID.
 	)
 {
+	AkAutoLock<CAkLock> lock(m_lock);
 	ListFilePackages::IteratorEx it = m_packages.BeginEx();
 	while ( it != m_packages.End() )
 	{
@@ -456,7 +474,7 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::UnloadFilePacka
 			it = m_packages.Erase( it );
 
 			// Destroy package.
-			pPackage->Destroy();
+			pPackage->Release();
 
 			return AK_Success;
 		}
@@ -472,6 +490,7 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::UnloadFilePacka
 template <class T_LLIOHOOK_FILELOC, class T_PACKAGE>
 AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::UnloadAllFilePackages()
 {
+	AkAutoLock<CAkLock> lock(m_lock);
 	ListFilePackages::IteratorEx it = m_packages.BeginEx();
 	while ( it != m_packages.End() )
 	{
@@ -479,7 +498,7 @@ AKRESULT CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::UnloadAllFilePa
 		it = m_packages.Erase( it );
 
 		// Destroy package.
-		pPackage->Destroy();
+		pPackage->Release();
 	}
 
 	return AK_Success;

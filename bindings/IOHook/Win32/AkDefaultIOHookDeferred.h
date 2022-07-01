@@ -9,8 +9,8 @@ may use this file in accordance with the end user license agreement provided
 with the software or, alternatively, in accordance with the terms contained in a
 written agreement between you and Audiokinetic Inc.
 
-  Version: v2019.2.0  Build: 7216
-  Copyright (c) 2006-2020 Audiokinetic Inc.
+  Version: v2021.1.9  Build: 7847
+  Copyright (c) 2006-2022 Audiokinetic Inc.
 *******************************************************************************/
 //////////////////////////////////////////////////////////////////////
 //
@@ -93,6 +93,7 @@ written agreement between you and Audiokinetic Inc.
 #include <AK/SoundEngine/Common/AkStreamMgrModule.h>
 #include "../Common/AkMultipleFileLocation.h"
 #include <AK/Tools/Common/AkAssert.h>
+#include <AK/Tools/Common/AkObject.h>
 
 //-----------------------------------------------------------------------------
 // Name: class CAkDefaultIOHookDeferred.
@@ -212,7 +213,7 @@ protected:
 		AkAsyncIOTransferInfo * in_pTransfer	// Transfer that will use this OVERLAPPED. Its address is stored in OVERLAPPED::hEvent.
 		)
 	{
-		OVERLAPPED * pOverlapped = (OVERLAPPED*)AK::MemoryMgr::Malloc(AkMemID_Streaming, sizeof(OVERLAPPED));
+		OVERLAPPED * pOverlapped = (OVERLAPPED*)AkAlloc(AkMemID_Streaming, sizeof(OVERLAPPED));
 		AKASSERT( pOverlapped || !"Too many concurrent transfers in the Low-Level IO" );
 		pOverlapped->hEvent = in_pTransfer;
 		return pOverlapped;
@@ -222,7 +223,7 @@ protected:
 		OVERLAPPED * in_pOverlapped				// OVERLAPPED structure to release. 
 		)
 	{
-		AK::MemoryMgr::Free(AkMemID_Streaming, in_pOverlapped);
+		AkFree(AkMemID_Streaming, in_pOverlapped);
 	}
 };
 

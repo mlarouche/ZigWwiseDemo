@@ -9,8 +9,8 @@ may use this file in accordance with the end user license agreement provided
 with the software or, alternatively, in accordance with the terms contained in a
 written agreement between you and Audiokinetic Inc.
 
-  Version: v2019.2.0  Build: 7216
-  Copyright (c) 2006-2020 Audiokinetic Inc.
+  Version: v2021.1.9  Build: 7847
+  Copyright (c) 2006-2022 Audiokinetic Inc.
 *******************************************************************************/
 //////////////////////////////////////////////////////////////////////
 //
@@ -78,7 +78,7 @@ AKRESULT CAkDefaultIOHookDeferred::Init(
 	if ( in_deviceSettings.uSchedulerTypeFlags != AK_SCHEDULER_DEFERRED_LINED_UP )
 	{
 		AKASSERT( !"CAkDefaultIOHookDeferred I/O hook only works with AK_SCHEDULER_DEFERRED_LINED_UP devices" );
-		return AK_Fail;
+		return AK_InvalidParameter;
 	}
 	
 	m_bAsyncOpen = in_bAsyncOpen;
@@ -213,7 +213,7 @@ VOID CALLBACK CAkDefaultIOHookDeferred::FileIOCompletionRoutine(
 	if ( ERROR_SUCCESS == dwErrorCode )
 	{
 		eResult = AK_Success;
-		AKASSERT( dwNumberOfBytesTransfered >= pXferInfo->uRequestedSize && dwNumberOfBytesTransfered <= pXferInfo->uBufferSize );
+		AKASSERTD( dwNumberOfBytesTransfered >= pXferInfo->uRequestedSize && dwNumberOfBytesTransfered <= pXferInfo->uBufferSize );
 	}
 
 	pXferInfo->pCallback( pXferInfo, eResult );

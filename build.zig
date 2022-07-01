@@ -12,6 +12,7 @@ pub fn build(b: *Builder) !void {
     bindings.linkLibC();
     bindings.linkSystemLibrary("AkSoundEngine");
     bindings.linkSystemLibrary("AkStreamMgr");
+    bindings.linkSystemLibrary("AkMusicEngine");
     bindings.linkSystemLibrary("AkMemoryMgr");
     bindings.linkSystemLibrary("CommunicationCentral");
     bindings.linkSystemLibrary("AkRoomVerbFX");
@@ -23,7 +24,7 @@ pub fn build(b: *Builder) !void {
     bindings.linkSystemLibrary("ws2_32");
     bindings.addIncludeDir("bindings/IOHook/Win32");
     bindings.addIncludeDir("WwiseSDK/include");
-    bindings.addLibPath("WwiseSDK/x64_vc150/Profile(StaticCRT)/lib");
+    bindings.addLibPath("WwiseSDK/x64_vc160/Profile(StaticCRT)/lib");
     bindings.setTarget(target);
 
     const bindingsSources = &[_][]const u8{
@@ -64,7 +65,7 @@ pub fn build(b: *Builder) !void {
     exe.addIncludeDir("bindings");
     exe.addIncludeDir("imgui");
     exe.addIncludeDir("WwiseSDK/include");
-    exe.addLibPath("WwiseSDK/x64_vc150/Profile(StaticCRT)/lib");
+    exe.addLibPath("WwiseSDK/x64_vc160/Profile(StaticCRT)/lib");
     exe.linkLibrary(bindings);
     exe.linkLibrary(imgui);
     exe.linkLibC();

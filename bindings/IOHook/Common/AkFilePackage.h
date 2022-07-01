@@ -9,8 +9,8 @@ may use this file in accordance with the end user license agreement provided
 with the software or, alternatively, in accordance with the terms contained in a
 written agreement between you and Audiokinetic Inc.
 
-  Version: v2019.2.0  Build: 7216
-  Copyright (c) 2006-2020 Audiokinetic Inc.
+  Version: v2021.1.9  Build: 7847
+  Copyright (c) 2006-2022 Audiokinetic Inc.
 *******************************************************************************/
 //////////////////////////////////////////////////////////////////////
 // 
@@ -96,16 +96,25 @@ public:
 		AKASSERT( pFilePackage );	// Must succeed.
 
 		out_pHeaderBuffer = pToRelease;
-
+		
 		return pFilePackage;
-	}
-
-	// Destroy file package and free memory / destroy pool.
-	virtual void Destroy();
+	}	
 
 	// Getters.
 	inline AkUInt32 ID() { return m_uPackageID; }
 	inline AkUInt32 HeaderSize() { return m_uHeaderSize; }
+	inline void AddRef() 
+	{ 
+		m_uRefCount++;
+	}
+	inline void Release() 
+	{ 		
+		m_uRefCount--;
+		if (m_uRefCount == 0)
+		{
+			Destroy();
+		}
+	}
 
 	// Members.
 	// ------------------------------
@@ -118,15 +127,17 @@ protected:
 
 protected:
 	// Private constructors: users should use Create().
-	CAkFilePackage();
-	CAkFilePackage(CAkFilePackage&);
 	CAkFilePackage(AkUInt32 in_uPackageID, AkUInt32 in_uHeaderSize, void * in_pToRelease)
 		: m_uPackageID(in_uPackageID)
 		, m_uHeaderSize(in_uHeaderSize)
 		, m_pToRelease(in_pToRelease)
+		, m_uRefCount(1)
 	{
 	}
 	virtual ~CAkFilePackage() {}
+
+	// Destroy file package and free memory / destroy pool.
+	virtual void Destroy();
 	
 	// Helper.
 	static void ClearMemory(
@@ -135,6 +146,7 @@ protected:
 
 protected:
 	void *				m_pToRelease;	// LUT storage (only keep this pointer to release memory).
+	AkUInt32			m_uRefCount;	// Reference count
 };
 
 //-----------------------------------------------------------------------------

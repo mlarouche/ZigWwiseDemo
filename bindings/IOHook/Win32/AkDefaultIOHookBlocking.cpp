@@ -9,8 +9,8 @@ may use this file in accordance with the end user license agreement provided
 with the software or, alternatively, in accordance with the terms contained in a
 written agreement between you and Audiokinetic Inc.
 
-  Version: v2019.2.0  Build: 7216
-  Copyright (c) 2006-2020 Audiokinetic Inc.
+  Version: v2021.1.9  Build: 7847
+  Copyright (c) 2006-2022 Audiokinetic Inc.
 *******************************************************************************/
 //////////////////////////////////////////////////////////////////////
 //
@@ -70,7 +70,7 @@ AKRESULT CAkDefaultIOHookBlocking::Init(
 	if ( in_deviceSettings.uSchedulerTypeFlags != AK_SCHEDULER_BLOCKING )
 	{
 		AKASSERT( !"CAkDefaultIOHookBlocking I/O hook only works with AK_SCHEDULER_BLOCKING devices" );
-		return AK_Fail;
+		return AK_InvalidParameter;
 	}
 
 	m_bAsyncOpen = in_bAsyncOpen;
@@ -197,7 +197,7 @@ AKRESULT CAkDefaultIOHookBlocking::Read(
 	overlapped.OffsetHigh = (DWORD)( ( io_transferInfo.uFilePosition >> 32 ) & 0xFFFFFFFF );
 	overlapped.hEvent = NULL;
 
-	AkUInt32 uSizeTransferred;
+	DWORD uSizeTransferred;
 
 	if ( ::ReadFile( 
 			in_fileDesc.hFile,
@@ -228,7 +228,7 @@ AKRESULT CAkDefaultIOHookBlocking::Write(
 	overlapped.OffsetHigh = (DWORD)( ( io_transferInfo.uFilePosition >> 32 ) & 0xFFFFFFFF );
 	overlapped.hEvent = NULL;
 
-	AkUInt32 uSizeTransferred;
+	DWORD uSizeTransferred;
 
 	if ( ::WriteFile( 
 			in_fileDesc.hFile,

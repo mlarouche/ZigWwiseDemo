@@ -9,8 +9,8 @@ may use this file in accordance with the end user license agreement provided
 with the software or, alternatively, in accordance with the terms contained in a
 written agreement between you and Audiokinetic Inc.
 
-  Version: v2019.2.0  Build: 7216
-  Copyright (c) 2006-2020 Audiokinetic Inc.
+  Version: v2021.1.9  Build: 7847
+  Copyright (c) 2006-2022 Audiokinetic Inc.
 *******************************************************************************/
 //////////////////////////////////////////////////////////////////////
 //
@@ -264,7 +264,7 @@ AKRESULT CAkFileLocationBase::SetBasePath(
 			m_szBasePath[len - 1] = 0;
 		}
 
-		AKRESULT eDirectoryResult = CAkFileHelpers::CheckDirectoryExists(in_pszBasePath);
+		AKRESULT eDirectoryResult = CheckDirectoryExists(in_pszBasePath);
 		if (eDirectoryResult == AK_Fail) // AK_NotImplemented could be returned and should be ignored.
 		{
 			return AK_PathNotFound;

@@ -9,8 +9,8 @@ may use this file in accordance with the end user license agreement provided
 with the software or, alternatively, in accordance with the terms contained in a
 written agreement between you and Audiokinetic Inc.
 
-  Version: v2019.2.0  Build: 7216
-  Copyright (c) 2006-2020 Audiokinetic Inc.
+  Version: v2021.1.9  Build: 7847
+  Copyright (c) 2006-2022 Audiokinetic Inc.
 *******************************************************************************/
 //////////////////////////////////////////////////////////////////////
 //
@@ -23,14 +23,15 @@ written agreement between you and Audiokinetic Inc.
 #ifndef _AK_FILE_HELPERS_H_
 #define _AK_FILE_HELPERS_H_
 
+#include "../Common/AkFileHelpersBase.h"
+
 #include <AK/Tools/Common/AkAssert.h>
 #include <windows.h>
 #include <AK/SoundEngine/Common/AkStreamMgrModule.h>
 
-class CAkFileHelpers
+class CAkFileHelpers : public CAkFileHelpersBase
 {
 public:
-
 	// Wrapper for Win32 CreateFile().
 	static AKRESULT OpenFile( 
         const AkOSChar* in_pszFilename,     // File name.
@@ -203,9 +204,9 @@ public:
 		if ( SetFilePointer( in_hFile, in_uPosition, NULL, FILE_BEGIN ) != in_uPosition )
 			return AK_Fail;
 #endif
-		if ( ::ReadFile( in_hFile, in_pBuffer, in_uSizeToRead, &out_uSizeRead, NULL ) )
+		if ( ::ReadFile( in_hFile, in_pBuffer, in_uSizeToRead, (LPDWORD)&out_uSizeRead, NULL ) )
 			return AK_Success;
-		return AK_Fail;		
+		return AK_Fail;
 	}
 
 	/// Returns AK_Success if the directory is valid, AK_Fail if not.
@@ -246,7 +247,7 @@ public:
 		overlapped.OffsetHigh = (DWORD)( ( in_uPosition >> 32 ) & 0xFFFFFFFF );
 		overlapped.hEvent = NULL;
 
-		AkUInt32 uSizeTransferred;
+		DWORD uSizeTransferred;
 
 		if ( ::WriteFile( 
 			in_hFile,
@@ -260,6 +261,42 @@ public:
 		}
 
 		return AK_Fail;
+	}
+
+	static AKRESULT CreateEmptyDirectory(const AkOSChar* in_pszDirectoryPath)
+	{
+		bool bSuccess = ::CreateDirectory(in_pszDirectoryPath, NULL) == TRUE;
+		if (!bSuccess && ::GetLastError() != ERROR_ALREADY_EXISTS)
+			return AK_Fail;
+
+		return AK_Success;
+	}
+
+	static AKRESULT RemoveEmptyDirectory(const AkOSChar* in_pszDirectoryPath)
+	{
+		bool bSuccess = ::RemoveDirectory(in_pszDirectoryPath) == TRUE;
+		if (!bSuccess)
+			return AK_Fail;
+
+		return AK_Success;
+	}
+
+	static AKRESULT GetDefaultWritablePath(AkOSChar* out_pszPath, AkUInt32 in_pathMaxSize)
+	{
+		if (out_pszPath == nullptr)
+			return AK_InsufficientMemory;
+
+		out_pszPath[0] = '\0';
+
+#if defined(AK_WIN)
+		// No strict writable path enforcement on Windows (return "")
+#elif defined(AK_XBOX)
+		AKPLATFORM::SafeStrCat(out_pszPath, AKTEXT("D:\\"), in_pathMaxSize);
+#else
+		return AK_NotImplemented;
+#endif
+		
+		return AK_Success;
 	}
 };
 

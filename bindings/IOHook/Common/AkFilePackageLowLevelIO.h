@@ -9,8 +9,8 @@ may use this file in accordance with the end user license agreement provided
 with the software or, alternatively, in accordance with the terms contained in a
 written agreement between you and Audiokinetic Inc.
 
-  Version: v2019.2.0  Build: 7216
-  Copyright (c) 2006-2020 Audiokinetic Inc.
+  Version: v2021.1.9  Build: 7847
+  Copyright (c) 2006-2022 Audiokinetic Inc.
 *******************************************************************************/
 //////////////////////////////////////////////////////////////////////
 //
@@ -53,6 +53,8 @@ written agreement between you and Audiokinetic Inc.
 
 #include <AK/SoundEngine/Common/AkStreamMgrModule.h>
 #include "AkFilePackage.h"
+#include <AK/Tools/Common/AkAutoLock.h>
+#include <AK/Tools/Common/AkLock.h>
 
 //-----------------------------------------------------------------------------
 // Name: AkFilePackageReader 
@@ -404,12 +406,14 @@ protected:
 		const AkFileDesc & in_fileDesc		// File descriptor.
 		)
 	{
-		return in_fileDesc.uCustomParamSize > 0;
+		AKASSERT(in_fileDesc.pPackage == NULL || in_fileDesc.uCustomParamSize > 0);
+		return in_fileDesc.pPackage != NULL;
 	}
 
 protected:
 	// List of loaded packages.
 	ListFilePackages	m_packages;
+	CAkLock				m_lock;
 	bool				m_bRegisteredToLangChg;	// True after registering to language change notifications.
 };
 

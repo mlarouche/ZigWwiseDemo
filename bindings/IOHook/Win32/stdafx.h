@@ -9,8 +9,8 @@ may use this file in accordance with the end user license agreement provided
 with the software or, alternatively, in accordance with the terms contained in a
 written agreement between you and Audiokinetic Inc.
 
-  Version: v2019.2.0  Build: 7216
-  Copyright (c) 2006-2020 Audiokinetic Inc.
+  Version: v2021.1.9  Build: 7847
+  Copyright (c) 2006-2022 Audiokinetic Inc.
 *******************************************************************************/
 
 #pragma once
@@ -20,7 +20,6 @@ written agreement between you and Audiokinetic Inc.
 	#define _WIN32_WINNT 0x0501	// Change this to the appropriate value to target Windows 98 and Windows 2000 or later.
 	#endif
 
-	#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 	// Windows Header Files:
 	#include <windows.h>
 #endif
