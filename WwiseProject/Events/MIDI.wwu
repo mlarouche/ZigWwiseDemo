@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{A4CAED17-9E1F-4BDF-8BF5-21837EF7895A}" SchemaVersion="97">
+<WwiseDocument Type="WorkUnit" ID="{A4CAED17-9E1F-4BDF-8BF5-21837EF7895A}" SchemaVersion="103">
 	<Events>
 		<WorkUnit Name="MIDI" ID="{A4CAED17-9E1F-4BDF-8BF5-21837EF7895A}" PersistMode="Standalone">
 			<ChildrenList>

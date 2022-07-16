@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{39255352-6310-4790-ACD5-F0B3026DF735}" SchemaVersion="97">
+<WwiseDocument Type="WorkUnit" ID="{39255352-6310-4790-ACD5-F0B3026DF735}" SchemaVersion="103">
 	<AudioObjects>
 		<WorkUnit Name="Footsteps With Multiple Variables" ID="{39255352-6310-4790-ACD5-F0B3026DF735}" PersistMode="Standalone">
 			<ChildrenList>
@@ -213,6 +213,7 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
+									<ObjectLists/>
 									<ActiveSourceList>
 										<ActiveSource Name="AK_FS_Run_Gravel_02" ID="{A2DFC28A-8D9E-49B7-8B3D-4F38F5EAE659}" Platform="Linked"/>
 									</ActiveSourceList>
@@ -235,6 +236,7 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
+									<ObjectLists/>
 									<ActiveSourceList>
 										<ActiveSource Name="AK_FS_Run_Gravel_01" ID="{0891FBB7-DBD6-4CFF-9100-E0F49D8F0BEA}" Platform="Linked"/>
 									</ActiveSourceList>
@@ -285,11 +287,13 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
+									<ObjectLists/>
 									<ActiveSourceList>
 										<ActiveSource Name="AK_FS_Run_Gravel_01" ID="{67B5E2E3-C582-42C8-BBC2-48667E62EF4F}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
 							</ChildrenList>
+							<ObjectLists/>
 						</RandomSequenceContainer>
 						<SwitchContainer Name="Wood" ID="{DF7FD4E5-D3B4-44D1-943D-D1D91B89108F}" ShortID="647863731">
 							<Comment>Running and walking on wood have very different sounds so they are split in two discrete containers, switched with the Speed RTPC-driven switch.</Comment>
@@ -505,6 +509,7 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
+													<ObjectLists/>
 													<ActiveSourceList>
 														<ActiveSource Name="Footstep_Walking_Hardwood_01" ID="{E2C2D1EE-32D6-4203-B6FF-892D06F563E0}" Platform="Linked"/>
 													</ActiveSourceList>
@@ -524,6 +529,7 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
+													<ObjectLists/>
 													<ActiveSourceList>
 														<ActiveSource Name="Footstep_Walking_Hardwood_03" ID="{4CBED6AB-DD41-44C3-AF31-548F1E632C84}" Platform="Linked"/>
 													</ActiveSourceList>
@@ -543,11 +549,13 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
+													<ObjectLists/>
 													<ActiveSourceList>
 														<ActiveSource Name="Footstep_Walking_Hardwood_04" ID="{E5B12B88-C35C-44CB-9926-FA5D3A4013C3}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
 											</ChildrenList>
+											<ObjectLists/>
 										</RandomSequenceContainer>
 										<RandomSequenceContainer Name="Heavy" ID="{3E2AFE98-75B6-46DE-9107-77D81622F256}" ShortID="24927329">
 											<Comment>Didn't have lots of good samples to work with...</Comment>
@@ -660,6 +668,7 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
+													<ObjectLists/>
 													<ActiveSourceList>
 														<ActiveSource Name="Footstep_Walking_Hardwood_02" ID="{0658DE0E-95F1-4959-84A3-247CBDA3F332}" Platform="Linked"/>
 													</ActiveSourceList>
@@ -679,13 +688,16 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
+													<ObjectLists/>
 													<ActiveSourceList>
 														<ActiveSource Name="Footstep_Walking_Hardwood_05" ID="{03ED3A1B-8FA1-4A51-9452-3ABA0403BA29}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
 											</ChildrenList>
+											<ObjectLists/>
 										</RandomSequenceContainer>
 									</ChildrenList>
+									<ObjectLists/>
 									<GroupingInfo>
 										<GroupingBehaviorList>
 											<GroupingBehavior>
@@ -893,6 +905,7 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists/>
 											<ActiveSourceList>
 												<ActiveSource Name="Footstep_Walking_Hardwood_01" ID="{3E2ED62F-0965-40A5-AFB3-3A6B3BBF087F}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -912,6 +925,7 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists/>
 											<ActiveSourceList>
 												<ActiveSource Name="Footstep_Walking_Hardwood_02" ID="{52D3DC53-4379-4155-9FFF-536460C5ED4C}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -931,6 +945,7 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists/>
 											<ActiveSourceList>
 												<ActiveSource Name="Footstep_Walking_Hardwood_03" ID="{EF300D0C-3913-4F84-B349-E656C9E1DC1F}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -950,6 +965,7 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists/>
 											<ActiveSourceList>
 												<ActiveSource Name="Footstep_Walking_Hardwood_04" ID="{ACBD1910-0FB3-4FB3-B350-C5848C648036}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -969,13 +985,16 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists/>
 											<ActiveSourceList>
 												<ActiveSource Name="Footstep_Walking_Hardwood_05" ID="{2D2ACEB4-B434-48AF-9F58-ECA8756C259A}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
 									</ChildrenList>
+									<ObjectLists/>
 								</RandomSequenceContainer>
 							</ChildrenList>
+							<ObjectLists/>
 							<GroupingInfo>
 								<GroupingBehaviorList>
 									<GroupingBehavior>
@@ -1178,6 +1197,7 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists/>
 											<ActiveSourceList>
 												<ActiveSource Name="Footstep_Walking_Hardmetal_01" ID="{8F233BC3-E0E5-4173-9363-BF58047845E0}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -1204,6 +1224,7 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists/>
 											<ActiveSourceList>
 												<ActiveSource Name="Footstep_Walking_Hardmetal_02" ID="{EC98E65E-1E8F-41F9-BA0D-A2D9B5FC4E35}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -1229,6 +1250,7 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists/>
 											<ActiveSourceList>
 												<ActiveSource Name="Footstep_Walking_Hardmetal_03" ID="{20DA6245-7138-45C7-945D-D797B3AB28BF}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -1255,6 +1277,7 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists/>
 											<ActiveSourceList>
 												<ActiveSource Name="Footstep_Walking_Hardmetal_04" ID="{FE581148-5B9E-4D5F-A48B-C0410C7911FD}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -1281,11 +1304,13 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists/>
 											<ActiveSourceList>
 												<ActiveSource Name="Footstep_Walking_Hardmetal_05" ID="{F6C2D8E1-45A3-4B56-8123-CE210CF938E3}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
 									</ChildrenList>
+									<ObjectLists/>
 								</RandomSequenceContainer>
 								<RandomSequenceContainer Name="Toe" ID="{534FF0C8-2726-418F-A551-1A58602824F5}" ShortID="17933237">
 									<ReferenceList>
@@ -1314,6 +1339,7 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists/>
 											<ActiveSourceList>
 												<ActiveSource Name="Footstep_Walking_Hardmetal_01" ID="{17D74CE8-EF67-47B4-AE7B-64796F3B997F}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -1338,6 +1364,7 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists/>
 											<ActiveSourceList>
 												<ActiveSource Name="Footstep_Walking_Hardmetal_02" ID="{93F6A5CB-3961-43B8-B3F0-83F29FEC2D41}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -1362,6 +1389,7 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists/>
 											<ActiveSourceList>
 												<ActiveSource Name="Footstep_Walking_Hardmetal_03" ID="{FD5E80A1-00B8-4160-AB6D-F9044C9EF7B6}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -1386,6 +1414,7 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists/>
 											<ActiveSourceList>
 												<ActiveSource Name="Footstep_Walking_Hardmetal_04" ID="{ABC4C637-D945-45B2-BFF9-07B6FA4CFCEE}" Platform="Linked"/>
 											</ActiveSourceList>
@@ -1410,13 +1439,16 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
+											<ObjectLists/>
 											<ActiveSourceList>
 												<ActiveSource Name="Footstep_Walking_Hardmetal_05" ID="{E63AEF15-2AE4-4961-87E2-F7AA8682CFD7}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
 									</ChildrenList>
+									<ObjectLists/>
 								</RandomSequenceContainer>
 							</ChildrenList>
+							<ObjectLists/>
 							<Playlist>
 								<ItemRef Name="Heel" ID="{50DA88B2-844E-4564-BC43-DA3881881A7D}"/>
 								<ItemRef Name="Toe" ID="{534FF0C8-2726-418F-A551-1A58602824F5}"/>
@@ -1467,6 +1499,7 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
+									<ObjectLists/>
 									<ActiveSourceList>
 										<ActiveSource Name="FS_Dirt_01" ID="{542EF082-B6AD-48C2-84FC-9077CE767E62}" Platform="Linked"/>
 									</ActiveSourceList>
@@ -1496,6 +1529,7 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
+									<ObjectLists/>
 									<ActiveSourceList>
 										<ActiveSource Name="FS_Dirt_02" ID="{E4FE113E-40A9-4505-B1A9-5A75C3E0F1A3}" Platform="Linked"/>
 									</ActiveSourceList>
@@ -1525,6 +1559,7 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
+									<ObjectLists/>
 									<ActiveSourceList>
 										<ActiveSource Name="FS_Dirt_03" ID="{416B777A-5FB6-42EB-AD01-E43EAAF3452A}" Platform="Linked"/>
 									</ActiveSourceList>
@@ -1554,13 +1589,16 @@ Walking/Running speed is a simple offset in volume and pitch also done with an R
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
+									<ObjectLists/>
 									<ActiveSourceList>
 										<ActiveSource Name="FS_Dirt_04" ID="{A32E1971-7CCE-460B-B34E-553C03171618}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
 							</ChildrenList>
+							<ObjectLists/>
 						</RandomSequenceContainer>
 					</ChildrenList>
+					<ObjectLists/>
 					<GroupingInfo>
 						<GroupingBehaviorList>
 							<GroupingBehavior>

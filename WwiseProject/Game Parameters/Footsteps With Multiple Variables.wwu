@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{4B8031BB-C20D-491D-A4B9-B961C1D4252F}" SchemaVersion="97">
+<WwiseDocument Type="WorkUnit" ID="{4B8031BB-C20D-491D-A4B9-B961C1D4252F}" SchemaVersion="103">
 	<GameParameters>
 		<WorkUnit Name="Footsteps With Multiple Variables" ID="{4B8031BB-C20D-491D-A4B9-B961C1D4252F}" PersistMode="Standalone">
 			<ChildrenList>

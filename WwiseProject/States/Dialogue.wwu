@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{669F0DAE-C407-4600-BE0F-F91C12CEC42B}" SchemaVersion="97">
+<WwiseDocument Type="WorkUnit" ID="{669F0DAE-C407-4600-BE0F-F91C12CEC42B}" SchemaVersion="103">
 	<States>
 		<WorkUnit Name="Dialogue" ID="{669F0DAE-C407-4600-BE0F-F91C12CEC42B}" PersistMode="Standalone">
 			<ChildrenList>

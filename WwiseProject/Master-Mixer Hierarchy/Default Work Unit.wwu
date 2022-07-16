@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}" SchemaVersion="97">
+<WwiseDocument Type="WorkUnit" ID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}" SchemaVersion="103">
 	<Busses>
 		<WorkUnit Name="Default Work Unit" ID="{B90D7019-72C6-46E8-990C-3BC04B2724DB}" PersistMode="Standalone">
 			<ChildrenList>
@@ -77,6 +77,7 @@
 									</Custom>
 								</Reference>
 							</ReferenceList>
+							<ObjectLists/>
 						</Bus>
 						<Bus Name="Environmental Bus" ID="{53D0C673-DFDE-4CD6-92E6-5A1C2D92FBE1}">
 							<ChildrenList>
@@ -114,14 +115,19 @@
 										<Reference Name="Effect2" Platform="iOS"/>
 										<Reference Name="Effect3" Platform="iOS"/>
 									</ReferenceList>
+									<ObjectLists/>
 								</AuxBus>
 							</ChildrenList>
+							<ObjectLists/>
 						</Bus>
-						<Bus Name="Voices_Radio" ID="{84B0F2A1-5514-4C22-B77B-2E91CD9FDAFB}"/>
+						<Bus Name="Voices_Radio" ID="{84B0F2A1-5514-4C22-B77B-2E91CD9FDAFB}">
+							<ObjectLists/>
+						</Bus>
 						<Bus Name="Music" ID="{4810BCA9-BA17-4C9F-B065-1F1CB8AC7DEE}">
 							<PropertyList>
 								<Property Name="UsedForBackgroundMusic" Type="bool" Value="True"/>
 							</PropertyList>
+							<ObjectLists/>
 						</Bus>
 						<Bus Name="3D_Bus_Demo" ID="{BF81410F-8346-4EA6-9298-AF3265CA6553}">
 							<PropertyList>
@@ -226,6 +232,7 @@
 													<ObjectRef Name="Hangar_Env" ID="{C2817027-BAD4-4483-8762-64C45E56497E}" WorkUnitID="{DC1BCA07-F4BB-483E-A207-A5D3F24C41B2}"/>
 												</Reference>
 											</ReferenceList>
+											<ObjectLists/>
 										</AuxBus>
 										<AuxBus Name="Room1" ID="{1F639A50-6448-48BE-8746-13491225CF24}">
 											<ReferenceList>
@@ -233,8 +240,10 @@
 													<ObjectRef Name="Bright_Small_Hall" ID="{D8AD1955-D2BA-4C88-A806-E2D8AB47A90B}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
 												</Reference>
 											</ReferenceList>
+											<ObjectLists/>
 										</AuxBus>
 									</ChildrenList>
+									<ObjectLists/>
 								</Bus>
 								<Bus Name="Dry_Path" ID="{F94974A2-138F-4DAB-85F2-74F8EC51264D}">
 									<PropertyList>
@@ -255,6 +264,7 @@
 										</Property>
 										<Property Name="MaxDuckVolume" Type="Real64" Value="-96"/>
 									</PropertyList>
+									<ObjectLists/>
 								</Bus>
 								<Bus Name="Wet_Path_Omni" ID="{ECB22ED7-D41D-4B61-BB7C-DB1E51CFCA8B}">
 									<PropertyList>
@@ -294,8 +304,10 @@
 													</Custom>
 												</Reference>
 											</ReferenceList>
+											<ObjectLists/>
 										</AuxBus>
 									</ChildrenList>
+									<ObjectLists/>
 								</Bus>
 								<Bus Name="3D-Submix_Bus" ID="{12EED55E-09CE-4462-881F-54FCD179B80C}">
 									<PropertyList>
@@ -323,6 +335,7 @@
 											<ObjectRef Name="Source_Attenuation" ID="{30EC8FB7-20F4-49A2-A504-920C2ECE3407}" WorkUnitID="{FA0B1D22-7FD9-4D5C-AE85-F167ACFF5AAC}"/>
 										</Reference>
 									</ReferenceList>
+									<ObjectLists/>
 								</Bus>
 								<Bus Name="Portals" ID="{552AEEE8-CFB8-4ED3-BB10-825BB2670524}">
 									<PropertyList>
@@ -367,6 +380,7 @@
 													<ObjectRef Name="Room_Medium_Tiled" ID="{0C0A3A92-A571-4FDB-AB40-ACFED04E0217}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
 												</Reference>
 											</ReferenceList>
+											<ObjectLists/>
 										</AuxBus>
 										<AuxBus Name="Outside" ID="{2E789ECD-A9C0-4E30-8580-E3C417A3C9DC}">
 											<Comment>Because it is more prominent (in terms of length), it sends less in Room than Room sends in it.</Comment>
@@ -391,10 +405,13 @@
 													<ObjectRef Name="Huge_Space_Garage" ID="{1AF92D84-49DD-4BBC-8F29-6C6D10082B6E}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
 												</Reference>
 											</ReferenceList>
+											<ObjectLists/>
 										</AuxBus>
 									</ChildrenList>
+									<ObjectLists/>
 								</Bus>
 							</ChildrenList>
+							<ObjectLists/>
 						</Bus>
 					</ChildrenList>
 					<StateInfo>
@@ -419,6 +436,7 @@
 							</CustomState>
 						</CustomStateList>
 					</StateInfo>
+					<ObjectLists/>
 				</Bus>
 				<Bus Name="Non Recordable Bus" ID="{D2E0BC7E-7B3F-4FFE-A670-FAE02761B631}">
 					<PropertyList>
@@ -470,8 +488,10 @@
 								<Property Name="MaxDuckVolume" Type="Real64" Value="-96"/>
 								<Property Name="UsedForBackgroundMusic" Type="bool" Value="True"/>
 							</PropertyList>
+							<ObjectLists/>
 						</Bus>
 					</ChildrenList>
+					<ObjectLists/>
 				</Bus>
 				<Bus Name="Game Pad Bus" ID="{831EDEB8-142B-454B-B7D7-0E412F47FF4E}">
 					<PropertyList>
@@ -502,6 +522,7 @@
 							<ObjectRef Name="System" ID="{869AEFF3-CB04-42C9-8AC4-48AE69C8EF6F}" WorkUnitID="{0CB25EE0-4A76-4A92-A48A-4A708C73630A}"/>
 						</Reference>
 					</ReferenceList>
+					<ObjectLists/>
 				</Bus>
 			</ChildrenList>
 		</WorkUnit>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{81786A24-8893-4DE1-81AF-602DBDFCFF71}" SchemaVersion="97">
+<WwiseDocument Type="WorkUnit" ID="{81786A24-8893-4DE1-81AF-602DBDFCFF71}" SchemaVersion="103">
 	<Effects>
 		<WorkUnit Name="Footsteps Effects" ID="{81786A24-8893-4DE1-81AF-602DBDFCFF71}" PersistMode="Standalone">
 			<ChildrenList>

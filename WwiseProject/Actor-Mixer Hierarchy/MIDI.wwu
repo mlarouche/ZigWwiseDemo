@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{F5D6A1B7-0351-492B-A43C-CFCD9FE2A1EF}" SchemaVersion="97">
+<WwiseDocument Type="WorkUnit" ID="{F5D6A1B7-0351-492B-A43C-CFCD9FE2A1EF}" SchemaVersion="103">
 	<AudioObjects>
 		<WorkUnit Name="MIDI" ID="{F5D6A1B7-0351-492B-A43C-CFCD9FE2A1EF}" PersistMode="Standalone">
 			<ChildrenList>
@@ -61,6 +61,7 @@
 							<Language>SFX</Language>
 						</SourcePlugin>
 					</ChildrenList>
+					<ObjectLists/>
 					<ActiveSourceList>
 						<ActiveSource Name="Wwise Synth One" ID="{E42421A5-B98B-45AA-81EF-77C871C7E61B}" Platform="Linked"/>
 					</ActiveSourceList>
