@@ -18,7 +18,7 @@
         {
             "label": "Build Release",
             "type": "shell",
-            "command": "zig build -Drelease-fast",
+            "command": "zig build -Doptimize=ReleaseFast",
             "problemMatcher": [
                 "$gcc"
             ]
@@ -34,7 +34,7 @@
         {
             "label": "Run Release",
             "type": "shell",
-            "command": "zig build run -Drelease-fast",
+            "command": "zig build run -Doptimize=ReleaseFast",
             "problemMatcher": [
                 "$gcc"
             ]

@@ -71,11 +71,11 @@ pub const RtpcCarEngineDemo = struct {
     pub fn getInterface(self: *Self) DemoInterface {
         return DemoInterface{
             .instance = @ptrCast(DemoInterface.InstanceType, self),
-            .initFn = @ptrCast(DemoInterface.InitFn, init),
-            .deinitFn = @ptrCast(DemoInterface.DeinitFn, deinit),
-            .onUIFn = @ptrCast(DemoInterface.OnUIFn, onUI),
-            .isVisibleFn = @ptrCast(DemoInterface.IsVisibleFn, isVisible),
-            .showFn = @ptrCast(DemoInterface.ShowFn, show),
+            .initFn = @ptrCast(DemoInterface.InitFn, &init),
+            .deinitFn = @ptrCast(DemoInterface.DeinitFn, &deinit),
+            .onUIFn = @ptrCast(DemoInterface.OnUIFn, &onUI),
+            .isVisibleFn = @ptrCast(DemoInterface.IsVisibleFn, &isVisible),
+            .showFn = @ptrCast(DemoInterface.ShowFn, &show),
         };
     }
 };

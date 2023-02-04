@@ -9,11 +9,11 @@ pub const DemoInterface = struct {
     showFn: ShowFn,
 
     pub const InstanceType = *u8;
-    pub const InitFn = fn (instance: InstanceType, allocator: std.mem.Allocator) anyerror!void;
-    pub const DeinitFn = fn (instance: InstanceType) void;
-    pub const OnUIFn = fn (instance: InstanceType) anyerror!void;
-    pub const IsVisibleFn = fn (instance: InstanceType) bool;
-    pub const ShowFn = fn (instance: InstanceType) void;
+    pub const InitFn = *const fn (instance: InstanceType, allocator: std.mem.Allocator) anyerror!void;
+    pub const DeinitFn = *const fn (instance: InstanceType) void;
+    pub const OnUIFn = *const fn (instance: InstanceType) anyerror!void;
+    pub const IsVisibleFn = *const fn (instance: InstanceType) bool;
+    pub const ShowFn = *const fn (instance: InstanceType) void;
 
     const Self = @This();
 
@@ -68,11 +68,11 @@ pub const NullDemo = struct {
     pub fn getInterface(self: *Self) DemoInterface {
         return DemoInterface{
             .instance = @ptrCast(DemoInterface.InstanceType, self),
-            .initFn = @ptrCast(DemoInterface.InitFn, init),
-            .deinitFn = @ptrCast(DemoInterface.DeinitFn, deinit),
-            .onUIFn = @ptrCast(DemoInterface.OnUIFn, onUI),
-            .isVisibleFn = @ptrCast(DemoInterface.IsVisibleFn, isVisible),
-            .showFn = @ptrCast(DemoInterface.ShowFn, show),
+            .initFn = @ptrCast(DemoInterface.InitFn, &init),
+            .deinitFn = @ptrCast(DemoInterface.DeinitFn, &deinit),
+            .onUIFn = @ptrCast(DemoInterface.OnUIFn, &onUI),
+            .isVisibleFn = @ptrCast(DemoInterface.IsVisibleFn, &isVisible),
+            .showFn = @ptrCast(DemoInterface.ShowFn, &show),
         };
     }
 };
