@@ -67,9 +67,8 @@ pub fn build(b: *std.Build) !void {
         .target = target,
         .optimize = optimize,
     });
-    exe.addPackage(.{
-        .name = "zigwin32",
-        .source = .{ .path = "zigwin32/win32.zig" },
+    exe.addAnonymousModule("zigwin32", .{
+        .source_file = .{ .path = "zigwin32/win32.zig" },
     });
     exe.addIncludePath("bindings");
     exe.addIncludePath("imgui");

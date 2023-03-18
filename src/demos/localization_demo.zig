@@ -43,7 +43,7 @@ pub const LocalizationDemo = struct {
             defer self.allocator.free(firstLanguage);
 
             if (ImGui.igBeginCombo("Language", firstLanguage, 0)) {
-                for (Languages) |lang, i| {
+                for (Languages, 0..) |lang, i| {
                     const is_selected = (self.currentSelectedLanguage == i);
 
                     const cLang = try std.cstr.addNullByte(self.allocator, lang);
