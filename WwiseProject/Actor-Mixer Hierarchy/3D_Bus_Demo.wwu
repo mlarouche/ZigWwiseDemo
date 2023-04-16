@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{653976DD-C047-41EE-8492-E1E2DE8C9DAB}" SchemaVersion="103">
+<WwiseDocument Type="WorkUnit" ID="{653976DD-C047-41EE-8492-E1E2DE8C9DAB}" SchemaVersion="110">
 	<AudioObjects>
 		<WorkUnit Name="3D_Bus_Demo" ID="{653976DD-C047-41EE-8492-E1E2DE8C9DAB}" PersistMode="Standalone">
 			<ChildrenList>
@@ -61,7 +61,6 @@
 									<Language>SFX</Language>
 								</SourcePlugin>
 							</ChildrenList>
-							<ObjectLists/>
 							<ActiveSourceList>
 								<ActiveSource Name="Tone Generator" ID="{FCA28366-81B8-4CED-B09F-DDCF1974A384}" Platform="Linked"/>
 							</ActiveSourceList>
@@ -92,13 +91,11 @@
 									<Language>SFX</Language>
 								</SourcePlugin>
 							</ChildrenList>
-							<ObjectLists/>
 							<ActiveSourceList>
 								<ActiveSource Name="Wwise Tone Generator" ID="{26061513-9C77-4DAE-8F90-B427197AC5E4}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
-					<ObjectLists/>
 				</ActorMixer>
 				<BlendContainer Name="Cluster" ID="{3169C5C9-3CEF-433C-9CAB-2386C8A5EBFA}" ShortID="158006593">
 					<PropertyList>
@@ -142,7 +139,6 @@
 									<Language>SFX</Language>
 								</SourcePlugin>
 							</ChildrenList>
-							<ObjectLists/>
 							<ActiveSourceList>
 								<ActiveSource Name="Wwise Tone Generator" ID="{D8383906-F6CD-4D9C-9B01-DD06E53AA7AE}" Platform="Linked"/>
 							</ActiveSourceList>
@@ -174,7 +170,6 @@
 									<Language>SFX</Language>
 								</SourcePlugin>
 							</ChildrenList>
-							<ObjectLists/>
 							<ActiveSourceList>
 								<ActiveSource Name="Wwise Tone Generator" ID="{02CB11C1-5B14-4D88-A557-0076D07D31B3}" Platform="Linked"/>
 							</ActiveSourceList>
@@ -205,13 +200,11 @@
 									<Language>SFX</Language>
 								</SourcePlugin>
 							</ChildrenList>
-							<ObjectLists/>
 							<ActiveSourceList>
 								<ActiveSource Name="Wwise Tone Generator" ID="{465F6986-509B-4D7F-B590-C68C1131B4FA}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
-					<ObjectLists/>
 				</BlendContainer>
 				<ActorMixer Name="Portals" ID="{B67893E7-894D-48A9-885C-5AAC88CBF9B7}" ShortID="860660208">
 					<PropertyList>
@@ -253,37 +246,6 @@
 											</Modifier>
 										</ModifierInfo>
 									</ModifierList>
-									<RTPCList>
-										<RTPC Name="" ID="{9C7644A8-5EF4-4197-B103-06C3E549B378}" ShortID="446752903">
-											<ReferenceList>
-												<Reference Name="ControlInput">
-													<ObjectRef Name="Footstep_Weight" ID="{8552C51B-A366-48C0-9248-D559631D031E}" WorkUnitID="{4B8031BB-C20D-491D-A4B9-B961C1D4252F}"/>
-												</Reference>
-											</ReferenceList>
-											<Curve Name="" ID="{578DA818-1159-4D3F-95E1-C903120F6D4C}">
-												<PropertyList>
-													<Property Name="Flags" Type="int32" Value="65537"/>
-												</PropertyList>
-												<PointList>
-													<Point>
-														<XPos>0</XPos>
-														<YPos>0</YPos>
-														<Flags>5</Flags>
-													</Point>
-													<Point>
-														<XPos>50.1477832512315</XPos>
-														<YPos>0</YPos>
-														<Flags>0</Flags>
-													</Point>
-													<Point>
-														<XPos>100</XPos>
-														<YPos>46</YPos>
-														<Flags>37</Flags>
-													</Point>
-												</PointList>
-											</Curve>
-										</RTPC>
-									</RTPCList>
 								</Property>
 								<Property Name="Pitch" Type="int32">
 									<ModifierList>
@@ -295,37 +257,6 @@
 											</Modifier>
 										</ModifierInfo>
 									</ModifierList>
-									<RTPCList>
-										<RTPC Name="" ID="{F886B2BA-0D92-4EE6-A831-D9E3A3BA86DD}" ShortID="186854587">
-											<ReferenceList>
-												<Reference Name="ControlInput">
-													<ObjectRef Name="Footstep_Weight" ID="{8552C51B-A366-48C0-9248-D559631D031E}" WorkUnitID="{4B8031BB-C20D-491D-A4B9-B961C1D4252F}"/>
-												</Reference>
-											</ReferenceList>
-											<Curve Name="" ID="{9794ADA4-76DE-4497-982A-A921F625F1A4}">
-												<PropertyList>
-													<Property Name="Flags" Type="int32" Value="65537"/>
-												</PropertyList>
-												<PointList>
-													<Point>
-														<XPos>0</XPos>
-														<YPos>0</YPos>
-														<Flags>5</Flags>
-													</Point>
-													<Point>
-														<XPos>50.04926</XPos>
-														<YPos>99</YPos>
-														<Flags>0</Flags>
-													</Point>
-													<Point>
-														<XPos>100</XPos>
-														<YPos>-400</YPos>
-														<Flags>37</Flags>
-													</Point>
-												</PointList>
-											</Curve>
-										</RTPC>
-									</RTPCList>
 								</Property>
 								<Property Name="RandomAvoidRepeating" Type="bool" Value="False"/>
 								<Property Name="UseGameAuxSends" Type="bool" Value="True"/>
@@ -354,7 +285,6 @@
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
-									<ObjectLists/>
 									<ActiveSourceList>
 										<ActiveSource Name="Footstep_Walking_Hardwood_02" ID="{3E6F04E1-E437-466C-B4AB-AA595E5BEF54}" Platform="Linked"/>
 									</ActiveSourceList>
@@ -374,13 +304,95 @@
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
-									<ObjectLists/>
 									<ActiveSourceList>
 										<ActiveSource Name="Footstep_Walking_Hardwood_05" ID="{A0296ABF-BCF6-42C9-9605-FE6FE80BC47E}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
 							</ChildrenList>
-							<ObjectLists/>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{9C7644A8-5EF4-4197-B103-06C3E549B378}" ShortID="446752903">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Lowpass"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Footstep_Weight" ID="{8552C51B-A366-48C0-9248-D559631D031E}" WorkUnitID="{4B8031BB-C20D-491D-A4B9-B961C1D4252F}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{578DA818-1159-4D3F-95E1-C903120F6D4C}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="65537"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>0</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>50.1477832512315</XPos>
+																		<YPos>0</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>46</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{F886B2BA-0D92-4EE6-A831-D9E3A3BA86DD}" ShortID="186854587">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Pitch"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Footstep_Weight" ID="{8552C51B-A366-48C0-9248-D559631D031E}" WorkUnitID="{4B8031BB-C20D-491D-A4B9-B961C1D4252F}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{9794ADA4-76DE-4497-982A-A921F625F1A4}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="65537"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>0</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>50.04926</XPos>
+																		<YPos>99</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>-400</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
 						</RandomSequenceContainer>
 						<RandomSequenceContainer Name="Room_Emitter" ID="{7293CC5B-C9F9-407A-BCC1-07D6CC9E6EF1}" ShortID="266388078">
 							<PropertyList>
@@ -437,13 +449,11 @@
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
-									<ObjectLists/>
 									<ActiveSourceList>
 										<ActiveSource Name="Marker_Test_001" ID="{22525C3E-C14E-49F6-AB4D-57A1D01B4DB2}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
 							</ChildrenList>
-							<ObjectLists/>
 							<Playlist>
 								<ItemRef Name="Markers_Test" ID="{9808AEFC-AB39-4E59-9A89-B7FBAB3FA4F3}"/>
 							</Playlist>
@@ -482,13 +492,11 @@ Provided by Studio Lab SONORUM
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
-							<ObjectLists/>
 							<ActiveSourceList>
 								<ActiveSource Name="Ambience_40" ID="{75EF7F7D-E93C-4908-93B3-8BC066338FB0}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
-					<ObjectLists/>
 				</ActorMixer>
 			</ChildrenList>
 		</WorkUnit>

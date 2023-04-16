@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{1BDEE0E7-7F39-4966-83D4-9E9185A4D4CF}" SchemaVersion="103">
+<WwiseDocument Type="WorkUnit" ID="{1BDEE0E7-7F39-4966-83D4-9E9185A4D4CF}" SchemaVersion="110">
 	<InteractiveMusic>
 		<WorkUnit Name="InteractiveMusic" ID="{1BDEE0E7-7F39-4966-83D4-9E9185A4D4CF}" PersistMode="Standalone">
 			<ChildrenList>
@@ -727,7 +727,6 @@ The Audio Content contained in this file is the property of Stéphane Beauchemin
 									<TransitionInfo/>
 								</MusicTransition>
 							</TransitionList>
-							<ObjectLists/>
 							<Playlist>
 								<MusicPlaylistItem Name="" ID="{2999C617-1A6D-45E7-8C87-25A521B3A37D}" ShortID="603721423">
 									<ChildrenList>
@@ -1365,7 +1364,6 @@ The Audio Content contained in this file is the property of Stéphane Beauchemin
 									<TransitionInfo/>
 								</MusicTransition>
 							</TransitionList>
-							<ObjectLists/>
 							<Playlist>
 								<MusicPlaylistItem Name="" ID="{62342A3D-D448-4449-AE97-CC0FA3A27D00}" ShortID="672385111">
 									<PropertyList>
@@ -1955,7 +1953,6 @@ The Audio Content contained in this file is the property of Stéphane Beauchemin
 									<TransitionInfo/>
 								</MusicTransition>
 							</TransitionList>
-							<ObjectLists/>
 							<Playlist>
 								<MusicPlaylistItem Name="" ID="{2CBD4FDE-839D-4710-9A87-BA963869036F}" ShortID="248230788">
 									<PropertyList>
@@ -2194,7 +2191,6 @@ The Audio Content contained in this file is the property of Stéphane Beauchemin
 									<TransitionInfo/>
 								</MusicTransition>
 							</TransitionList>
-							<ObjectLists/>
 							<Playlist>
 								<MusicPlaylistItem Name="" ID="{35CA2D8C-847A-48E3-8D1A-9C55E00079CF}" ShortID="743856979">
 									<ChildrenList>
@@ -2426,7 +2422,6 @@ The Audio Content contained in this file is the property of Stéphane Beauchemin
 									<TransitionInfo/>
 								</MusicTransition>
 							</TransitionList>
-							<ObjectLists/>
 							<Playlist>
 								<MusicPlaylistItem Name="" ID="{24F73D95-5C59-4729-BFE7-09A5C8EAB103}" ShortID="139870609">
 									<ChildrenList>
@@ -3025,7 +3020,6 @@ The Audio Content contained in this file is the property of Stéphane Beauchemin
 									<TransitionInfo/>
 								</MusicTransition>
 							</TransitionList>
-							<ObjectLists/>
 							<Playlist>
 								<MusicPlaylistItem Name="" ID="{C8137C41-B198-49FE-8649-743545A37CE6}" ShortID="534574817">
 									<ChildrenList>
@@ -3675,7 +3669,6 @@ The Audio Content contained in this file is the property of Stéphane Beauchemin
 							<TransitionInfo/>
 						</MusicTransition>
 					</TransitionList>
-					<ObjectLists/>
 					<ArgumentList>
 						<ArgumentRef Name="Music" ID="{382C9FD3-80EA-4989-8640-23D88CB9F8ED}"/>
 					</ArgumentList>

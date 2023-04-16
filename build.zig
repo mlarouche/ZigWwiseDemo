@@ -28,7 +28,7 @@ pub fn build(b: *std.Build) !void {
     bindings.linkSystemLibrary("ws2_32");
     bindings.addIncludePath("bindings/IOHook/Win32");
     bindings.addIncludePath("WwiseSDK/include");
-    bindings.addLibraryPath("WwiseSDK/x64_vc160/Profile(StaticCRT)/lib");
+    bindings.addLibraryPath("WwiseSDK/x64_vc170/Profile(StaticCRT)/lib");
 
     const bindingsSources = &[_][]const u8{
         "bindings/zig_wwise.cpp",
@@ -79,9 +79,9 @@ pub fn build(b: *std.Build) !void {
     exe.linkLibC();
     exe.linkSystemLibrary("D3D11");
     exe.subsystem = .Windows;
-    exe.install();
+    b.installArtifact(exe);
 
-    const run_cmd = exe.run();
+    const run_cmd = b.addRunArtifact(exe);
     run_cmd.step.dependOn(b.getInstallStep());
 
     const run_step = b.step("run", "Run the app");

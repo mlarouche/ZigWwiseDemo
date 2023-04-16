@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{C9823204-D123-4E77-ADFF-8583AB31A2CC}" SchemaVersion="103">
+<WwiseDocument Type="WorkUnit" ID="{C9823204-D123-4E77-ADFF-8583AB31A2CC}" SchemaVersion="110">
 	<AudioObjects>
 		<WorkUnit Name="External Sources" ID="{C9823204-D123-4E77-ADFF-8583AB31A2CC}" PersistMode="Standalone">
 			<ChildrenList>
@@ -31,7 +31,6 @@
 									<Language>SFX</Language>
 								</ExternalSource>
 							</ChildrenList>
-							<ObjectLists/>
 							<ActiveSourceList>
 								<ActiveSource Name="Extern_1st_number" ID="{ACA21AE5-895F-4D76-BA75-BF9F64F8FB6D}" Platform="Linked"/>
 							</ActiveSourceList>
@@ -50,7 +49,6 @@
 									<Language>SFX</Language>
 								</ExternalSource>
 							</ChildrenList>
-							<ObjectLists/>
 							<ActiveSourceList>
 								<ActiveSource Name="Extern_2nd_number" ID="{E951BF68-24D8-4188-94B5-1CD351DB04A9}" Platform="Linked"/>
 							</ActiveSourceList>
@@ -69,13 +67,11 @@
 									<Language>SFX</Language>
 								</ExternalSource>
 							</ChildrenList>
-							<ObjectLists/>
 							<ActiveSourceList>
 								<ActiveSource Name="Extern_3rd_number" ID="{DCD1B307-52B5-4715-862A-61BAAAC0766F}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
-					<ObjectLists/>
 					<Playlist>
 						<ItemRef Name="1st Number" ID="{4BFF8336-9261-4F54-B420-9EE06CAE5F16}"/>
 						<ItemRef Name="2nd Number" ID="{580E757C-9473-4F47-A781-1D469F21862A}"/>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{B20FB0D4-883A-4F6E-8912-3864DE39DCAB}" SchemaVersion="103">
+<WwiseDocument Type="WorkUnit" ID="{B20FB0D4-883A-4F6E-8912-3864DE39DCAB}" SchemaVersion="110">
 	<Switches>
 		<WorkUnit Name="Footsteps With Multiple Variables" ID="{B20FB0D4-883A-4F6E-8912-3864DE39DCAB}" PersistMode="Standalone">
 			<ChildrenList>

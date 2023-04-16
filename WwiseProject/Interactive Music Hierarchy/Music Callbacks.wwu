@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{33D8A269-9B19-4CCD-B9B7-77FEA744BBDA}" SchemaVersion="103">
+<WwiseDocument Type="WorkUnit" ID="{33D8A269-9B19-4CCD-B9B7-77FEA744BBDA}" SchemaVersion="110">
 	<InteractiveMusic>
 		<WorkUnit Name="Music Callbacks" ID="{33D8A269-9B19-4CCD-B9B7-77FEA744BBDA}" PersistMode="Standalone">
 			<ChildrenList>
@@ -693,7 +693,6 @@
 							<TransitionInfo/>
 						</MusicTransition>
 					</TransitionList>
-					<ObjectLists/>
 					<Playlist>
 						<MusicPlaylistItem Name="" ID="{FCA855D5-641F-48BD-BC83-4C1596283E5E}" ShortID="896630216">
 							<PropertyList>

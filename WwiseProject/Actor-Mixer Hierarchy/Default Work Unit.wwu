@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{88012962-D6A8-4400-BC86-DF1A5980EDFA}" SchemaVersion="103">
+<WwiseDocument Type="WorkUnit" ID="{88012962-D6A8-4400-BC86-DF1A5980EDFA}" SchemaVersion="110">
 	<AudioObjects>
 		<WorkUnit Name="Default Work Unit" ID="{88012962-D6A8-4400-BC86-DF1A5980EDFA}" PersistMode="Standalone">
 			<ChildrenList>
@@ -45,7 +45,6 @@
 							</MediaIDList>
 						</AudioFileSource>
 					</ChildrenList>
-					<ObjectLists/>
 					<ActiveSourceList>
 						<ActiveSource Name="Hello" ID="{2B2BB61A-EDDE-4219-B3ED-88AA9F94C541}" Platform="Linked"/>
 						<ActiveSource Name="Hello" ID="{674384D4-6A32-4654-A11D-36459C45AE69}" Platform="Linked"/>
@@ -135,7 +134,6 @@
 							</PluginInnerObjectList>
 						</AudioFileSource>
 					</ChildrenList>
-					<ObjectLists/>
 					<ActiveSourceList>
 						<ActiveSource Name="Marker_Test_001" ID="{1B6ECDE4-A688-4993-B8EA-FF25B22057AB}" Platform="Linked"/>
 					</ActiveSourceList>
@@ -167,64 +165,6 @@ www.tinitus.net
 The Audio Content contained in this file is the property of Tinitus, Inc.  Your sole right with regard to this Audio Content is to listen to the Audio Content as part of this Sample Project.  This Audio Content cannot be used or modified for a commercial purpose nor for public demonstration.</Comment>
 							<PropertyList>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-								<Property Name="Pitch" Type="int32">
-									<RTPCList>
-										<RTPC Name="" ID="{589190E3-2E98-4C8A-914D-4574322FFD3D}" ShortID="4806062">
-											<ReferenceList>
-												<Reference Name="ControlInput">
-													<ObjectRef Name="RPM" ID="{96D82097-CAED-4AA7-8853-18BD54CC94C6}" WorkUnitID="{42FB9DE8-6C07-4DA0-AEE9-800573790AE7}"/>
-												</Reference>
-											</ReferenceList>
-											<Curve Name="" ID="{4319DE2D-86D4-4D6E-BC52-E95EE60545A8}">
-												<PropertyList>
-													<Property Name="Flags" Type="int32" Value="65537"/>
-												</PropertyList>
-												<PointList>
-													<Point>
-														<XPos>1000</XPos>
-														<YPos>-1902</YPos>
-														<Flags>5</Flags>
-													</Point>
-													<Point>
-														<XPos>1562.5</XPos>
-														<YPos>-1129</YPos>
-														<Flags>0</Flags>
-													</Point>
-													<Point>
-														<XPos>2125</XPos>
-														<YPos>-597</YPos>
-														<Flags>0</Flags>
-													</Point>
-													<Point>
-														<XPos>3250</XPos>
-														<YPos>139</YPos>
-														<Flags>0</Flags>
-													</Point>
-													<Point>
-														<XPos>4375</XPos>
-														<YPos>653</YPos>
-														<Flags>0</Flags>
-													</Point>
-													<Point>
-														<XPos>5500</XPos>
-														<YPos>1049</YPos>
-														<Flags>0</Flags>
-													</Point>
-													<Point>
-														<XPos>7750</XPos>
-														<YPos>1643</YPos>
-														<Flags>0</Flags>
-													</Point>
-													<Point>
-														<XPos>10000</XPos>
-														<YPos>2084</YPos>
-														<Flags>37</Flags>
-													</Point>
-												</PointList>
-											</Curve>
-										</RTPC>
-									</RTPCList>
-								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>-2</Value>
@@ -254,7 +194,75 @@ used or modified for a commercial purpose nor for public demonstration.</Comment
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
-							<ObjectLists/>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{589190E3-2E98-4C8A-914D-4574322FFD3D}" ShortID="4806062">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Pitch"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="RPM" ID="{96D82097-CAED-4AA7-8853-18BD54CC94C6}" WorkUnitID="{42FB9DE8-6C07-4DA0-AEE9-800573790AE7}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{4319DE2D-86D4-4D6E-BC52-E95EE60545A8}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="65537"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>1000</XPos>
+																		<YPos>-1902</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>1562.5</XPos>
+																		<YPos>-1129</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>2125</XPos>
+																		<YPos>-597</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>3250</XPos>
+																		<YPos>139</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>4375</XPos>
+																		<YPos>653</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>5500</XPos>
+																		<YPos>1049</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>7750</XPos>
+																		<YPos>1643</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>10000</XPos>
+																		<YPos>2084</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
 							<ActiveSourceList>
 								<ActiveSource Name="Porsche_Outside_On-Load_3000_01" ID="{B99A61E4-468E-438D-B901-57DAA78484AA}" Platform="Linked"/>
 							</ActiveSourceList>
@@ -269,64 +277,6 @@ www.tinitus.net
 The Audio Content contained in this file is the property of Tinitus, Inc.  Your sole right with regard to this Audio Content is to listen to the Audio Content as part of this Sample Project.  This Audio Content cannot be used or modified for a commercial purpose nor for public demonstration.</Comment>
 							<PropertyList>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-								<Property Name="Pitch" Type="int32">
-									<RTPCList>
-										<RTPC Name="" ID="{17EFF602-C143-448D-B1E2-E3BCA6611AA3}" ShortID="260025248">
-											<ReferenceList>
-												<Reference Name="ControlInput">
-													<ObjectRef Name="RPM" ID="{96D82097-CAED-4AA7-8853-18BD54CC94C6}" WorkUnitID="{42FB9DE8-6C07-4DA0-AEE9-800573790AE7}"/>
-												</Reference>
-											</ReferenceList>
-											<Curve Name="" ID="{9245E19F-0BE4-4D8D-889F-372C9199E152}">
-												<PropertyList>
-													<Property Name="Flags" Type="int32" Value="65537"/>
-												</PropertyList>
-												<PointList>
-													<Point>
-														<XPos>1000</XPos>
-														<YPos>-2400</YPos>
-														<Flags>5</Flags>
-													</Point>
-													<Point>
-														<XPos>1562.5</XPos>
-														<YPos>-1627</YPos>
-														<Flags>0</Flags>
-													</Point>
-													<Point>
-														<XPos>2125</XPos>
-														<YPos>-1095</YPos>
-														<Flags>0</Flags>
-													</Point>
-													<Point>
-														<XPos>3250</XPos>
-														<YPos>-359</YPos>
-														<Flags>0</Flags>
-													</Point>
-													<Point>
-														<XPos>4375</XPos>
-														<YPos>155</YPos>
-														<Flags>0</Flags>
-													</Point>
-													<Point>
-														<XPos>5500</XPos>
-														<YPos>551</YPos>
-														<Flags>0</Flags>
-													</Point>
-													<Point>
-														<XPos>7750</XPos>
-														<YPos>1145</YPos>
-														<Flags>0</Flags>
-													</Point>
-													<Point>
-														<XPos>10000</XPos>
-														<YPos>1586</YPos>
-														<Flags>37</Flags>
-													</Point>
-												</PointList>
-											</Curve>
-										</RTPC>
-									</RTPCList>
-								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>-1</Value>
@@ -356,7 +306,75 @@ used or modified for a commercial purpose nor for public demonstration.</Comment
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
-							<ObjectLists/>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{17EFF602-C143-448D-B1E2-E3BCA6611AA3}" ShortID="260025248">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Pitch"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="RPM" ID="{96D82097-CAED-4AA7-8853-18BD54CC94C6}" WorkUnitID="{42FB9DE8-6C07-4DA0-AEE9-800573790AE7}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{9245E19F-0BE4-4D8D-889F-372C9199E152}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="65537"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>1000</XPos>
+																		<YPos>-2400</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>1562.5</XPos>
+																		<YPos>-1627</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>2125</XPos>
+																		<YPos>-1095</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>3250</XPos>
+																		<YPos>-359</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>4375</XPos>
+																		<YPos>155</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>5500</XPos>
+																		<YPos>551</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>7750</XPos>
+																		<YPos>1145</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>10000</XPos>
+																		<YPos>1586</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
 							<ActiveSourceList>
 								<ActiveSource Name="Porsche_Outside_On-Load_4000_01" ID="{8FF8DEC7-6D14-4C1F-A2AC-4A53F19A7BB0}" Platform="Linked"/>
 							</ActiveSourceList>
@@ -371,64 +389,6 @@ www.tinitus.net
 The Audio Content contained in this file is the property of Tinitus, Inc.  Your sole right with regard to this Audio Content is to listen to the Audio Content as part of this Sample Project.  This Audio Content cannot be used or modified for a commercial purpose nor for public demonstration.</Comment>
 							<PropertyList>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-								<Property Name="Pitch" Type="int32">
-									<RTPCList>
-										<RTPC Name="" ID="{CDDF6978-BC5A-4E50-B6C9-62AD283E1E05}" ShortID="238650448">
-											<ReferenceList>
-												<Reference Name="ControlInput">
-													<ObjectRef Name="RPM" ID="{96D82097-CAED-4AA7-8853-18BD54CC94C6}" WorkUnitID="{42FB9DE8-6C07-4DA0-AEE9-800573790AE7}"/>
-												</Reference>
-											</ReferenceList>
-											<Curve Name="" ID="{F0438553-7AE5-4FDB-B96D-8EBB4920231B}">
-												<PropertyList>
-													<Property Name="Flags" Type="int32" Value="65537"/>
-												</PropertyList>
-												<PointList>
-													<Point>
-														<XPos>1000</XPos>
-														<YPos>-3102</YPos>
-														<Flags>5</Flags>
-													</Point>
-													<Point>
-														<XPos>1562.5</XPos>
-														<YPos>-2329</YPos>
-														<Flags>0</Flags>
-													</Point>
-													<Point>
-														<XPos>2125</XPos>
-														<YPos>-1797</YPos>
-														<Flags>0</Flags>
-													</Point>
-													<Point>
-														<XPos>3250</XPos>
-														<YPos>-1061</YPos>
-														<Flags>0</Flags>
-													</Point>
-													<Point>
-														<XPos>4375</XPos>
-														<YPos>-547</YPos>
-														<Flags>0</Flags>
-													</Point>
-													<Point>
-														<XPos>5500</XPos>
-														<YPos>-151</YPos>
-														<Flags>0</Flags>
-													</Point>
-													<Point>
-														<XPos>7750</XPos>
-														<YPos>443</YPos>
-														<Flags>0</Flags>
-													</Point>
-													<Point>
-														<XPos>10000</XPos>
-														<YPos>884</YPos>
-														<Flags>37</Flags>
-													</Point>
-												</PointList>
-											</Curve>
-										</RTPC>
-									</RTPCList>
-								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="OutputBus">
@@ -453,51 +413,129 @@ used or modified for a commercial purpose nor for public demonstration.</Comment
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
-							<ObjectLists/>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{CDDF6978-BC5A-4E50-B6C9-62AD283E1E05}" ShortID="238650448">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Pitch"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="RPM" ID="{96D82097-CAED-4AA7-8853-18BD54CC94C6}" WorkUnitID="{42FB9DE8-6C07-4DA0-AEE9-800573790AE7}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{F0438553-7AE5-4FDB-B96D-8EBB4920231B}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="65537"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>1000</XPos>
+																		<YPos>-3102</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>1562.5</XPos>
+																		<YPos>-2329</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>2125</XPos>
+																		<YPos>-1797</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>3250</XPos>
+																		<YPos>-1061</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>4375</XPos>
+																		<YPos>-547</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>5500</XPos>
+																		<YPos>-151</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>7750</XPos>
+																		<YPos>443</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>10000</XPos>
+																		<YPos>884</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
 							<ActiveSourceList>
 								<ActiveSource Name="Porsche_Outside_On-Load_6000_01" ID="{C3CC3E0D-A6CB-441A-8E85-4B1E4DA6A8FE}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
-					<ObjectLists/>
 					<BlendTrackList>
 						<BlendTrack Name="Blend Track" ID="{BE05A2F2-6E49-4C46-B79F-AE2ADA275201}" ShortID="270968384">
 							<PropertyList>
 								<Property Name="EnableCrossFading" Type="bool" Value="True"/>
-								<Property Name="Volume" Type="Real64">
-									<RTPCList>
-										<RTPC Name="" ID="{A871E0D8-10FE-4C98-8C06-BEF0C355ECF9}" ShortID="913248384">
-											<ReferenceList>
-												<Reference Name="ControlInput">
-													<ObjectRef Name="RPM" ID="{96D82097-CAED-4AA7-8853-18BD54CC94C6}" WorkUnitID="{42FB9DE8-6C07-4DA0-AEE9-800573790AE7}"/>
-												</Reference>
-											</ReferenceList>
-											<Curve Name="" ID="{122896A0-0A3C-4566-B8E3-391502A5335A}">
-												<PropertyList>
-													<Property Name="Flags" Type="int32" Value="3"/>
-												</PropertyList>
-												<PointList>
-													<Point>
-														<XPos>1000</XPos>
-														<YPos>-1.04618</YPos>
-														<Flags>5</Flags>
-													</Point>
-													<Point>
-														<XPos>10000</XPos>
-														<YPos>0</YPos>
-														<Flags>37</Flags>
-													</Point>
-												</PointList>
-											</Curve>
-										</RTPC>
-									</RTPCList>
-								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="LayerCrossFadeControlInput">
 									<ObjectRef Name="RPM" ID="{96D82097-CAED-4AA7-8853-18BD54CC94C6}" WorkUnitID="{42FB9DE8-6C07-4DA0-AEE9-800573790AE7}"/>
 								</Reference>
 							</ReferenceList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{A871E0D8-10FE-4C98-8C06-BEF0C355ECF9}" ShortID="913248384">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="RPM" ID="{96D82097-CAED-4AA7-8853-18BD54CC94C6}" WorkUnitID="{42FB9DE8-6C07-4DA0-AEE9-800573790AE7}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{122896A0-0A3C-4566-B8E3-391502A5335A}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>1000</XPos>
+																		<YPos>-1.04618</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>10000</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
 							<BlendTrackAssocList>
 								<BlendTrackAssoc>
 									<ItemRef Name="Engine_3000" ID="{B3F782B8-E527-41AB-B57A-73ACEEEC55FB}"/>
@@ -574,7 +612,6 @@ used or modified for a commercial purpose nor for public demonstration.</Comment
 							<Language>SFX</Language>
 						</SourcePlugin>
 					</ChildrenList>
-					<ObjectLists/>
 					<ActiveSourceList>
 						<ActiveSource Name="Audio Input" ID="{A8B026D3-4334-4C4B-B829-3E0F86D38E08}" Platform="Linked"/>
 					</ActiveSourceList>
@@ -613,7 +650,6 @@ used or modified for a commercial purpose nor for public demonstration.</Comment
 							<Language>SFX</Language>
 						</SourcePlugin>
 					</ChildrenList>
-					<ObjectLists/>
 					<ActiveSourceList>
 						<ActiveSource Name="Tone Generator" ID="{5045A975-22B2-404A-9085-3F09BAA13431}" Platform="Linked"/>
 					</ActiveSourceList>
@@ -665,7 +701,6 @@ used or modified for a commercial purpose nor for public demonstration.</Comment
 							</MediaIDList>
 						</AudioFileSource>
 					</ChildrenList>
-					<ObjectLists/>
 					<ActiveSourceList>
 						<ActiveSource Name="Hello" ID="{64A26D37-8FB4-4519-90BE-4B9C645D7CBE}" Platform="Linked"/>
 						<ActiveSource Name="Hello" ID="{DCBFD8FD-88A7-444B-8FB6-27639472FE51}" Platform="Linked"/>
@@ -698,7 +733,6 @@ used or modified for a commercial purpose nor for public demonstration.</Comment
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
-							<ObjectLists/>
 							<ActiveSourceList>
 								<ActiveSource Name="Guitar" ID="{1DE0C005-C746-4438-9EC1-D1433E1CA1F3}" Platform="Linked"/>
 							</ActiveSourceList>
@@ -729,7 +763,6 @@ used or modified for a commercial purpose nor for public demonstration.</Comment
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
-							<ObjectLists/>
 							<ActiveSourceList>
 								<ActiveSource Name="Bass160Fight3" ID="{B4358C30-8C57-4FD9-B063-3DD1225D6CF6}" Platform="Linked"/>
 							</ActiveSourceList>
@@ -739,34 +772,6 @@ used or modified for a commercial purpose nor for public demonstration.</Comment
 				<Sound Name="SynthOne" ID="{AD153565-0E01-40C6-8100-2C9AB22393B8}" ShortID="284991516">
 					<PropertyList>
 						<Property Name="HdrEnvelopeSensitivity" Type="Real64" Value="20"/>
-						<Property Name="Lowpass" Type="int16">
-							<RTPCList>
-								<RTPC Name="" ID="{3D33C105-7D4F-41C6-993A-F5227013B0CD}" ShortID="941010785">
-									<ReferenceList>
-										<Reference Name="ControlInput">
-											<ObjectRef Name="CC #1: Modulation" ID="{B618CBBE-04FA-4149-A36B-37B8A1F2B642}"/>
-										</Reference>
-									</ReferenceList>
-									<Curve Name="" ID="{A646E5DE-DF60-4A80-9BCB-14D826812D22}">
-										<PropertyList>
-											<Property Name="Flags" Type="int32" Value="65537"/>
-										</PropertyList>
-										<PointList>
-											<Point>
-												<XPos>0</XPos>
-												<YPos>0</YPos>
-												<Flags>5</Flags>
-											</Point>
-											<Point>
-												<XPos>127</XPos>
-												<YPos>66</YPos>
-												<Flags>37</Flags>
-											</Point>
-										</PointList>
-									</Curve>
-								</RTPC>
-							</RTPCList>
-						</Property>
 						<Property Name="VirtualVoiceQueueBehavior" Type="int16" Value="1"/>
 					</PropertyList>
 					<ReferenceList>
@@ -787,47 +792,96 @@ used or modified for a commercial purpose nor for public demonstration.</Comment
 								<Property Name="Osc2Pwm" Type="Real32" Value="51"/>
 								<Property Name="Osc2Transpose" Type="int32" Value="-2400"/>
 								<Property Name="Osc2Waveform" Type="int32" Value="2"/>
-								<Property Name="OutputLevel" Type="Real32">
-									<RTPCList>
-										<RTPC Name="" ID="{B370D49E-398D-447C-828E-21B79434B0AB}" ShortID="705178945">
-											<ReferenceList>
-												<Reference Name="ControlInput">
-													<Custom>
-														<ModulatorEnvelope Name="Modulator Envelope (Custom)" ID="{0AABDC9E-A1F2-457C-8E34-D577BEAA416C}" ShortID="150695989">
-															<PropertyList>
-																<Property Name="EnvelopeAttackTime" Type="Real64" Value="0.1"/>
-																<Property Name="EnvelopeReleaseTime" Type="Real64" Value="0.1"/>
-															</PropertyList>
-														</ModulatorEnvelope>
-													</Custom>
-												</Reference>
-											</ReferenceList>
-											<Curve Name="" ID="{32A02B05-2520-4F1A-81A1-02811851A6B7}">
-												<PropertyList>
-													<Property Name="Flags" Type="int32" Value="3"/>
-												</PropertyList>
-												<PointList>
-													<Point>
-														<XPos>0</XPos>
-														<YPos>-96</YPos>
-														<Flags>21</Flags>
-													</Point>
-													<Point>
-														<XPos>1</XPos>
-														<YPos>0</YPos>
-														<Flags>53</Flags>
-													</Point>
-												</PointList>
-											</Curve>
-										</RTPC>
-									</RTPCList>
-								</Property>
 								<Property Name="OverSampling" Type="bool" Value="False"/>
 							</PropertyList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{B370D49E-398D-447C-828E-21B79434B0AB}" ShortID="705178945">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="OutputLevel"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<Custom>
+															<ModulatorEnvelope Name="Modulator Envelope (Custom)" ID="{0AABDC9E-A1F2-457C-8E34-D577BEAA416C}" ShortID="150695989">
+																<PropertyList>
+																	<Property Name="EnvelopeAttackTime" Type="Real64" Value="0.1"/>
+																	<Property Name="EnvelopeReleaseTime" Type="Real64" Value="0.1"/>
+																</PropertyList>
+															</ModulatorEnvelope>
+														</Custom>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{32A02B05-2520-4F1A-81A1-02811851A6B7}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-96</YPos>
+																		<Flags>21</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>1</XPos>
+																		<YPos>0</YPos>
+																		<Flags>53</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
 							<Language>SFX</Language>
 						</SourcePlugin>
 					</ChildrenList>
-					<ObjectLists/>
+					<ObjectLists>
+						<ObjectList Name="RTPC">
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{3D33C105-7D4F-41C6-993A-F5227013B0CD}" ShortID="941010785">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="Lowpass"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="CC #1: Modulation" ID="{B618CBBE-04FA-4149-A36B-37B8A1F2B642}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{A646E5DE-DF60-4A80-9BCB-14D826812D22}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="65537"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>0</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>127</XPos>
+																<YPos>66</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+						</ObjectList>
+					</ObjectLists>
 					<ActiveSourceList>
 						<ActiveSource Name="Wwise Synth One" ID="{ABCC380C-4406-4C69-83EF-2304FAB28CF5}" Platform="Linked"/>
 					</ActiveSourceList>
