@@ -1,6 +1,9 @@
 # Zig Wwise Demo
 
-A elaborate sample on how to use Dear IMGUI, Win32, Direct3D 11 and Audiokinetic Wwise in Zig. Done for a presentation to showcase Zig for coworkers.
+**IMPORTANT**
+
+This repository is deprecated, please look for https://github.com/Cold-Bytes-Games/wwise-zig and https://github.com/Cold-Bytes-Games/wwise-zig-demo for a more up to date version of this.
+
 
 # License
 

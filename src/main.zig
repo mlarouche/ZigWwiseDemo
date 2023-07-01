@@ -39,9 +39,9 @@ const AllDemos = [_]DemoData{
 
 const DxContext = struct {
     device: ?*d3d11.ID3D11Device = null,
-    deviceContext: ?*d3d11.ID3D11DeviceContext = null,
-    swapChain: ?*dxgi.IDXGISwapChain = null,
-    mainRenderTargetView: ?*d3d11.ID3D11RenderTargetView = null,
+    device_context: ?*d3d11.ID3D11DeviceContext = null,
+    swap_chain: ?*dxgi.IDXGISwapChain = null,
+    main_render_target_view: ?*d3d11.ID3D11RenderTargetView = null,
 };
 
 var dxContext: DxContext = undefined;
@@ -67,7 +67,7 @@ fn createDeviceD3D(hWnd: ?win32.HWND) bool {
         .@"11_0",
         .@"10_0",
     };
-    if (d3d11.D3D11CreateDeviceAndSwapChain(null, .HARDWARE, null, d3d11.D3D11_CREATE_DEVICE_FLAG.initFlags(.{}), featureLevelArray, 2, d3d11.D3D11_SDK_VERSION, &sd, &dxContext.swapChain, &dxContext.device, &featureLevel, &dxContext.deviceContext) != win32.S_OK)
+    if (d3d11.D3D11CreateDeviceAndSwapChain(null, .HARDWARE, null, d3d11.D3D11_CREATE_DEVICE_FLAG.initFlags(.{}), featureLevelArray, 2, d3d11.D3D11_SDK_VERSION, &sd, &dxContext.swap_chain, &dxContext.device, &featureLevel, &dxContext.device_context) != win32.S_OK)
         return false;
 
     createRenderTarget();
@@ -77,11 +77,11 @@ fn createDeviceD3D(hWnd: ?win32.HWND) bool {
 
 fn createRenderTarget() void {
     var pBackBuffer: ?*d3d11.ID3D11Texture2D = null;
-    if (dxContext.swapChain) |swapChain| {
-        _ = swapChain.IDXGISwapChain_GetBuffer(0, d3d11.IID_ID3D11Texture2D, @ptrCast(?*?*anyopaque, &pBackBuffer));
+    if (dxContext.swap_chain) |swap_chain| {
+        _ = swap_chain.IDXGISwapChain_GetBuffer(0, d3d11.IID_ID3D11Texture2D, @ptrCast(?*?*anyopaque, &pBackBuffer));
     }
     if (dxContext.device) |device| {
-        _ = device.ID3D11Device_CreateRenderTargetView(@ptrCast(?*d3d11.ID3D11Resource, pBackBuffer), null, @ptrCast(?*?*d3d11.ID3D11RenderTargetView, &dxContext.mainRenderTargetView));
+        _ = device.ID3D11Device_CreateRenderTargetView(@ptrCast(?*d3d11.ID3D11Resource, pBackBuffer), null, @ptrCast(?*?*d3d11.ID3D11RenderTargetView, &dxContext.main_render_target_view));
     }
     if (pBackBuffer) |backBuffer| {
         _ = backBuffer.IUnknown_Release();
@@ -90,11 +90,11 @@ fn createRenderTarget() void {
 
 fn cleanupDeviceD3D() void {
     cleanupRenderTarget();
-    if (dxContext.swapChain) |swapChain| {
-        _ = swapChain.IUnknown_Release();
+    if (dxContext.swap_chain) |swap_chain| {
+        _ = swap_chain.IUnknown_Release();
     }
-    if (dxContext.deviceContext) |deviceContext| {
-        _ = deviceContext.IUnknown_Release();
+    if (dxContext.device_context) |device_context| {
+        _ = device_context.IUnknown_Release();
     }
     if (dxContext.device) |device| {
         _ = device.IUnknown_Release();
@@ -102,9 +102,9 @@ fn cleanupDeviceD3D() void {
 }
 
 fn cleanupRenderTarget() void {
-    if (dxContext.mainRenderTargetView) |mainRenderTargetView| {
-        _ = mainRenderTargetView.IUnknown_Release();
-        dxContext.mainRenderTargetView = null;
+    if (dxContext.main_render_target_view) |main_render_target_view| {
+        _ = main_render_target_view.IUnknown_Release();
+        dxContext.main_render_target_view = null;
     }
 }
 
@@ -200,7 +200,7 @@ pub fn main() !void {
     ImGui.igImplWin32_Init(hwnd);
     defer ImGui.igImplWin32_Shutdown();
 
-    ImGui.igImplDX11_Init(@ptrCast(?*ImGui.struct_ID3D11Device, dxContext.device), @ptrCast(?*ImGui.struct_ID3D11DeviceContext, dxContext.deviceContext));
+    ImGui.igImplDX11_Init(@ptrCast(?*ImGui.struct_ID3D11Device, dxContext.device), @ptrCast(?*ImGui.struct_ID3D11DeviceContext, dxContext.device_context));
     defer ImGui.igImplDX11_Shutdown();
 
     const clearColor = ImGui.ImVec4{
@@ -248,14 +248,14 @@ pub fn main() !void {
         }
 
         ImGui.igRender();
-        if (dxContext.deviceContext) |deviceContext| {
-            _ = deviceContext.ID3D11DeviceContext_OMSetRenderTargets(1, @ptrCast(?[*]?*d3d11.ID3D11RenderTargetView, &dxContext.mainRenderTargetView), null);
-            _ = deviceContext.ID3D11DeviceContext_ClearRenderTargetView(dxContext.mainRenderTargetView, @ptrCast(*const f32, &clearColor));
+        if (dxContext.device_context) |device_context| {
+            _ = device_context.ID3D11DeviceContext_OMSetRenderTargets(1, @ptrCast(?[*]?*d3d11.ID3D11RenderTargetView, &dxContext.main_render_target_view), null);
+            _ = device_context.ID3D11DeviceContext_ClearRenderTargetView(dxContext.main_render_target_view, @ptrCast(*const f32, &clearColor));
         }
         ImGui.igImplDX11_RenderDrawData(ImGui.igGetDrawData());
 
-        if (dxContext.swapChain) |swapChain| {
-            _ = swapChain.IDXGISwapChain_Present(1, 0);
+        if (dxContext.swap_chain) |swap_chain| {
+            _ = swap_chain.IDXGISwapChain_Present(1, 0);
         }
 
         Wwise.renderAudio();
@@ -270,9 +270,9 @@ pub fn WndProc(hWnd: win32.HWND, msg: u32, wParam: win32.WPARAM, lParam: win32.L
     switch (msg) {
         win32.WM_SIZE => {
             if (wParam != win32.SIZE_MINIMIZED) {
-                if (dxContext.swapChain) |swapChain| {
+                if (dxContext.swap_chain) |swap_chain| {
                     cleanupRenderTarget();
-                    _ = swapChain.IDXGISwapChain_ResizeBuffers(0, @intCast(u32, lParam) & 0xFFFF, (@intCast(u32, lParam) >> 16) & 0xFFFF, .UNKNOWN, 0);
+                    _ = swap_chain.IDXGISwapChain_ResizeBuffers(0, @intCast(u32, lParam) & 0xFFFF, (@intCast(u32, lParam) >> 16) & 0xFFFF, .UNKNOWN, 0);
                     createRenderTarget();
                 }
             }

@@ -73,7 +73,7 @@ pub fn build(b: *std.Build) !void {
     exe.addIncludePath("bindings");
     exe.addIncludePath("imgui");
     exe.addIncludePath("WwiseSDK/include");
-    exe.addLibraryPath("WwiseSDK/x64_vc160/Profile(StaticCRT)/lib");
+    exe.addLibraryPath("WwiseSDK/x64_vc170/Profile(StaticCRT)/lib");
     exe.linkLibrary(bindings);
     exe.linkLibrary(imgui);
     exe.linkLibC();
